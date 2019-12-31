@@ -1,4 +1,5 @@
 import 'package:bomburger301219/page/login.dart';
+import 'package:bomburger301219/page/outlet.dart';
 import 'package:bomburger301219/page/pager.dart';
 import 'package:flutter/material.dart';
 
@@ -23,8 +24,8 @@ class MyRoute {
             builder: (_) => Pager(
               currentTab: args,
             ));
-//      case '/Home':
-//        return MaterialPageRoute(builder: (_) => HomeWidget());
+      case '/Outlet':
+        return MaterialPageRoute(builder: (_) => OutletPage());
 //      case '/Detail':
 //        return MaterialPageRoute(builder: (_) => DetailsMenuCustomer());
 //      case '/Map':

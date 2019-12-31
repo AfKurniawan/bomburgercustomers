@@ -152,6 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                     color: Theme.of(context).accentColor,
                     onPressed: () {
 
+                      Navigator.of(context).pushNamed('/Pages');
+
                     },
                   ),
                   SizedBox(height: 80),
