@@ -1,4 +1,5 @@
 import 'package:bomburger301219/config/api_urls.dart';
+import 'package:bomburger301219/element/FoodsCarouselItemWidget.dart';
 import 'package:bomburger301219/models/food.dart';
 import 'package:bomburger301219/models/outlet.dart';
 import 'package:bomburger301219/widget/foods_item_widget.dart';
@@ -270,21 +271,40 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
     }
 
   Widget buildListView(List<Menu> lm){
-    return ListView.separated(
+//    return ListView.builder(
+//      padding: EdgeInsets.symmetric(vertical: 10),
+//      scrollDirection: Axis.vertical,
+//      shrinkWrap: true,
+//      primary: false,
+//      itemCount: listfoods.length,
+//      separatorBuilder: (context, index) {
+//        return SizedBox(height: 10);
+//      },
+//      itemBuilder: (context, index) {
+//        return FoodsCarouselItemWidget(
+//          heroTag: 'details_featured_food',
+//          food: listfoods.elementAt(index),
+//        );
+//      },
+//    );
+
+   return Container(
+      height: 210,
+      color: Theme.of(context).primaryColor,
       padding: EdgeInsets.symmetric(vertical: 10),
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      primary: false,
-      itemCount: listfoods.length,
-      separatorBuilder: (context, index) {
-        return SizedBox(height: 10);
-      },
-      itemBuilder: (context, index) {
-        return FoodsItemWidget(
-          heroTag: 'details_featured_food',
-          food: listfoods.elementAt(index),
-        );
-      },
-    );
+      child: ListView.builder(
+        itemCount: listfoods.length,
+        itemBuilder: (context, index) {
+          double _marginLeft = 0;
+          (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
+          return FoodsCarouselItemWidget(
+            heroTag: 'home_food_carousel',
+            marginLeft: _marginLeft,
+            food: listfoods.elementAt(index),
+          );
+        },
+        scrollDirection: Axis.horizontal,
+      )
+  );
   }
 }
