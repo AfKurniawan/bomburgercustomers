@@ -9,9 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class DetailsOutletWidget extends StatefulWidget {
-
   Outlet outlet;
-
 
   DetailsOutletWidget({Key key, this.outlet}) : super(key: key);
 
@@ -22,8 +20,6 @@ class DetailsOutletWidget extends StatefulWidget {
 }
 
 class _DetailsWidgetState extends State<DetailsOutletWidget> {
-
-
   List listfoods;
 
   @override
@@ -43,16 +39,10 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
       // print("burger" + res.body);
 
       listfoods = rest.map<Menu>((j) => Menu.fromJson(j)).toList();
-
-
-    } else {
-
-    }
+    } else {}
     // print("List Size: ${list.length}");
     return listfoods;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,216 +85,84 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
 //              crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                             widget.outlet.name,
+                              widget.outlet.name,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: Theme.of(context).textTheme.display2,
                             ),
                           ),
-
                           SizedBox(width: 10),
-
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       child: Text(widget.outlet.description),
                     ),
-
-
                     FutureBuilder(
                         future: getFoods(),
                         builder: (context, snapshot) {
-                          return snapshot.connectionState == ConnectionState.done
+                          return snapshot.connectionState ==
+                                  ConnectionState.done
                               ? snapshot.hasData
-                              ? buildListView(snapshot.data)
-                              : InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.all(32.0),
-                              child: Center(
-                                  child: IconButton(
-                                    iconSize: 60,
-                                    color: Colors.blueGrey,
-                                    icon: Icon(Icons.error_outline),
-                                    onPressed: getFoods,
-                                  )),
-                            ),
-                          )
+                                  ? buildListView(snapshot.data)
+                                  : InkWell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(32.0),
+                                        child: Center(
+                                            child: IconButton(
+                                          iconSize: 60,
+                                          color: Colors.blueGrey,
+                                          icon: Icon(Icons.error_outline),
+                                          onPressed: getFoods,
+                                        )),
+                                      ),
+                                    )
                               : Container(
-                            height: 180,
-                            child: Center(
-                              child: const CircularProgressIndicator(
-                                value: null,
-                                strokeWidth: 1.0,
-                              ),
-                            ),
-                          );
-                        }
-                        ),
-//                    Container(
-//                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-//                      margin: const EdgeInsets.symmetric(vertical: 5),
-//                      color: Theme.of(context).primaryColor,
-//                      child: Row(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: <Widget>[
-//                          Expanded(
-//                            child: Text(
-//                              _restaurant.address,
-//                              overflow: TextOverflow.ellipsis,
-//                              maxLines: 2,
-//                              style: Theme.of(context).textTheme.body2,
-//                            ),
-//                          ),
-//                          SizedBox(width: 10),
-//                          SizedBox(
-//                            width: 42,
-//                            height: 42,
-//                            child: FlatButton(
-//                              padding: EdgeInsets.all(0),
-//                              onPressed: () {},
-//                              child: Icon(
-//                                Icons.directions,
-//                                color: Theme.of(context).primaryColor,
-//                                size: 24,
-//                              ),
-//                              color: Theme.of(context).accentColor.withOpacity(0.9),
-//                              shape: StadiumBorder(),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                    Container(
-//                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-//                      margin: const EdgeInsets.symmetric(vertical: 5),
-//                      color: Theme.of(context).primaryColor,
-//                      child: Row(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: <Widget>[
-//                          Expanded(
-//                            child: Text(
-//                              '${_restaurant.phone} \n${_restaurant.mobile}',
-//                              overflow: TextOverflow.ellipsis,
-//                              style: Theme.of(context).textTheme.body2,
-//                            ),
-//                          ),
-//                          SizedBox(width: 10),
-//                          SizedBox(
-//                            width: 42,
-//                            height: 42,
-//                            child: FlatButton(
-//                              padding: EdgeInsets.all(0),
-//                              onPressed: () {},
-//                              child: Icon(
-//                                Icons.call,
-//                                color: Theme.of(context).primaryColor,
-//                                size: 24,
-//                              ),
-//                              color: Theme.of(context).accentColor.withOpacity(0.9),
-//                              shape: StadiumBorder(),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-//                      child: ListTile(
-//                        dense: true,
-//                        contentPadding: EdgeInsets.symmetric(vertical: 0),
-//                        leading: Icon(
-//                          Icons.recent_actors,
-//                          color: Theme.of(context).hintColor,
-//                        ),
-//                        title: Text(
-//                          'What They Say ?',
-//                          style: Theme.of(context).textTheme.display1,
-//                        ),
-//                      ),
-//                    ),
-
-//                    Padding(
-//                      padding: const EdgeInsets.symmetric(horizontal: 20),
-//                      child: ListTile(
-//                        dense: true,
-//                        contentPadding: EdgeInsets.symmetric(vertical: 0),
-//                        leading: Icon(
-//                          Icons.restaurant,
-//                          color: Theme.of(context).hintColor,
-//                        ),
-//                        title: Text(
-//                          'Featured Foods',
-//                          style: Theme.of(context).textTheme.display1,
-//                        ),
-//                      ),
-//                    ),
-
-
-
+                                  height: 180,
+                                  child: Center(
+                                    child: const CircularProgressIndicator(
+                                      value: null,
+                                      strokeWidth: 1.0,
+                                    ),
+                                  ),
+                                );
+                        }),
                   ],
                 ),
               ),
             ],
           ),
-//          Positioned(
-//            top: 32,
-//            right: 20,
-//            child: ShoppingCartFloatButtonWidget(
-//              iconColor: Theme.of(context).primaryColor,
-//              labelColor: Theme.of(context).hintColor,
-//              labelCount: 1,
-//            ),
-//          ),
         ],
       ),
     );
+  }
 
-
-    }
-
-  Widget buildListView(List<Menu> lm){
-//    return ListView.builder(
-//      padding: EdgeInsets.symmetric(vertical: 10),
-//      scrollDirection: Axis.vertical,
-//      shrinkWrap: true,
-//      primary: false,
-//      itemCount: listfoods.length,
-//      separatorBuilder: (context, index) {
-//        return SizedBox(height: 10);
-//      },
-//      itemBuilder: (context, index) {
-//        return FoodsCarouselItemWidget(
-//          heroTag: 'details_featured_food',
-//          food: listfoods.elementAt(index),
-//        );
-//      },
-//    );
-
-   return Container(
-      height: 210,
-      color: Theme.of(context).primaryColor,
-      padding: EdgeInsets.symmetric(vertical: 10),
-      child: ListView.builder(
-        itemCount: listfoods.length,
-        itemBuilder: (context, index) {
-          double _marginLeft = 0;
-          (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
-          return FoodsCarouselItemWidget(
-            heroTag: 'home_food_carousel',
-            marginLeft: _marginLeft,
-            food: listfoods.elementAt(index),
-          );
-        },
-        scrollDirection: Axis.horizontal,
-      )
-  );
+  Widget buildListView(List<Menu> lm) {
+    return Container(
+        height: 210,
+        color: Theme.of(context).primaryColor,
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: ListView.builder(
+          itemCount: listfoods.length,
+          itemBuilder: (context, index) {
+            double _marginLeft = 0;
+            (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
+            return FoodsCarouselItemWidget(
+              heroTag: 'home_food_carousel',
+              marginLeft: _marginLeft,
+              food: listfoods.elementAt(index),
+            );
+          },
+          scrollDirection: Axis.horizontal,
+        ));
   }
 }

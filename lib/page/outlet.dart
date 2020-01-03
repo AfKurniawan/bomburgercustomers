@@ -125,7 +125,7 @@ class _ListOutletWidgetState extends State<OutletPage> {
                     height: 150,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(ApiUrl.imgUrl + lo[index].picture),
+                        image: NetworkImage("ApiUrl.imgUrl ${lo[index].picture}"),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.only(
