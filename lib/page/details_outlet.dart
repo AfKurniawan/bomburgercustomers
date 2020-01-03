@@ -64,7 +64,8 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton:
+      FloatingActionButton.extended(
         onPressed: () {
           Navigator.of(context).pushNamed('/Menu');
         },
@@ -260,6 +261,7 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
             child: ListView.builder(
               itemCount: listdrinks.length,
               itemBuilder: (context, index) {
+
                 double _marginLeft = 0;
                 (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
                 return DrinksCarouselItemWidget(
