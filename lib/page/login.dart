@@ -1,8 +1,18 @@
+import 'package:bomburger301219/config/api_urls.dart';
+import 'package:bomburger301219/element/CustomDialogError.dart';
 import 'package:bomburger301219/element/block_button_widget.dart';
+import 'package:bomburger301219/models/user.dart';
+import 'package:bomburger301219/page/pager.dart';
 import 'package:flutter/material.dart';
 import 'package:bomburger301219/config/app_config.dart' as config;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+
+ProgressDialog pd;
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -11,18 +21,116 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   bool obscureText = true;
+  String isLogin = "" ;
   TextEditingController controllerUsername = new TextEditingController();
   TextEditingController controllerPassword = new TextEditingController();
 
 
+  @override
+  void initState() {
+    getLoginState();
+    super.initState();
+  }
   void toggle() {
     setState(() {
       obscureText = !obscureText;
     });
   }
 
+  Future<bool> getLoginState() async {
+    SharedPreferences prefs;
+    prefs = await SharedPreferences.getInstance();
+    isLogin = prefs.getString("login");
+    if (isLogin == "isLogin") {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Pager()),
+              (Route<dynamic> route) => false);
+    }
+  }
+
+  Future<User> login(String url, var body) async {
+    return await http.post(Uri.encodeFull(url),
+        body: body,
+        headers: {"Accept": "application/json"}).then((http.Response response) {
+      final int statusCode = response.statusCode;
+
+      print(response.body);
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return User.fromJson(json.decode(response.body));
+    });
+  }
+
+
+
+  void loginAction() {
+
+    pd.show();
+    login(ApiUrl.loginUrl, {
+      'username': controllerUsername.text,
+      'password': controllerPassword.text
+    }).then((response) async {
+      final prefs = await SharedPreferences.getInstance();
+      print(response.loginResponse.messages);
+
+      //if (response.loginResponse.messages == 'success') {
+        pd.hide();
+        setState(() {
+          isLogin = "isLogin";
+          prefs.setString("login", isLogin);
+          prefs.setString('storeid', response.storeid);
+          prefs.setString('userid', response.id);
+          print("User Id: " + response.id);
+          print("Store Id: " + response.storeid);
+        });
+
+        String userid = prefs.getString('userid');
+        String storeid = prefs.getString('storeid');
+        print("this is your id: " + userid);
+        print("this is your store id: " + storeid);
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => Pager()),
+                (Route<dynamic> route) => false);
+
+
+       // loginFailed();
+
+
+
+    }, onError: (error) {
+      //print("iki yo error tapi soko server");
+     // pd.hide();
+
+     // loginFailed();
+
+    });
+  }
+
+  loginFailed(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialogError(
+        title: "Login Failed",
+        description: "Request timeout, make sure your internet is connected",
+        buttonText: "Okay",
+      ),
+    );
+  }
+
+  buildProgressDialog(){
+    pd = new ProgressDialog(context);
+    pd.style(
+      message: 'Please wait...',
+      borderRadius: 10.0,
+      elevation: 20.0,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    buildProgressDialog();
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Stack(
@@ -152,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Theme.of(context).accentColor,
                     onPressed: () {
 
-                      Navigator.of(context).pushNamed('/Pages');
+                      loginAction();
 
                     },
                   ),

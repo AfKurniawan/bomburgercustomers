@@ -1,7 +1,8 @@
-import 'package:bomburger301219/element/drawer.dart';
+
 import 'package:bomburger301219/page/cart.dart';
 import 'package:bomburger301219/page/history.dart';
 import 'package:bomburger301219/page/home.dart';
+import 'package:bomburger301219/widget/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 
 class Pager extends StatefulWidget {

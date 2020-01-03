@@ -1,6 +1,6 @@
 import 'package:bomburger301219/page/login.dart';
 import 'package:bomburger301219/page/pager.dart';
-import 'package:bomburger301219/widget/outlet_carousel_widget.dart';
+import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
 import 'package:flutter/material.dart';
 
 class MyRoute {

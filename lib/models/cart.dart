@@ -1,62 +1,82 @@
-import 'package:bomburger301219/models/food.dart';
-import 'package:scoped_model/scoped_model.dart';
+class Cart {
+  String name;
+  String picture;
+  int id;
+  String sales_id;
+  String product_id;
+  int qnt;
+  String price;
+  String total;
+  String status;
+  String comission;
+  String seller_id;
 
-class Cart extends Model{
-  List<Product> cart = [];
-  double totalCartValue = 0;
+  Cart(
+      {this.name,
+      this.picture,
+      this.id,
+      this.sales_id,
+      this.product_id,
+      this.qnt,
+      this.price,
+      this.total,
+      this.status,
+      this.comission,
+      this.seller_id});
 
-  int get total => cart.length;
 
-  void addProduct(product) {
-    int index = cart.indexWhere((i) => i.id == product.id);
-    print(index);
-    if (index != -1)
-      updateProduct(product, product.qty + 1);
-    else {
-      cart.add(product);
-      calculateTotal();
-      notifyListeners();
-    }
-  }
-
-  void removeProduct(product) {
-    int index = cart.indexWhere((i) => i.id == product.id);
-    cart[index].qty = 1;
-    cart.removeWhere((item) => item.id == product.id);
-    calculateTotal();
-    notifyListeners();
-  }
-
-  void updateProduct(product, qty) {
-    int index = cart.indexWhere((i) => i.id == product.id);
-    cart[index].qty = qty;
-    if (cart[index].qty == 0)
-      removeProduct(product);
-
-    calculateTotal();
-    notifyListeners();
-  }
-
-  void clearCart() {
-    cart.forEach((f) => f.qty = 1);
-    cart = [];
-    notifyListeners();
-  }
-
-  void calculateTotal() {
-    totalCartValue = 0;
-    cart.forEach((f) {
-      totalCartValue += f.price * f.qty;
-    });
+  factory Cart.fromJson(Map<String, dynamic> json){
+    return Cart(
+      name: json['name'],
+      picture: json['picture'],
+      id: json['id'],
+      sales_id: json['sales_id'],
+      product_id: json['product_id'],
+      qnt: json['qnt'],
+      price: json['price'],
+      total: json['total'],
+      status: json['status'],
+      comission: json['comission'],
+      seller_id: json['seller_id']
+    );
   }
 }
 
-class Product {
-  int id;
-  String title;
-  String imgUrl;
-  double price;
-  int qty;
+class CartResponse {
+  bool error;
+  String messages;
 
-  Product({this.id, this.title, this.price, this.qty, this.imgUrl});
+  CartResponse({this.error, this.messages});
+
+  factory CartResponse.fromJson(Map<String, dynamic> json){
+    return CartResponse(
+      error: json['error'],
+      messages: json['messages']
+    );
+  }
+}
+
+class Total {
+  String total;
+  double jumlah;
+
+  Total({this.total, this.jumlah});
+
+
+  factory Total.fromJson(Map<String, dynamic> parsedJson){
+    return Total(
+        total: parsedJson['total'],
+        jumlah: double.parse(parsedJson['total'])
+    );
+  }
+}
+
+class LabelCartCount {
+  String count;
+  LabelCartCount({this.count});
+  factory LabelCartCount.fromJson(Map<String, dynamic> parsedJson){
+    return LabelCartCount(
+        count: parsedJson['count']
+    );
+  }
 }

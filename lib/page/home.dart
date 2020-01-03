@@ -1,5 +1,5 @@
 
-import 'package:bomburger301219/widget/outlet_carousel_widget.dart';
+import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
