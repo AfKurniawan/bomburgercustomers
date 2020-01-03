@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class OutletPage extends StatefulWidget {
+class OutletCarouselWidget extends StatefulWidget {
 
   Outlet outlets;
 
-  OutletPage({Key key, this.outlets}) : super(key: key);
+  OutletCarouselWidget({Key key, this.outlets}) : super(key: key);
 
   @override
   _ListOutletWidgetState createState() => _ListOutletWidgetState();
 }
 
-class _ListOutletWidgetState extends State<OutletPage> {
+class _ListOutletWidgetState extends State<OutletCarouselWidget> {
 
 
   Outlet outlets;
@@ -41,6 +41,7 @@ class _ListOutletWidgetState extends State<OutletPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       height: 288,
       child: FutureBuilder(
@@ -125,7 +126,7 @@ class _ListOutletWidgetState extends State<OutletPage> {
                     height: 150,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage("ApiUrl.imgUrl ${lo[index].picture}"),
+                        image: NetworkImage(ApiUrl.imgUrl + lo[index].picture),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.only(

@@ -39,6 +39,7 @@ dependencies:
   #flutter_inappbrowser: ^1.2.2
   url_launcher: ^4.2.0+3
   progress_dialog: ^1.1.0+1
+  scoped_model: ^1.0.1
 
 dev_dependencies:
   flutter_test:

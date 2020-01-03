@@ -1,4 +1,5 @@
-import 'package:bomburger301219/page/outlet.dart';
+
+import 'package:bomburger301219/widget/outlet_carousel_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -26,7 +27,26 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-          OutletPage(),
+
+
+          OutletCarouselWidget(),
+
+          ListTile(
+            dense: true,
+            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+            leading: Icon(
+              Icons.trending_up,
+              color: Theme.of(context).hintColor,
+            ),
+            title: Text(
+              'Trending This Week',
+              style: Theme.of(context).textTheme.display1,
+            ),
+            subtitle: Text(
+              'Double click on the food to add it to the cart',
+              style: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 11)),
+            ),
+          ),
 
         ],
       ),

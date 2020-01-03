@@ -1,8 +1,8 @@
 import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/element/FoodsCarouselItemWidget.dart';
 import 'package:bomburger301219/models/food.dart';
 import 'package:bomburger301219/models/outlet.dart';
-import 'package:bomburger301219/widget/foods_item_widget.dart';
+import 'package:bomburger301219/widget/DrinksCarouselItemWidget.dart';
+import 'package:bomburger301219/widget/FoodsCarouselItemWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +10,7 @@ import 'dart:convert';
 
 class DetailsOutletWidget extends StatefulWidget {
   Outlet outlet;
+  String _response = "";
 
   DetailsOutletWidget({Key key, this.outlet}) : super(key: key);
 
@@ -21,27 +22,43 @@ class DetailsOutletWidget extends StatefulWidget {
 
 class _DetailsWidgetState extends State<DetailsOutletWidget> {
   List listfoods;
+  List listdrinks;
+  String _response = "";
 
   @override
   void initState() {
     getFoods();
+    getDrinks();
     super.initState();
   }
 
   Future<List<Menu>> getFoods() async {
     print("begin get foods");
     var res = await http.get(Uri.encodeFull(ApiUrl.burgerUrl),
+        //body: {'id' : widget.outlet.id},
         headers: {"Accept": "application/json"});
     print(res.body);
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       var rest = data["burgers"] as List;
-      // print("burger" + res.body);
-
       listfoods = rest.map<Menu>((j) => Menu.fromJson(j)).toList();
-    } else {}
-    // print("List Size: ${list.length}");
+    }
     return listfoods;
+  }
+
+  Future<List<Menu>> getDrinks() async {
+    print("begin get foods");
+    var res = await http.get(Uri.encodeFull(ApiUrl.drinkUrl),
+        //body: {'id' : widget.outlet.id},
+        headers: {"Accept": "application/json"});
+
+    print(res.body);
+    if (res.statusCode == 200) {
+      var data = json.decode(res.body);
+      var rest = data["drinks"] as List;
+      listdrinks = rest.map<Menu>((j) => Menu.fromJson(j)).toList();
+    }
+    return listdrinks;
   }
 
   @override
@@ -53,8 +70,8 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
         },
         isExtended: true,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        icon: Icon(Icons.restaurant),
-        label: Text('Menu'),
+        icon: Icon(Icons.shopping_cart),
+        label: Text('Cart'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Stack(
@@ -87,25 +104,21 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              widget.outlet.name,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: Theme.of(context).textTheme.display2,
-                            ),
+                          Text(
+                            widget.outlet.name,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: Theme.of(context).textTheme.display2,
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(height: 10),
+                          Text(widget.outlet.description),
+                          SizedBox(height: 10),
+                          Text(widget.outlet.id),
                         ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5),
-                      child: Text(widget.outlet.description),
                     ),
                     FutureBuilder(
                         future: getFoods(),
@@ -113,7 +126,7 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
                           return snapshot.connectionState ==
                                   ConnectionState.done
                               ? snapshot.hasData
-                                  ? buildListView(snapshot.data)
+                                  ? buildListViewFoods(snapshot.data)
                                   : InkWell(
                                       child: Padding(
                                         padding: const EdgeInsets.all(32.0),
@@ -123,6 +136,35 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
                                           color: Colors.blueGrey,
                                           icon: Icon(Icons.error_outline),
                                           onPressed: getFoods,
+                                        )),
+                                      ),
+                                    )
+                              : Container(
+                                  height: 180,
+                                  child: Center(
+                                    child: const CircularProgressIndicator(
+                                      value: null,
+                                      strokeWidth: 1.0,
+                                    ),
+                                  ),
+                                );
+                        }),
+                    FutureBuilder(
+                        future: getDrinks(),
+                        builder: (context, snapshot) {
+                          return snapshot.connectionState ==
+                                  ConnectionState.done
+                              ? snapshot.hasData
+                                  ? buildListViewDrinks(snapshot.data)
+                                  : InkWell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(32.0),
+                                        child: Center(
+                                            child: IconButton(
+                                          iconSize: 60,
+                                          color: Colors.blueGrey,
+                                          icon: Icon(Icons.error_outline),
+                                          onPressed: getDrinks,
                                         )),
                                       ),
                                     )
@@ -146,23 +188,89 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
     );
   }
 
-  Widget buildListView(List<Menu> lm) {
-    return Container(
-        height: 210,
-        color: Theme.of(context).primaryColor,
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: ListView.builder(
-          itemCount: listfoods.length,
-          itemBuilder: (context, index) {
-            double _marginLeft = 0;
-            (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
-            return FoodsCarouselItemWidget(
-              heroTag: 'home_food_carousel',
-              marginLeft: _marginLeft,
-              food: listfoods.elementAt(index),
-            );
-          },
-          scrollDirection: Axis.horizontal,
-        ));
+  Widget buildListViewFoods(List<Menu> lm) {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          dense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          leading: Icon(
+            Icons.trending_up,
+            color: Theme.of(context).hintColor,
+          ),
+          title: Text(
+            'Available Menu',
+            style: Theme.of(context).textTheme.display1,
+          ),
+          subtitle: Text(
+            'Click on the food to add it to the cart',
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .merge(TextStyle(fontSize: 11)),
+          ),
+        ),
+        Container(
+            height: 210,
+            color: Theme.of(context).primaryColor,
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: ListView.builder(
+              itemCount: listfoods == null ? 0 : listfoods.length,
+              itemBuilder: (context, index) {
+                double _marginLeft = 0;
+                (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
+                return FoodsCarouselItemWidget(
+                  heroTag: 'home_food_carousel',
+                  marginLeft: _marginLeft,
+                  food: listfoods.elementAt(index),
+                );
+              },
+              scrollDirection: Axis.horizontal,
+            ))
+      ],
+    );
+  }
+
+  Widget buildListViewDrinks(List<Menu> lm) {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          dense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          leading: Icon(
+            Icons.trending_up,
+            color: Theme.of(context).hintColor,
+          ),
+          title: Text(
+            'Available Drinks',
+            style: Theme.of(context).textTheme.display1,
+          ),
+          subtitle: Text(
+            'Click on the food to add it to the cart',
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .merge(TextStyle(fontSize: 11)),
+          ),
+        ),
+        Container(
+            height: 210,
+            color: Theme.of(context).primaryColor,
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: ListView.builder(
+              itemCount: listdrinks.length,
+              itemBuilder: (context, index) {
+                double _marginLeft = 0;
+                (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
+                return DrinksCarouselItemWidget(
+                  heroTag: 'home_drinks_carousel',
+                  marginLeft: _marginLeft,
+                  food: listdrinks.elementAt(index),
+                );
+              },
+              scrollDirection: Axis.horizontal,
+            )),
+      ],
+    );
   }
 }

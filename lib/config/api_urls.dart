@@ -27,6 +27,8 @@ class ApiUrl{
   static const String getUserDetailUrl = baseUrl + "index.php/getuserdetail";
   static const String getSingleProductUrl = baseUrl + "index.php/getsingleproduct";
   static const String getStatusProductDetailUrl = baseUrl + "index.php/getStatusProductDetailUrl";
+  static const String getFoodsByOutletIdUrl = baseUrl + "index.php/getFoodsByOutletIdUrl";
+  static const String getDrinksByOutletId = baseUrl + "index.php/getDrinksByOutletId";
 
 
 

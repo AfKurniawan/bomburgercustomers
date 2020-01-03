@@ -28,8 +28,8 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                 tag: heroTag + food.id,
                 child: Container(
                   margin: EdgeInsets.only(left: this.marginLeft, right: 20),
-                  width: 100,
-                  height: 130,
+                  width: 120,
+                  height: 120,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                     image: DecorationImage(
@@ -40,14 +40,20 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(right: 25, top: 5),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                margin: EdgeInsets.only(right: 5, top: 95),
+                // padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100)), color: Theme.of(context).accentColor),
-                alignment: AlignmentDirectional.topEnd,
-                child: Text(
-                  food.getPrice(),
-                  style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
+                alignment: AlignmentDirectional.bottomCenter,
+                child: IconButton(
+                  icon: Icon(Icons.add_shopping_cart,
+                      color: Colors.white),
+                  iconSize: 20,
+                  onPressed: (){
+
+                  },
+                  //food.getPrice(),
+                  //style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
                 ),
               ),
             ],

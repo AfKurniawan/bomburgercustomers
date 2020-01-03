@@ -6,8 +6,9 @@ class Menu {
   String price;
   double harga;
   String stock;
+  Status status;
 
-  Menu ({this.id, this.name, this.picture, this.price, this.harga, this.stock});
+  Menu ({this.id, this.name, this.picture, this.price, this.harga, this.stock, this.status});
 
   String getPrice({double myPrice}) {
     if (myPrice != null) {
@@ -23,7 +24,8 @@ class Menu {
         picture: json['picture'],
         price: json['price'],
         stock: json['stock'],
-        harga: double.parse(json['price'])
+        harga: double.parse(json['price']),
+        status: json['status']
       );
   }
 

@@ -84,7 +84,7 @@ class _PagerState extends State<Pager> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.local_drink),
+              icon: Icon(Icons.shopping_cart),
               title: Container(height: 0)
             ),
 
@@ -116,7 +116,7 @@ class _PagerState extends State<Pager> {
             ),
 
             BottomNavigationBarItem(
-              icon: Icon(Icons.fastfood),
+              icon: Icon(Icons.history),
               title: new Container(height: 0.0),
             ),
 

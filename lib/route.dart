@@ -1,6 +1,6 @@
 import 'package:bomburger301219/page/login.dart';
-import 'package:bomburger301219/page/outlet.dart';
 import 'package:bomburger301219/page/pager.dart';
+import 'package:bomburger301219/widget/outlet_carousel_widget.dart';
 import 'package:flutter/material.dart';
 
 class MyRoute {
@@ -25,7 +25,7 @@ class MyRoute {
               currentTab: args,
             ));
       case '/Outlet':
-        return MaterialPageRoute(builder: (_) => OutletPage());
+        return MaterialPageRoute(builder: (_) => OutletCarouselWidget());
 //      case '/Detail':
 //        return MaterialPageRoute(builder: (_) => DetailsMenuCustomer());
 //      case '/Map':
