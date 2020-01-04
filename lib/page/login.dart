@@ -1,6 +1,6 @@
 import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/element/CustomDialogError.dart';
-import 'package:bomburger301219/element/block_button_widget.dart';
+import 'package:bomburger301219/element/BlockButtonWidget.dart';
 import 'package:bomburger301219/models/user.dart';
 import 'package:bomburger301219/page/pager.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +37,35 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  Future<LoginResponse> login(String url, var body) async {
+    return await http.post(Uri.encodeFull(url),
+        body: body,
+        headers: {"Accept": "application/json"}).then((http.Response response) {
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return LoginResponse.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<User> loginDetail(String url, var body) async {
+    return await http.post(Uri.encodeFull(url),
+        body: body,
+        headers: {"Accept": "application/json"}).then((http.Response response) {
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return User.fromJson(json.decode(response.body));
+    });
+  }
+
+
+
+
   Future<bool> getLoginState() async {
     SharedPreferences prefs;
     prefs = await SharedPreferences.getInstance();
@@ -48,63 +77,72 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<User> login(String url, var body) async {
-    return await http.post(Uri.encodeFull(url),
-        body: body,
-        headers: {"Accept": "application/json"}).then((http.Response response) {
-      final int statusCode = response.statusCode;
-
-      print(response.body);
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
-      return User.fromJson(json.decode(response.body));
-    });
-  }
-
-
 
   void loginAction() {
-
     pd.show();
     login(ApiUrl.loginUrl, {
       'username': controllerUsername.text,
       'password': controllerPassword.text
     }).then((response) async {
-      final prefs = await SharedPreferences.getInstance();
-      print(response.loginResponse.messages);
-
-      //if (response.loginResponse.messages == 'success') {
+      if (response.messages == 'success') {
+        print(response.messages);
         pd.hide();
-        setState(() {
-          isLogin = "isLogin";
-          prefs.setString("login", isLogin);
-          prefs.setString('storeid', response.storeid);
-          prefs.setString('userid', response.id);
-          print("User Id: " + response.id);
-          print("Store Id: " + response.storeid);
-        });
+        getUserDetail();
+      } else {
+        print("Error iki soko nggon mobile, mbuh salah password atau email");
+        pd.hide();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => CustomDialogError(
+            title: "Login Failed",
+            description: "Check your username or password",
+            buttonText: "Okay",
+          ),
+        );
+      }
+    }, onError: (error) {
+      print("iki yo error tapi soko server");
+      pd.hide();
+      loginFailed();
+    });
+  }
 
-        String userid = prefs.getString('userid');
-        String storeid = prefs.getString('storeid');
-        print("this is your id: " + userid);
-        print("this is your store id: " + storeid);
+  void getUserDetail() {
+    loginDetail(ApiUrl.getUserDetailUrl, {
+      'username': controllerUsername.text,
+      'password': controllerPassword.text
+    }).then((response) async {
+      final prefs = await SharedPreferences.getInstance();
+      setState(() {
+        isLogin = "isLogin";
+        prefs.setString("login", isLogin);
+        prefs.setString('storeid', response.storeid);
+        prefs.setString('userid', response.id);
+        print("User Id: " + response.id);
+        print("Store Id: " + response.storeid);
+      });
 
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => Pager()),
-                (Route<dynamic> route) => false);
+      String userid = prefs.getString('userid');
+      String storeid = prefs.getString('storeid');
+      print("this is your id: " + userid);
+      print("this is your store id: " + storeid);
 
-
-       // loginFailed();
-
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Pager()),
+              (Route<dynamic> route) => false);
 
 
     }, onError: (error) {
-      //print("iki yo error tapi soko server");
-     // pd.hide();
-
-     // loginFailed();
-
+      print("iki yo error tapi soko server");
+      pd.hide();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => CustomDialogError(
+          title: "Login Failed",
+          description: "Request timeout, make sure your internet is connected",
+          buttonText: "Okay",
+        ),
+      );
     });
   }
 

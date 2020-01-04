@@ -1,6 +1,7 @@
 import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/models/food.dart';
 import 'package:bomburger301219/models/route.dart';
+import 'package:bomburger301219/page/detail_menu.dart';
 import 'package:flutter/material.dart';
 
 class FoodsCarouselItemWidget extends StatelessWidget {
@@ -16,7 +17,12 @@ class FoodsCarouselItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: food.id, heroTag: heroTag));
+        //Navigator.of(context).pushNamed('/DetailMenu', arguments: RouteArgument(id: food.id, heroTag: heroTag));
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context)=> DetailMenu(menu: food))
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

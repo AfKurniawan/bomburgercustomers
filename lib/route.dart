@@ -1,3 +1,4 @@
+import 'package:bomburger301219/page/detail_menu.dart';
 import 'package:bomburger301219/page/login.dart';
 import 'package:bomburger301219/page/pager.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
@@ -26,8 +27,8 @@ class MyRoute {
             ));
       case '/Outlet':
         return MaterialPageRoute(builder: (_) => OutletCarouselWidget());
-//      case '/Detail':
-//        return MaterialPageRoute(builder: (_) => DetailsMenuCustomer());
+      case '/DetailMenu':
+        return MaterialPageRoute(builder: (_) => DetailMenu());
 //      case '/Map':
 //        return MaterialPageRoute(builder: (_) => MapWidget());
 //      case '/Menu':
