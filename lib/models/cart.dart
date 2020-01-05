@@ -43,7 +43,7 @@ class Cart {
 }
 
 class CartResponse {
-  bool error;
+  String error;
   String messages;
 
   CartResponse({this.error, this.messages});

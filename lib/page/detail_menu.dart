@@ -218,12 +218,17 @@ class _DetailsMenuState extends State<DetailMenu> {
       'price': price,
       'status': status
     }).then((response) async {
-      if (response.error) {
-        print("response Error");
-      } else {
-        print("get Label Count");
+
+      print("get count status ${response.error}");
+      if (response.error == "false") {
+
         getCartLabelCount();
-        this.cartCount += this.quantity;
+       // this.cartCount += this.quantity;
+
+      } else {
+
+        print("error add to carto");
+
       }
     }, onError: (error) {
       errorDialog(context);
@@ -358,7 +363,7 @@ class _DetailsMenuState extends State<DetailMenu> {
                       color: Theme.of(context).primaryColor,
                       size: 28,
                     ),
-                    cartCount == null
+                    count == null
                         ? Container(
                             child: Center(
                               child: Text(
@@ -385,7 +390,7 @@ class _DetailsMenuState extends State<DetailMenu> {
                         : Container(
                             child: Center(
                               child: Text(
-                                this.cartCount.toString(),
+                                count,
                                 textAlign: TextAlign.center,
                                 style:
                                     Theme.of(context).textTheme.caption.merge(

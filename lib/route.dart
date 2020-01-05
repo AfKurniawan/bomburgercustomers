@@ -1,3 +1,5 @@
+import 'package:bomburger301219/models/route.dart';
+import 'package:bomburger301219/page/cart.dart';
 import 'package:bomburger301219/page/detail_menu.dart';
 import 'package:bomburger301219/page/login.dart';
 import 'package:bomburger301219/page/pager.dart';
@@ -12,8 +14,8 @@ class MyRoute {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => LoginPage());
-//      case '/Pages':
-//        return MaterialPageRoute(builder: (_) => Page(currentTab: args));
+      case '/Cart':
+        return MaterialPageRoute(builder: (_) => CartPage());
 //      case '/Home':
 //        return MaterialPageRoute(builder: (_) => BurgerPage());
 //      case '/MobileVerification':
@@ -33,11 +35,11 @@ class MyRoute {
 //        return MaterialPageRoute(builder: (_) => MapWidget());
 //      case '/Menu':
 //        return MaterialPageRoute(builder: (_) => MenuWidget());
-//      case '/Detail':
-//        return MaterialPageRoute(
-//            builder: (_) => DetailsMenuCustomer(
-//              routeArgument: args as RouteArgument,
-//            ));
+      case '/Detail':
+        return MaterialPageRoute(
+            builder: (_) => DetailMenu(
+              routeArgument: args as RouteArgument,
+            ));
 //      case '/Cart':
 //        return MaterialPageRoute(builder: (_) => CartPage());
 //      case '/Checkout':

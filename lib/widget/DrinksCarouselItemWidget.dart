@@ -53,16 +53,16 @@ class DrinksCarouselItemWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100)), color: Theme.of(context).accentColor),
                 alignment: AlignmentDirectional.bottomCenter,
-                child: IconButton(
-                  icon: Icon(Icons.add_shopping_cart,
-                  color: Colors.white),
-                  iconSize: 20,
-                  onPressed: (){
-
-                  },
-                  //food.getPrice(),
-                  //style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
-                ),
+//                child: IconButton(
+//                  icon: Icon(Icons.add_shopping_cart,
+//                  color: Colors.white),
+//                  iconSize: 20,
+//                  onPressed: (){
+//
+//                  },
+//                  //food.getPrice(),
+//                  //style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
+//                ),
               ),
             ],
           ),

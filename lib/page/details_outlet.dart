@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/models/food.dart';
 import 'package:bomburger301219/models/outlet.dart';
@@ -11,6 +13,7 @@ import 'dart:convert';
 class DetailsOutletWidget extends StatefulWidget {
   Outlet outlet;
   String _response = "";
+
 
   DetailsOutletWidget({Key key, this.outlet}) : super(key: key);
 
@@ -64,17 +67,17 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:
-      FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/Menu');
-        },
-        isExtended: true,
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        icon: Icon(Icons.shopping_cart),
-        label: Text('Cart'),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+//      floatingActionButton:
+//      FloatingActionButton.extended(
+//        onPressed: () {
+//          Navigator.of(context).pushNamed('/Menu');
+//        },
+//        isExtended: true,
+//        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+//        icon: Icon(Icons.shopping_cart),
+//        label: Text('Cart'),
+//      ),
+//      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
