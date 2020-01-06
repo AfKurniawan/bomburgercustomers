@@ -2,6 +2,7 @@
 import 'package:bomburger301219/page/cart.dart';
 import 'package:bomburger301219/page/history.dart';
 import 'package:bomburger301219/page/home.dart';
+import 'package:bomburger301219/page/profile.dart';
 import 'package:bomburger301219/widget/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,7 @@ class _PagerState extends State<Pager> {
       switch (tabItem) {
         case 0 :
           widget.currentTitle = "Profile";
-          widget.currenPage = CartPage();
+          widget.currenPage = ProfilePage();
           break;
 
         case 1 :
@@ -85,7 +86,7 @@ class _PagerState extends State<Pager> {
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
+              icon: Icon(Icons.person),
               title: Container(height: 0)
             ),
 
