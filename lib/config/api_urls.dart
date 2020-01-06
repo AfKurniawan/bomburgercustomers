@@ -30,6 +30,7 @@ class ApiUrl{
   static const String getFoodsByOutletIdUrl = baseUrl + "index.php/getFoodsByOutletIdUrl";
   static const String getDrinksByOutletId = baseUrl + "index.php/getDrinksByOutletId";
   static const String signupUrl = baseUrl + "index.php/registercustomer";
+  static const String getProfileResponseUrl = baseUrl + "index.php/getProfileResponseUrl";
 
 
 

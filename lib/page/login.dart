@@ -69,9 +69,8 @@ class _LoginPageState extends State<LoginPage> {
 
 
   getLoginState() async {
-
     prefs = await SharedPreferences.getInstance();
-    isLogin = prefs.getString("login");
+    isLogin = prefs.getString("isLogin");
     if (isLogin == "isLogin") {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => Pager()),
