@@ -46,6 +46,7 @@ class _DetailsMenuState extends State<DetailMenu> {
   String picture;
   String price;
   String stock;
+  String isLogin = "";
 
 
 
@@ -55,15 +56,15 @@ class _DetailsMenuState extends State<DetailMenu> {
     super.initState();
   }
 
+
   getPrefs() async {
 
     prefs = await SharedPreferences.getInstance();
     setState(() {
       sellerid = prefs.getString("userid");
-      storeid = prefs.getString("storeid");
+      storeid = prefs.getString("store");
       print("Seller id on Page detail $sellerid");
       print("storeid on page detail $storeid");
-
 
       getCartLabelCount();
       getStockResponse();
@@ -187,7 +188,7 @@ class _DetailsMenuState extends State<DetailMenu> {
   void postToCart() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String storeid = prefs.getString("storeid");
+    String storeid = prefs.getString("store");
     String sellerid = prefs.getString('userid');
     String amount = widget.menu.harga.toStringAsFixed(2);
     String receive = widget.menu.harga.toStringAsFixed(2);

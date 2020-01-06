@@ -25,6 +25,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerUsername = new TextEditingController();
   TextEditingController controllerPassword = new TextEditingController();
 
+  SharedPreferences prefs;
+
 
   @override
   void initState() {
@@ -66,8 +68,8 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
-  Future<bool> getLoginState() async {
-    SharedPreferences prefs;
+  getLoginState() async {
+
     prefs = await SharedPreferences.getInstance();
     isLogin = prefs.getString("login");
     if (isLogin == "isLogin") {
@@ -112,20 +114,13 @@ class _LoginPageState extends State<LoginPage> {
       'username': controllerUsername.text,
       'password': controllerPassword.text
     }).then((response) async {
-      final prefs = await SharedPreferences.getInstance();
-      setState(() {
+        prefs = await SharedPreferences.getInstance();
         isLogin = "isLogin";
-        prefs.setString("login", isLogin);
-        prefs.setString('storeid', response.storeid);
+        prefs.setString("isLogin", isLogin);
         prefs.setString('userid', response.id);
+        prefs.setString('username', response.username);
         print("User Id: " + response.id);
-        print("Store Id: " + response.storeid);
-      });
-
-      String userid = prefs.getString('userid');
-      String storeid = prefs.getString('storeid');
-      print("this is your id: " + userid);
-      print("this is your store id: " + storeid);
+        //print("Store Id: " + response.storeid);
 
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => Pager()),

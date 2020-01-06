@@ -2,11 +2,14 @@ import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/element/BlockButtonWidget.dart';
 import 'package:bomburger301219/element/CustomDialogError.dart';
 import 'package:bomburger301219/models/user.dart';
+import 'package:bomburger301219/page/pager.dart';
 import 'package:flutter/material.dart';
 import 'package:bomburger301219/config/app_config.dart' as config;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
 
@@ -20,9 +23,12 @@ class _SignUpPageState extends State<SignUpPage> {
   bool obscureText = true;
   bool validate = false;
 
+
   TextEditingController controllerTextFullname = new TextEditingController();
   TextEditingController controllerTextEmail = new TextEditingController();
   TextEditingController controllerTextPassword = new TextEditingController();
+
+  SharedPreferences prefs;
 
 
   @override
@@ -37,6 +43,15 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
+  saveToPrefs() async {
+
+      prefs = await SharedPreferences.getInstance();
+      prefs.setString("usertype", 'customer');
+      prefs.setString('email', controllerTextEmail.text);
+      prefs.setString('username', controllerTextFullname.text);
+      prefs.setString('isLogin', 'isLogin');
+  }
+
   @override
   void dispose() {
     controllerTextFullname.dispose();
@@ -46,24 +61,35 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void signUpAction() async {
-
     signUp(ApiUrl.signupUrl, {
       'username': controllerTextFullname.text,
       'email': controllerTextEmail.text,
       'password': controllerTextPassword.text,
       'user_type': 'customer'
-    }).then((response) async {
+    }).then((response) {
 
-      if (response.error == "false" && response.messages == "success") {
+      if (response.error == "false") {
 
-        print("success register");
+        saveToPrefs();
 
+        print("String value from prefs: " + prefs.getString('usertype'));
+        print("String value from prefs: " + prefs.getString('email'));
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => Pager()),
+                (Route<dynamic> route) => false);
+
+      } else if(response.messages == 'isExist') {
+
+        print("User exist");
+        failedDialogUserExist(context);
 
       } else {
 
-
-
+        print('error register');
+        failedDialog(context);
       }
+
     }, onError: (error) {
       failedDialog(context);
       print("iki error on error register");
@@ -78,10 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
           print(response.body);
 
       final int statusCode = response.statusCode;
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        print("error cuk");
-        throw new Exception("Error while fetching data");
-      }
+
       return LoginResponse.fromJson(json.decode(response.body));
     });
   }
@@ -135,7 +158,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    controller: controllerTextFullname,
                     decoration: InputDecoration(
                       errorText: validate ? "Can\'t be empty" : null,
                       labelText: "Your Name",
@@ -155,6 +178,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(height: 30),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
+                    controller: controllerTextEmail,
                     decoration: InputDecoration(
                       labelText: "Email",
                       errorText: validate ? "Can\'t be empty" : null,
@@ -175,6 +199,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextField(
                     keyboardType: TextInputType.text,
                     obscureText: obscureText,
+                    controller: controllerTextPassword,
                     decoration: InputDecoration(
                       labelText: "Password",
                       errorText: validate ? "Can\'t be empty" : null,
@@ -246,6 +271,17 @@ class _SignUpPageState extends State<SignUpPage> {
       builder: (BuildContext context) => CustomDialogError(
         title: "Register Failed",
         description: "Request timeout, make sure your internet is connected",
+        buttonText: "Okay",
+      ),
+    );
+  }
+
+  failedDialogUserExist(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialogError(
+        title: "Username is Exist",
+        description: "Your email or username is registered before",
         buttonText: "Okay",
       ),
     );

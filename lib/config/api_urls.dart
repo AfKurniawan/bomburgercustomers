@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 class ApiUrl{
 
 
-  static const String baseUrl     = "http://192.168.13.10/bomburger.my/api_ci/";
-  static const String imgUrl      = "http://192.168.13.10/bomburger.my/management/uploads/products/";
+  static const String baseUrl     = "http://192.168.43.177/bomburger.my/api_ci/";
+  static const String imgUrl      = "http://192.168.43.177/bomburger.my/management/uploads/products/";
 
   //static const String baseUrl     = "http://mobile.bomburger.my/";
   //static const String imgUrl      =  "http://management.bomburger.my/uploads/products/";

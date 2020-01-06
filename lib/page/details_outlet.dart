@@ -10,6 +10,8 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class DetailsOutletWidget extends StatefulWidget {
   Outlet outlet;
   String _response = "";
@@ -27,12 +29,20 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
   List listfoods;
   List listdrinks;
   String _response = "";
+  SharedPreferences prefs;
 
   @override
   void initState() {
+    saveStoreIdToPrefs();
+    super.initState();
+  }
+
+  saveStoreIdToPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    prefs.setString('store', widget.outlet.id);
+    print("Store id is : ${widget.outlet.id}");
     getFoods();
     getDrinks();
-    super.initState();
   }
 
   Future<List<Menu>> getFoods() async {

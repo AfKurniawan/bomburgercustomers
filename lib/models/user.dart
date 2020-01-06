@@ -19,6 +19,7 @@ class LoginResponse {
 
 class User {
   String id;
+  String username;
   String email;
   String address;
   String phone;
@@ -33,6 +34,7 @@ class User {
 
   User(
       {this.id,
+        this.username,
       this.email,
       this.address,
       this.phone,
@@ -49,6 +51,7 @@ class User {
     print(json['messages']);
     return new User(
         id: json['id'],
+        username: json['username'],
         email: json['email'],
         address: json['address'],
         phone: json['phone'],

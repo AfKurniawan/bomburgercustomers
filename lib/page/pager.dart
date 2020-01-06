@@ -40,7 +40,7 @@ class _PagerState extends State<Pager> {
       widget.currentTab = tabItem;
       switch (tabItem) {
         case 0 :
-          widget.currentTitle = "Cart";
+          widget.currentTitle = "Profile";
           widget.currenPage = CartPage();
           break;
 
