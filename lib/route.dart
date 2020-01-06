@@ -3,6 +3,7 @@ import 'package:bomburger301219/page/cart.dart';
 import 'package:bomburger301219/page/detail_menu.dart';
 import 'package:bomburger301219/page/login.dart';
 import 'package:bomburger301219/page/pager.dart';
+import 'package:bomburger301219/page/register.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +17,8 @@ class MyRoute {
         return MaterialPageRoute(builder: (_) => LoginPage());
       case '/Cart':
         return MaterialPageRoute(builder: (_) => CartPage());
-//      case '/Home':
-//        return MaterialPageRoute(builder: (_) => BurgerPage());
+      case '/SignUp':
+        return MaterialPageRoute(builder: (_) => SignUpPage());
 //      case '/MobileVerification':
 //        return MaterialPageRoute(builder: (_) => MobileVerification());
 //      case '/MobileVerification2':
