@@ -6,12 +6,10 @@ import 'package:bomburger301219/widget/OrderItemWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:bomburger301219/config/app_config.dart' as config;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class ProfilePage extends StatefulWidget {
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 
@@ -19,26 +17,28 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-
-
-
   List cart;
   SharedPreferences prefs;
   String sellerid = "";
   String _response = "";
   String name = "";
   String image = "";
-
-
-
+  String id;
+  String email;
+  String address;
+  String phone = "";
+  String bname = "";
+  String status;
+  String baddress;
+  String bphone;
+  String usertype;
+  String storeid;
 
   @override
   void initState() {
     getPreferences();
     super.initState();
   }
-
 
   getPreferences() async {
     prefs = await SharedPreferences.getInstance();
@@ -49,7 +49,6 @@ class _ProfilePageState extends State<ProfilePage> {
       getUserResponse();
     });
   }
-
 
   Future<LoginResponse> getResponse(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
@@ -64,16 +63,14 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-
   void getUserResponse() {
-    getResponse(ApiUrl.getProfileResponseUrl, {
+    getResponse(ApiUrl.getProfileResponse, {
       'user_id': sellerid,
     }).then((response) async {
       if (response.messages == 'success') {
         print(response.messages);
 
         getUserDetail();
-
       } else {
         print("Error iki soko nggon mobile, mbuh salah password atau email");
 
@@ -88,26 +85,28 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }, onError: (error) {
       print("iki yo error tapi soko server");
-     // loginFailed();
+      // loginFailed();
     });
   }
 
-
-
-
   void getUserDetail() {
-    userDetail(ApiUrl.getUserDetailUrl, {
-      'userid': sellerid
-    }).then((response) async {
+    userDetail(ApiUrl.getProfileUrl, {'user_id': sellerid}).then((response) {
+      print("profile Page: ${response.username}");
 
       setState(() {
-
         name = response.username;
         image = response.photo;
-
+        email = response.email;
+        address = response.address;
+        print("Profile image: $baddress");
       });
 
-
+      if (response.photo == "") {
+        setState(() {
+          image = "no-image.png";
+          print("Profile image2: $image");
+        });
+      }
     }, onError: (error) {
       print("iki yo error tapi soko server");
       showDialog(
@@ -134,8 +133,6 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-
-
   Future<CartResponse> _getCartItem(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
         body: body,
@@ -154,25 +151,20 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void getCartItem()  {
+  void getCartItem() {
     _getCartItem(ApiUrl.cartUrl, {'seller_id': sellerid, 'status': 'onCart'})
         .then((response) async {
       setState(() {
-
         _response = response.messages;
 
-
         if (_response == "failed") {
-
           errorDialog(context);
         }
-
       });
     }, onError: (error) {
       _response = error.toString();
     });
   }
-
 
   errorDialog(BuildContext context) {
     showDialog(
@@ -185,76 +177,66 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
+    final _ac = config.App(context);
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      //padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       child: Column(
         children: <Widget>[
-      Container(
-      height: 160,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          SizedBox(
-            width: 50,
-            height: 50,
-            child: FlatButton(
-              padding: EdgeInsets.all(0),
-              onPressed: () {},
-              child: Icon(Icons.add, color: Theme.of(context).primaryColor),
-              color: Theme.of(context).accentColor,
-              shape: StadiumBorder(),
+          Container(
+            height: _ac.appHeight(40),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(ApiUrl.imgUrl + image),
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 10,
+                          color: Theme.of(context).hintColor.withOpacity(0.2),
+                        )
+                      ]),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: _ac.appHorizontalPadding(10),
+                    vertical: _ac.appVerticalPadding(0),
+                  ),
+                  width: _ac.appWidth(80),
+                  height: 220,
+                ),
+              ],
             ),
           ),
-          SizedBox(
-            width: 135,
-            height: 135,
-            child: CircleAvatar(backgroundImage: NetworkImage(ApiUrl.imgUrl + image)),
+
+          Text(
+            '$name'.toUpperCase(),
+            style: Theme.of(context).textTheme.display1,
           ),
-          SizedBox(
-            width: 50,
-            height: 50,
-            child: FlatButton(
-              padding: EdgeInsets.all(0),
-              onPressed: () {},
-              child: Icon(Icons.chat, color: Theme.of(context).primaryColor),
-              color: Theme.of(context).accentColor,
-              shape: StadiumBorder(),
-            ),
+          SizedBox(height: 10),
+          Text(
+            '$email',
+            style: Theme.of(context).textTheme.caption,
           ),
-        ],
-      ),
-      ),
-      Text(
-      '$name',
-      style: Theme.of(context).textTheme.headline,
-      ),
-      Text(
-      'Berlin, Germany',
-      style: Theme.of(context).textTheme.caption,
-      ),
           ListTile(
             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             leading: Icon(
-              Icons.person,
+              Icons.my_location,
               color: Theme.of(context).hintColor,
             ),
             title: Text(
-              'About',
+              'Address',
               style: Theme.of(context).textTheme.display1,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical professor Read More',
+              '$address',
               style: Theme.of(context).textTheme.body1,
             ),
           ),
@@ -278,83 +260,10 @@ class _ProfilePageState extends State<ProfilePage> {
               return SizedBox(height: 10);
             },
             itemBuilder: (context, i) {
-              return InkWell(
-                splashColor: Theme.of(context).accentColor,
-                focusColor: Theme.of(context).accentColor,
-                highlightColor: Theme.of(context).primaryColor,
-                onTap: () {
-                  Navigator.of(context).pushNamed('/Tracking');
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.9),
-                    boxShadow: [
-                      BoxShadow(color: Theme.of(context).focusColor.withOpacity(0.1), blurRadius: 5, offset: Offset(0, 2)),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          image: DecorationImage(image: NetworkImage(ApiUrl.imgUrl + cart[i]['picture']), fit: BoxFit.cover),
-                        ),
-                      ),
-                      SizedBox(width: 15),
-                      Flexible(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    cart[i]['name'],
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: Theme.of(context).textTheme.subhead,
-                                  ),
-//                        Text(
-//                          order.restaurantName,
-//                          overflow: TextOverflow.ellipsis,
-//                          maxLines: 2,
-//                          style: Theme.of(context).textTheme.caption,
-//                        ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                Text('RM. ${cart[i]['price']}', style: Theme.of(context).textTheme.display1),
-//                      Text(
-//                        order.date,
-//                        style: Theme.of(context).textTheme.caption,
-//                      ),
-//                      Text(
-//                        order.time,
-//                        style: Theme.of(context).textTheme.caption,
-//                      ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+              return OrderItemWidget(
+                heroTag: 'profile_orders',
+                order: cart.elementAt(i),
               );
-//              return OrderItemWidget(
-//                heroTag: 'profile_orders',
-//                order: cart[i].elementAt(i),
-//              );
             },
           ),
         ],

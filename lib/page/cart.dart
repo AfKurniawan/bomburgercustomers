@@ -25,11 +25,7 @@ class _CartPageState extends State<CartPage> {
   List<Cart> items = new List();
   SharedPreferences prefs;
   String sellerid = "";
-
   String _response = "";
-
-
-
   List cart;
   double totalPrice = 1.0;
   double _total = 0.0;
@@ -130,7 +126,6 @@ class _CartPageState extends State<CartPage> {
       setState(() {
 
         _response = response.messages;
-
 
         if (_response == "failed") {
 
