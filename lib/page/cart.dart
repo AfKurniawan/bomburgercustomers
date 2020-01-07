@@ -554,39 +554,62 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
-  Future<CartResponse> checkout(String url, var body) async {
-    return await http.post(Uri.encodeFull(url),
-        body: body,
-        headers: {"Accept": "application/json"}).then((http.Response response) {
+//  Future<CartResponse> checkout(String url, var body) async {
+//    return await http.post(Uri.encodeFull(url),
+//        body: body,
+//        headers: {"Accept": "application/json"}).then((http.Response response) {
+//
+//      final int statusCode = response.statusCode;
+//
+//      print("iki lho $body");
+//
+//      if (statusCode < 200 || statusCode > 400 || json == null) {
+//        print("error cuk");
+//
+//        throw new Exception("Error while fetching data");
+//      }
+//      return CartResponse.fromJson(json.decode(response.body));
+//    });
+//  }
+//
+//  void insertCheckout() {
+//    checkout(ApiUrl.checkoutUrl, {
+//      'seller_id': sellerid,
+//      'status': 'onCheckout',
+//    }).then((response) async {
+//      print("Success checkout");
+//      print("quantity on checkout action $quantity");
+//      print("productid on checkout action ${sellerid}");
+//
+//
+//      if (response.messages == 'success') {
+//        successDialog(context);
+//      } else {
+//        print("Error checkout");
+//      }
+//    }, onError: (error) {
+//      _response = error.toString();
+//    });
+//  }
 
-      final int statusCode = response.statusCode;
 
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        print("error cuk");
+  Future<http.Response> insertCheckout () async {
 
-        throw new Exception("Error while fetching data");
-      }
-      return CartResponse.fromJson(json.decode(response.body));
-    });
-  }
-
-  void insertCheckout() {
-    checkout(ApiUrl.checkoutUrl, {
+    Map data = {
       'seller_id': sellerid,
       'status': 'onCheckout',
-      'quantity': quantity,
-    }).then((response) async {
-      print("Success checkout");
-      print("quantity on checkout action $quantity");
-      print("productid on checkout action ${widget.menu.id}");
+    };
+    //encode Map to JSON
+    var body = json.encode(data);
 
-      if (response.messages == 'success') {
-        successDialog(context);
-      } else {
-        print("Error checkout");
-      }
-    }, onError: (error) {
-      _response = error.toString();
-    });
+    var response = await http.post(ApiUrl.checkoutUrl,
+        headers: {"Content-Type": "application/json"},
+        body: body
+    );
+
+    print("${body}");
+    return response;
+
+
   }
 }
