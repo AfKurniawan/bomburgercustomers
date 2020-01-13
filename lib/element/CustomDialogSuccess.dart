@@ -2,12 +2,35 @@
 
 
 import 'package:bomburger301219/config/app_config.dart';
+import 'package:bomburger301219/models/payment.dart';
 import 'package:bomburger301219/page/pager.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialogSuccess extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
+
+  String radioItem = 'Mango';
+
+  // Group Value for Radio Button.
+  int id = 1;
+
+
+  List<Payment> payment = [
+    Payment(
+      index: 1,
+      name: "Mango",
+    ),
+    Payment(
+      index: 2,
+      name: "Apple",
+    ),
+    Payment(
+      index: 3,
+      name: "Banana",
+    ),
+
+  ];
 
   CustomDialogSuccess({
     @required this.title,
@@ -55,6 +78,7 @@ class CustomDialogSuccess extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min, // To make the card compact
             children: <Widget>[
+
               Text(
                 title,
                 style: TextStyle(

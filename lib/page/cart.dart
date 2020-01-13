@@ -1,8 +1,10 @@
 import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/element/CustomDialogError.dart';
+import 'package:bomburger301219/element/CustomDialogPayment.dart';
 import 'package:bomburger301219/element/CustomDialogSuccess.dart';
 import 'package:bomburger301219/models/cart.dart';
 import 'package:bomburger301219/models/food.dart';
+import 'package:bomburger301219/models/payment.dart';
 import 'package:bomburger301219/models/route.dart';
 import 'package:bomburger301219/page/detail_menu.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +12,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../config/app_config.dart';
+
 class CartPage extends StatefulWidget {
   Cart cart;
   Menu menu;
   String heroTag;
+  final Function onCall;
 
-  CartPage({Key key, this.cart, this.menu, this.heroTag}) : super(key: key);
+  _CartPageState myAppState = new _CartPageState();
+
+  CartPage({Key key, this.onCall, this.cart, this.menu, this.heroTag}) : super(key: key);
 
   @override
   _CartPageState createState() => _CartPageState();
+
+
+
+
 }
 
 class _CartPageState extends State<CartPage> {
@@ -34,6 +45,14 @@ class _CartPageState extends State<CartPage> {
   int quantity = 1;
   String responsetotal;
 
+  int _ratingController;
+
+  String paymentMnethod;
+
+  final List<String> _items = ['One', 'Two', 'Three', 'Four'].toList();
+
+  String _selection;
+
   @override
   void initState() {
     getPreferences();
@@ -45,18 +64,16 @@ class _CartPageState extends State<CartPage> {
     setState(() {
       sellerid = prefs.getString("userid");
       print("ini adalah user id $sellerid");
+
       getCartItem();
       getTotalCart();
     });
   }
 
-
-
   Future<CartResponse> deleteCart(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
         body: body,
         headers: {"Accept": "application/json"}).then((http.Response response) {
-
       final int statusCode = response.statusCode;
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
@@ -67,7 +84,6 @@ class _CartPageState extends State<CartPage> {
       return CartResponse.fromJson(json.decode(response.body));
     });
   }
-
 
   Future<Total> totalCart(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
@@ -81,7 +97,6 @@ class _CartPageState extends State<CartPage> {
       return Total.fromJson(json.decode(response.body));
     });
   }
-
 
   void getTotalCart() {
     totalCart(ApiUrl.totalCartUrl, {
@@ -101,7 +116,6 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-
   Future<CartResponse> _getCartItem(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
         body: body,
@@ -120,15 +134,13 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-  void getCartItem()  {
+  void getCartItem() {
     _getCartItem(ApiUrl.cartUrl, {'seller_id': sellerid, 'status': 'onCart'})
         .then((response) async {
       setState(() {
-
         _response = response.messages;
 
         if (_response == "failed") {
-
           errorDialog(context);
         }
       });
@@ -145,7 +157,6 @@ class _CartPageState extends State<CartPage> {
       print(response.body);
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
-
         throw new Exception("Error while fetching data");
       }
       return LabelCartCount.fromJson(json.decode(response.body));
@@ -154,12 +165,12 @@ class _CartPageState extends State<CartPage> {
 
   void getCartLabelCount() {
     labelCart(ApiUrl.getLabelCartUrl, {'seller_id': sellerid}).then(
-            (response) async {
-          setState(() {
-            count = response.count;
-            print("Label count cart item ${response.count}");
-          });
-        }, onError: (error) {
+        (response) async {
+      setState(() {
+        count = response.count;
+        print("Label count cart item ${response.count}");
+      });
+    }, onError: (error) {
       _response = error.toString();
     });
   }
@@ -177,16 +188,28 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
+  void _onValueChange(String value) {
+    setState(() {
+      paymentMnethod = value;
+    });
+  }
+  
+
+
   successDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) => CustomDialogSuccess(
         title: "Checkout Success",
-        description: "Please wait... \n Your is being processing",
+        description: "Your is in processing",
         buttonText: "Okay",
       ),
     );
   }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +220,6 @@ class _CartPageState extends State<CartPage> {
             onPressed: () {
               //Navigator.pushNamed(context, '/DetailMenu');
               Navigator.of(context).pop('/DetailMenu');
-
             }),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -285,8 +307,8 @@ class _CartPageState extends State<CartPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Hero(
-                                tag: 'hello${cart[i]['product_id']}',
+                              Container(
+                                //tag: 'hello${cart[i]['product_id']}',
                                 //tag: widget.heroTag + widget.food.id,
                                 child: Container(
                                   height: 90,
@@ -369,7 +391,6 @@ class _CartPageState extends State<CartPage> {
                                               if (response.messages ==
                                                   "deleted") {
                                                 setState(() {
-
                                                   cart.removeAt(i);
                                                   print("iki opi $i");
 
@@ -506,8 +527,27 @@ class _CartPageState extends State<CartPage> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 110,
                         child: FlatButton(
-                          onPressed: () {
-                            insertCheckout();
+                          onPressed: ()  {
+
+
+//                            prefs = await SharedPreferences.getInstance();
+//                            prefs.getString("userid");
+//
+//                            print(prefs.getString("userid"));
+//
+                            showDialog(
+
+                                context: context,
+                                child: new MyDialog(
+                                  onValueChange: _onValueChange,
+                                  initialValue: paymentMnethod,
+
+                                ),
+                            );
+
+
+
+
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
                           color: Theme.of(context).accentColor,
@@ -554,62 +594,23 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
-//  Future<CartResponse> checkout(String url, var body) async {
-//    return await http.post(Uri.encodeFull(url),
-//        body: body,
-//        headers: {"Accept": "application/json"}).then((http.Response response) {
+//  Future<http.Response> insertCheckout () async {
 //
-//      final int statusCode = response.statusCode;
-//
-//      print("iki lho $body");
-//
-//      if (statusCode < 200 || statusCode > 400 || json == null) {
-//        print("error cuk");
-//
-//        throw new Exception("Error while fetching data");
-//      }
-//      return CartResponse.fromJson(json.decode(response.body));
-//    });
-//  }
-//
-//  void insertCheckout() {
-//    checkout(ApiUrl.checkoutUrl, {
+//    Map data = {
 //      'seller_id': sellerid,
 //      'status': 'onCheckout',
-//    }).then((response) async {
-//      print("Success checkout");
-//      print("quantity on checkout action $quantity");
-//      print("productid on checkout action ${sellerid}");
+//    };
+//    //encode Map to JSON
+//    var body = json.encode(data);
+//
+//    var response = await http.post(ApiUrl.checkoutUrl,
+//        headers: {"Content-Type": "application/json"},
+//        body: body
+//    );
+//
+//    print("${body}");
+//    return response;
 //
 //
-//      if (response.messages == 'success') {
-//        successDialog(context);
-//      } else {
-//        print("Error checkout");
-//      }
-//    }, onError: (error) {
-//      _response = error.toString();
-//    });
 //  }
-
-
-  Future<http.Response> insertCheckout () async {
-
-    Map data = {
-      'seller_id': sellerid,
-      'status': 'onCheckout',
-    };
-    //encode Map to JSON
-    var body = json.encode(data);
-
-    var response = await http.post(ApiUrl.checkoutUrl,
-        headers: {"Content-Type": "application/json"},
-        body: body
-    );
-
-    print("${body}");
-    return response;
-
-
-  }
 }

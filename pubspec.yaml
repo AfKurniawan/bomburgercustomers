@@ -64,6 +64,8 @@ flutter:
     - assets/img/icon_success.png
     - assets/img/user1.jpg
     - assets/img/burger_icon.jpg
+    - assets/img/payment.png
+    - assets/img/home-address.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

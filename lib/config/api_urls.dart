@@ -32,6 +32,7 @@ class ApiUrl{
   static const String signupUrl = baseUrl + "index.php/registercustomer";
   static const String getProfileUrl = baseUrl + "index.php/GetUserProfile";
   static const String getProfileResponse = baseUrl + "index.php/GetProfileResponse";
+  static const String addAddressUrl = baseUrl + "index.php/AddAddress";
 
 
 

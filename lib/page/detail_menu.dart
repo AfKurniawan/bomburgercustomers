@@ -192,7 +192,7 @@ class _DetailsMenuState extends State<DetailMenu> {
     String sellerid = prefs.getString('userid');
     String amount = widget.menu.harga.toStringAsFixed(2);
     String receive = widget.menu.harga.toStringAsFixed(2);
-    String payment = 'Cash';
+    String payment = '';
     String prodid = widget.menu.id;
     String qnt = this.quantity.toString();
     String price = widget.menu.harga.toString();

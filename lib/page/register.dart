@@ -27,8 +27,10 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController controllerTextFullname = new TextEditingController();
   TextEditingController controllerTextEmail = new TextEditingController();
   TextEditingController controllerTextPassword = new TextEditingController();
+  TextEditingController controllerTextPhone = new TextEditingController();
 
   SharedPreferences prefs;
+  String customer = 'customer';
 
 
   @override
@@ -43,21 +45,65 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-  saveToPrefs() async {
 
-      prefs = await SharedPreferences.getInstance();
-      prefs.setString("usertype", 'customer');
-      prefs.setString('email', controllerTextEmail.text);
-      prefs.setString('username', controllerTextFullname.text);
-      prefs.setString('isLogin', 'isLogin');
-  }
 
   @override
   void dispose() {
     controllerTextFullname.dispose();
     controllerTextEmail.dispose();
     controllerTextPassword.dispose();
+    controllerTextPhone.dispose();
     super.dispose();
+  }
+
+  Future<User> loginDetail(String url, var body) async {
+    return await http.post(Uri.encodeFull(url),
+        body: body,
+        headers: {"Accept": "application/json"}).then((http.Response response) {
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return User.fromJson(json.decode(response.body));
+    });
+  }
+
+
+  void getUserId() {
+
+    loginDetail(ApiUrl.getUserDetailUrl, {
+      'username': controllerTextEmail.text,
+      'password': controllerTextPassword.text
+    }).then((response) async {
+
+      //print(response.id);
+
+      prefs = await SharedPreferences.getInstance();
+      prefs.setString('userid', response.id);
+      prefs.setString('usertype', customer);
+      prefs.setString('email', response.email);
+      prefs.setString('isLogin', 'isLogin');
+
+
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Pager()),
+              (Route<dynamic> route) => false);
+
+
+    }, onError: (error) {
+
+      print("erron on get userid");
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => CustomDialogError(
+          title: "Login Failed",
+          description: "Request timeout, make sure your internet is connected",
+          buttonText: "Okay",
+        ),
+      );
+    });
   }
 
   void signUpAction() async {
@@ -65,19 +111,15 @@ class _SignUpPageState extends State<SignUpPage> {
       'username': controllerTextFullname.text,
       'email': controllerTextEmail.text,
       'password': controllerTextPassword.text,
-      'user_type': 'customer'
+      'user_type': customer,
+      'phone' : controllerTextPhone.text
     }).then((response) {
 
-      if (response.error == "false") {
+      if (response.messages == "success") {
 
-        saveToPrefs();
+        getUserId();
 
-        print("String value from prefs: " + prefs.getString('usertype'));
-        print("String value from prefs: " + prefs.getString('email'));
 
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => Pager()),
-                (Route<dynamic> route) => false);
 
       } else if(response.messages == 'isExist') {
 
@@ -92,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     }, onError: (error) {
       failedDialog(context);
-      print("iki error on error register");
+      print("error signUpAction action");
     });
   }
 
@@ -108,6 +150,8 @@ class _SignUpPageState extends State<SignUpPage> {
       return LoginResponse.fromJson(json.decode(response.body));
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -218,6 +262,26 @@ class _SignUpPageState extends State<SignUpPage> {
                           color: Theme.of(context).hintColor,
                         ),
                       ),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.5))),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: controllerTextPhone,
+                    decoration: InputDecoration(
+                      labelText: "Phone",
+                      errorText: validate ? "Can\'t be empty" : null,
+                      labelStyle: TextStyle(color: Theme.of(context).accentColor),
+                      contentPadding: EdgeInsets.all(12),
+                      hintText: 'Phone Number',
+                      hintStyle: TextStyle(color: Theme.of(context).focusColor.withOpacity(0.7)),
+                      prefixIcon: Icon(Icons.phone_android, color: Theme.of(context).accentColor),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Theme.of(context).focusColor.withOpacity(0.2))),
                       focusedBorder: OutlineInputBorder(

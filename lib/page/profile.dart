@@ -1,4 +1,6 @@
 import 'package:bomburger301219/config/api_urls.dart';
+import 'package:bomburger301219/element/CustomDialogAddAddress.dart';
+import 'package:bomburger301219/element/CustomDialogEditAddress.dart';
 import 'package:bomburger301219/element/CustomDialogError.dart';
 import 'package:bomburger301219/models/cart.dart';
 import 'package:bomburger301219/models/user.dart';
@@ -25,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String image = "";
   String id;
   String email;
-  String address;
+  String address = "";
   String phone = "";
   String bname = "";
   String status;
@@ -44,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
     prefs = await SharedPreferences.getInstance();
     setState(() {
       sellerid = prefs.getString("userid");
-      print("ini adalah user id $sellerid");
+      print("userid from preferences $sellerid");
       getCartItem();
       getUserResponse();
     });
@@ -99,6 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
         email = response.email;
         address = response.address;
         print("Profile image: $baddress");
+        print("responce address ${response.address}");
       });
 
       if (response.photo == "") {
@@ -223,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
             style: Theme.of(context).textTheme.caption,
           ),
           ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             leading: Icon(
               Icons.my_location,
               color: Theme.of(context).hintColor,
@@ -233,11 +236,43 @@ class _ProfilePageState extends State<ProfilePage> {
               style: Theme.of(context).textTheme.display1,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              '$address',
-              style: Theme.of(context).textTheme.body1,
+
+          address == "" ?
+              Visibility(
+                visible: true,
+                child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: FlatButton(onPressed: (){
+
+                  showDialog(
+                    context: context,
+                    child: AddAddressDialog(
+                    ),
+                  );
+
+                },
+                    child: Text("Add Address")),
+                ),
+              )
+          : Padding( padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  '$address',
+                  style: Theme.of(context).textTheme.display4,
+                ),
+                IconButton(icon: Icon(Icons.edit), onPressed: (){
+                  showDialog(
+                    context: context,
+                    child: EditAddressDialog(
+                      address: address,
+
+                    ),
+                  );
+
+
+                })
+              ],
             ),
           ),
           ListTile(
