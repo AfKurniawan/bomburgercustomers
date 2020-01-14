@@ -193,26 +193,43 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(ApiUrl.imgUrl + image),
+                image == ""
+                    ? Container(
+                        child: Center(
+                          child: const CircularProgressIndicator(
+                            value: null,
+                            strokeWidth: 1,
+                          ),
+                        ),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: _ac.appHorizontalPadding(10),
+                          vertical: _ac.appVerticalPadding(0),
+                        ),
+                        width: _ac.appWidth(80),
+                        height: 220,
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(ApiUrl.imgUrl + image),
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 10,
+                                color: Theme.of(context)
+                                    .hintColor
+                                    .withOpacity(0.2),
+                              )
+                            ]),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: _ac.appHorizontalPadding(10),
+                          vertical: _ac.appVerticalPadding(0),
+                        ),
+                        width: _ac.appWidth(80),
+                        height: 220,
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 10,
-                          color: Theme.of(context).hintColor.withOpacity(0.2),
-                        )
-                      ]),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: _ac.appHorizontalPadding(10),
-                    vertical: _ac.appVerticalPadding(0),
-                  ),
-                  width: _ac.appWidth(80),
-                  height: 220,
-                ),
               ],
             ),
           ),
@@ -345,21 +362,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: Theme.of(context).textTheme.subhead,
                                   ),
                                   SizedBox(height: 20),
-
-                                  status == 'onCheckout' ?
-                                  Text(
-                                    "Processed",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: TextStyle(color: Colors.deepOrange),
-                                  )
-
-                                 : Text(
-                                    cart[i]['status'],
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: Theme.of(context).textTheme.caption,
-                                  ),
+                                  status == 'onCheckout'
+                                      ? Text(
+                                          "Processed",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                              color: Colors.deepOrange),
+                                        )
+                                      : Text(
+                                          cart[i]['status'],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .caption,
+                                        ),
                                 ],
                               ),
                             ),

@@ -157,7 +157,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/Profile', arguments: 1);
+              //Navigator.of(context).pushNamed('/Profile', arguments: 1);
             },
 
 
@@ -199,7 +199,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 2);
+              Navigator.of(context).pushNamed('/Pages');
             },
             leading: Icon(
               Icons.home,
@@ -225,14 +225,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),*/
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/History', arguments: 3);
+              Navigator.of(context).pushNamed('/Cart');
             },
             leading: Icon(
-              Icons.fastfood,
+              Icons.shopping_cart,
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "Order History",
+              "Cart",
               style: Theme.of(context).textTheme.subhead,
             ),
           ),
