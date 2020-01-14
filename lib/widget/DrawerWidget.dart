@@ -141,8 +141,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     //prefs.remove('login');
+    setState(() {
+      Navigator.pushReplacementNamed(context, '/');
+    });
 
-    Navigator.pushReplacementNamed(context, '/');
+
   }
 
   @override
@@ -156,8 +159,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             onTap: () {
               Navigator.of(context).pushNamed('/Profile', arguments: 1);
             },
-
-
 
 
             child: UserAccountsDrawerHeader(
@@ -198,7 +199,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Home', arguments: 2);
+              Navigator.of(context).pushNamed('/Pages', arguments: 2);
             },
             leading: Icon(
               Icons.home,

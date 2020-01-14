@@ -2,10 +2,13 @@ import 'package:bomburger301219/models/route.dart';
 import 'package:bomburger301219/page/cart.dart';
 import 'package:bomburger301219/page/detail_menu.dart';
 import 'package:bomburger301219/page/login.dart';
+import 'package:bomburger301219/page/orders.dart';
 import 'package:bomburger301219/page/pager.dart';
 import 'package:bomburger301219/page/register.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
 import 'package:flutter/material.dart';
+
+import 'page/profile.dart';
 
 class MyRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -32,8 +35,8 @@ class MyRoute {
         return MaterialPageRoute(builder: (_) => OutletCarouselWidget());
       case '/DetailMenu':
         return MaterialPageRoute(builder: (_) => DetailMenu());
-//      case '/Map':
-//        return MaterialPageRoute(builder: (_) => MapWidget());
+      case '/History':
+        return MaterialPageRoute(builder: (_) => OrdersPage());
 //      case '/Menu':
 //        return MaterialPageRoute(builder: (_) => MenuWidget());
       case '/Detail':
@@ -41,8 +44,8 @@ class MyRoute {
             builder: (_) => DetailMenu(
               routeArgument: args as RouteArgument,
             ));
-//      case '/Cart':
-//        return MaterialPageRoute(builder: (_) => CartPage());
+      case '/Profile':
+        return MaterialPageRoute(builder: (_) => ProfilePage());
 //      case '/Checkout':
 //        return MaterialPageRoute(builder: (_) => CheckoutWidget());
 //      case '/Help':
