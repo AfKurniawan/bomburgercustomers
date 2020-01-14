@@ -40,6 +40,12 @@ dependencies:
   url_launcher: ^4.2.0+3
   progress_dialog: ^1.1.0+1
   scoped_model: ^1.0.1
+  flutter_launcher_icons: any
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/img/burger_icon.jpg"
 
 dev_dependencies:
   flutter_test:

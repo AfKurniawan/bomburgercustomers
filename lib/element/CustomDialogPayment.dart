@@ -47,6 +47,7 @@ class _MyDialogState extends State<MyDialog> {
 
   // Default Radio Button Item
   String paymentMethos = 'Cash';
+  String status = 'onCheckout';
 
   // Group Value for Radio Button.
   int id = 1;
@@ -80,7 +81,7 @@ class _MyDialogState extends State<MyDialog> {
   void insertCheckout() {
     checkout(ApiUrl.checkoutUrl, {
       'seller_id': sellerid,
-      //'status': 'onCheckout',
+      'status': status,
       'payment': paymentMethos,
     }).then((response) async {
       print(response.messages);
@@ -88,7 +89,6 @@ class _MyDialogState extends State<MyDialog> {
 
       if (response.messages == 'success') {
         Navigator.pop(context);
-
         successDialog(context);
       } else {
         print("Error checkout");

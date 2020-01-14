@@ -2,37 +2,37 @@ import 'package:flutter/material.dart';
 class ApiUrl{
 
 
-  static const String baseUrl     = "http://192.168.43.177/bomburger.my/api_ci/";
-  static const String imgUrl      = "http://192.168.43.177/bomburger.my/management/uploads/products/";
+  //static const String baseUrl     = "http://192.168.13.10/bomburger.my/api_ci/";
+  //static const String imgUrl      = "http://192.168.13.10/bomburger.my/management/uploads/products/";
 
-  //static const String baseUrl     = "http://mobile.bomburger.my/";
-  //static const String imgUrl      =  "http://management.bomburger.my/uploads/products/";
+  static const String baseUrl     = "http://mobile.bomburger.my/customers_api/index.php/";
+  static const String imgUrl      =  "http://management.bomburger.my/uploads/products/";
 
-  static const String burgerUrl   = baseUrl + "index.php/burgers";
-  static const String drinkUrl    = baseUrl + "index.php/drinks";
-  static const String loginUrl     = baseUrl + "index.php/auth";
-  static const String addSalesUrl  = baseUrl + "index.php/addsales";
-  static const String addSalesItem  = baseUrl + "index.php/addsalesitem";
-  static const String deleteSingleCart = baseUrl + "index.php/deletesinglecart";
-  static const String cartUrl       = baseUrl + "index.php/cart";
-  static const String historyUrl = baseUrl + "index.php/history";
-  static const String totalCartUrl = baseUrl + "index.php/totalcartprice";
-  static const String totalHistoryUrl = baseUrl + "index.php/totalhistoryprice";
-  static const String getLabelCartUrl = baseUrl + "index.php/cartLabelCount";
-  static const String checkoutUrl = baseUrl + "index.php/updatecart";
-  static const String getStockUrl = baseUrl + "index.php/getstock";
-  static const String profileUrl = baseUrl + "index.php/getuserprofile";
-  static const String reqStockUrl = baseUrl + "index.php/reqstock";
-  static const String getOutletUrl = baseUrl + "index.php/outlet";
-  static const String getUserDetailUrl = baseUrl + "index.php/getuserdetail";
-  static const String getSingleProductUrl = baseUrl + "index.php/getsingleproduct";
-  static const String getStatusProductDetailUrl = baseUrl + "index.php/getStatusProductDetailUrl";
-  static const String getFoodsByOutletIdUrl = baseUrl + "index.php/getFoodsByOutletIdUrl";
-  static const String getDrinksByOutletId = baseUrl + "index.php/getDrinksByOutletId";
-  static const String signupUrl = baseUrl + "index.php/registercustomer";
-  static const String getProfileUrl = baseUrl + "index.php/GetUserProfile";
-  static const String getProfileResponse = baseUrl + "index.php/GetProfileResponse";
-  static const String addAddressUrl = baseUrl + "index.php/AddAddress";
+  static const String burgerUrl   = baseUrl + "Burgers";
+  static const String drinkUrl    = baseUrl + "Drinks";
+  static const String loginUrl     = baseUrl + "Auth";
+  static const String addSalesUrl  = baseUrl + "AddSalesCustomer";
+  static const String addSalesItem  = baseUrl + "/Addsalesitem";
+  static const String deleteSingleCart = baseUrl + "DeleteSingleCart";
+  static const String cartUrl       = baseUrl + "Cart";
+  static const String getHistoryUrl = baseUrl + "GetHistory";
+  static const String totalCartUrl = baseUrl + "TotalCartPrice";
+  static const String totalHistoryUrl = baseUrl + "TotalHistoryPrice";
+  static const String getLabelCartUrl = baseUrl + "CartLabelCount";
+  static const String checkoutUrl = baseUrl + "UpdateCart";
+  static const String getStockUrl = baseUrl + "GetStock";
+  static const String profileUrl = baseUrl + "GetUserProfile";
+  static const String reqStockUrl = baseUrl + "ReqStock";
+  static const String getOutletUrl = baseUrl + "Outlet";
+  static const String getUserDetailUrl = baseUrl + "GetUserDetail";
+  static const String getSingleProductUrl = baseUrl + "GetSingleProduct";
+  static const String getStatusProductDetailUrl = baseUrl + "GetStatusProductDetailUrl";
+  static const String getFoodsByOutletIdUrl = baseUrl + "getFoodsByOutletIdUrl";
+  static const String getDrinksByOutletId = baseUrl + "GetDrinksByOutletId";
+  static const String signupUrl = baseUrl + "RegisterCustomer";
+  static const String getProfileUrl = baseUrl + "GetUserProfile";
+  static const String getProfileResponse = baseUrl + "GetProfileResponse";
+  static const String addAddressUrl = baseUrl + "AddAddress";
 
 
 

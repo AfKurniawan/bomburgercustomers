@@ -50,7 +50,7 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
     var res = await http.get(Uri.encodeFull(ApiUrl.burgerUrl),
         //body: {'id' : widget.outlet.id},
         headers: {"Accept": "application/json"});
-    print(res.body);
+    //qprint(res.body);
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       var rest = data["burgers"] as List;
@@ -65,7 +65,7 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
         //body: {'id' : widget.outlet.id},
         headers: {"Accept": "application/json"});
 
-    print(res.body);
+    //print(res.body);
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       var rest = data["drinks"] as List;
@@ -130,7 +130,7 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
                           SizedBox(height: 10),
                           Text(widget.outlet.description),
                           SizedBox(height: 10),
-                          Text(widget.outlet.id),
+                          //Text(widget.outlet.id),
                         ],
                       ),
                     ),

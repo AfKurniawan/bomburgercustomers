@@ -2,6 +2,7 @@
 import 'package:bomburger301219/page/cart.dart';
 import 'package:bomburger301219/page/history.dart';
 import 'package:bomburger301219/page/home.dart';
+import 'package:bomburger301219/page/orders.dart';
 import 'package:bomburger301219/page/profile.dart';
 import 'package:bomburger301219/widget/DrawerWidget.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _PagerState extends State<Pager> {
 
         case 2 :
           widget.currentTitle = "History";
-          widget.currenPage = HistoryPage();
+          widget.currenPage = OrdersPage();
       }
 
     });

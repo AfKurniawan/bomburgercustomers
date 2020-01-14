@@ -45,6 +45,8 @@ class _CartPageState extends State<CartPage> {
   int quantity = 1;
   String responsetotal;
 
+  double totalInButton = 0.0;
+
   int _ratingController;
 
   String paymentMnethod;
@@ -140,12 +142,10 @@ class _CartPageState extends State<CartPage> {
       setState(() {
         _response = response.messages;
 
-        if (_response == "failed") {
-          errorDialog(context);
-        }
       });
     }, onError: (error) {
       _response = error.toString();
+      errorDialog(context);
     });
   }
 
@@ -538,7 +538,7 @@ class _CartPageState extends State<CartPage> {
                             showDialog(
 
                                 context: context,
-                                child: new MyDialog(
+                                builder: (BuildContext context) => new MyDialog(
                                   onValueChange: _onValueChange,
                                   initialValue: paymentMnethod,
 

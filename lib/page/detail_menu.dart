@@ -69,6 +69,9 @@ class _DetailsMenuState extends State<DetailMenu> {
       getCartLabelCount();
       getStockResponse();
 
+      this.quantity =
+          this.decrementQuantity(this.quantity);
+
 
     });
   }
@@ -186,6 +189,8 @@ class _DetailsMenuState extends State<DetailMenu> {
   }
 
   void postToCart() async {
+
+    print("Begin insert to Cart");
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String storeid = prefs.getString("store");

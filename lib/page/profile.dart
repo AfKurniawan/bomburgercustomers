@@ -87,7 +87,6 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }, onError: (error) {
       print("iki yo error tapi soko server");
-      // loginFailed();
     });
   }
 
@@ -143,6 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         var extractdata = json.decode(response.body);
         cart = extractdata["cart"];
+        print(cart);
       });
 
       final int statusCode = response.statusCode;
@@ -155,7 +155,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void getCartItem() {
-    _getCartItem(ApiUrl.cartUrl, {'seller_id': sellerid, 'status': 'onCart'})
+    _getCartItem(
+            ApiUrl.getHistoryUrl, {'seller_id': sellerid, 'status': 'onCart'})
         .then((response) async {
       setState(() {
         _response = response.messages;
@@ -215,7 +216,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-
           Text(
             '$name'.toUpperCase(),
             style: Theme.of(context).textTheme.display1,
@@ -236,45 +236,45 @@ class _ProfilePageState extends State<ProfilePage> {
               style: Theme.of(context).textTheme.display1,
             ),
           ),
-
-          address == "" ?
-              Visibility(
-                visible: true,
-                child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: FlatButton(onPressed: (){
-
-                  showDialog(
-                    context: context,
-                    child: AddAddressDialog(
-                    ),
-                  );
-
-                },
-                    child: Text("Add Address")),
+          address == ""
+              ? Visibility(
+                  visible: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: FlatButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                new AddAddressDialog(),
+                          );
+                        },
+                        child: Text("Add Address")),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        '$address',
+                        style: Theme.of(context).textTheme.display4,
+                      ),
+                      IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  EditAddressDialog(
+                                address: address,
+                              ),
+                            );
+                          })
+                    ],
+                  ),
                 ),
-              )
-          : Padding( padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '$address',
-                  style: Theme.of(context).textTheme.display4,
-                ),
-                IconButton(icon: Icon(Icons.edit), onPressed: (){
-                  showDialog(
-                    context: context,
-                    child: EditAddressDialog(
-                      address: address,
-
-                    ),
-                  );
-
-
-                })
-              ],
-            ),
-          ),
           ListTile(
             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             leading: Icon(
@@ -287,18 +287,111 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           ListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 15),
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             primary: false,
             itemCount: cart == null ? 0 : cart.length,
             separatorBuilder: (context, index) {
-              return SizedBox(height: 10);
+              return SizedBox(height: 15);
             },
             itemBuilder: (context, i) {
-              return OrderItemWidget(
-                heroTag: 'profile_orders',
-                order: cart.elementAt(i),
+              String status = cart[i]['status'];
+              return InkWell(
+                splashColor: Theme.of(context).accentColor,
+                focusColor: Theme.of(context).accentColor,
+                highlightColor: Theme.of(context).primaryColor,
+                onTap: () {
+                  // Navigator.of(context).pushNamed('/Tracking');
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.9),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Theme.of(context).focusColor.withOpacity(0.1),
+                          blurRadius: 5,
+                          offset: Offset(0, 2)),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  ApiUrl.imgUrl + cart[i]['picture']),
+                              fit: BoxFit.cover),
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Flexible(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    cart[i]['name'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: Theme.of(context).textTheme.subhead,
+                                  ),
+                                  SizedBox(height: 20),
+
+                                  status == 'onCheckout' ?
+                                  Text(
+                                    "Processed",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: TextStyle(color: Colors.deepOrange),
+                                  )
+
+                                 : Text(
+                                    cart[i]['status'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: Theme.of(context).textTheme.caption,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text(cart[i]['price'],
+                                    style:
+                                        Theme.of(context).textTheme.display1),
+//                      Text(
+//                        order.date,
+//                        style: Theme.of(context).textTheme.caption,
+//                      ),
+//                      Text(
+//                        order.time,
+//                        style: Theme.of(context).textTheme.caption,
+//                      ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               );
+//              return OrderItemWidget(
+//                heroTag: 'profile_orders',
+//                order: cart.elementAt(i),
+//              );
             },
           ),
         ],

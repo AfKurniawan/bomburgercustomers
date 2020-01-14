@@ -1,5 +1,6 @@
 
 import 'package:bomburger301219/config/api_urls.dart';
+import 'package:bomburger301219/element/CustomDialogError.dart';
 import 'package:bomburger301219/models/user.dart';
 import 'package:bomburger301219/page/login.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   String email;
   String address;
   String phone = "";
-  String bname = "";
+  String name = "";
   String status;
   String baddress;
   String bphone;
@@ -28,58 +29,97 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   String userid;
   String _response = '';
+  SharedPreferences prefs;
 
   @override
   void initState() {
-    getSharedPrefs();
+    getPreferences();
     super.initState();
   }
 
-  Future<Null> getSharedPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+  getPreferences() async {
+    prefs = await SharedPreferences.getInstance();
     setState(() {
-
-      userid = prefs.getString('userid');
-      print(userid);
-      _getUserProfile();
+      userid = prefs.getString("userid");
+      print("userid from preferences $userid");
+      getUserResponse();
     });
   }
 
-  void _getUserProfile() {
-    _callUserProfileApi(ApiUrl.profileUrl, {'user_id': userid}).then(
-        (response) async {
-      if (response.status == "active") {
-        setState(() {
+  Future<LoginResponse> getResponse(String url, var body) async {
+    return await http.post(Uri.encodeFull(url),
+        body: body,
+        headers: {"Accept": "application/json"}).then((http.Response response) {
+      final int statusCode = response.statusCode;
 
-          print("User Id: " + response.id);
-          print("Store Id: " + response.storeid);
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return LoginResponse.fromJson(json.decode(response.body));
+    });
+  }
 
-          email = response.email;
-          address = response.address;
-          phone = response.phone;
-          bname = response.bname;
-          photo = response.photo;
+  void getUserResponse() {
+    getResponse(ApiUrl.getProfileResponse, {
+      'user_id': userid,
+    }).then((response) async {
+      if (response.messages == 'success') {
+        print(response.messages);
 
-        });
+        getUserDetail();
       } else {
         print("Error iki soko nggon mobile, mbuh salah password atau email");
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => CustomDialogError(
+            title: "Login Failed",
+            description: "Check your username or password",
+            buttonText: "Okay",
+          ),
+        );
       }
     }, onError: (error) {
-      _response = error.toString();
-
       print("iki yo error tapi soko server");
     });
   }
 
-  Future<User> _callUserProfileApi(String url, var body) async {
+  void getUserDetail() {
+    userDetail(ApiUrl.getProfileUrl, {'user_id': userid}).then((response) {
+      print("profile Page: ${response.username}");
+
+      setState(() {
+        name = response.username;
+        photo = response.photo;
+        email = response.email;
+        address = response.address;
+        print("Profile image: $baddress");
+        print("responce address ${response.address}");
+      });
+
+      if (response.photo == "") {
+        setState(() {
+          photo = "no-image.png";
+          print("Profile image2: $photo");
+        });
+      }
+    }, onError: (error) {
+      print("iki yo error tapi soko server");
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => CustomDialogError(
+          title: "Login Failed",
+          description: "Request timeout, make sure your internet is connected",
+          buttonText: "Okay",
+        ),
+      );
+    });
+  }
+
+  Future<User> userDetail(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
         body: body,
         headers: {"Accept": "application/json"}).then((http.Response response) {
-      setState(() {
-        print(response.body);
-      });
-
       final int statusCode = response.statusCode;
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
@@ -129,7 +169,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
               accountName: Text(
                 //"nama",
-                bname,
+                name,
                 style: Theme.of(context).textTheme.title,
               ),
               accountEmail: Text(
