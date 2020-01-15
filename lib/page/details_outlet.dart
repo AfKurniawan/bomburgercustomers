@@ -50,7 +50,7 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
     var res = await http.post(Uri.encodeFull(ApiUrl.burgerUrl),
         body: {'id' : widget.outlet.id},
         headers: {"Accept": "application/json"});
-    //qprint(res.body);
+    //print(res.body);
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       var rest = data["burgers"] as List;
