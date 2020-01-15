@@ -13,7 +13,8 @@ class FoodsCarouselItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+
+   return InkWell(
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.transparent,
       onTap: () {
@@ -30,17 +31,26 @@ class FoodsCarouselItemWidget extends StatelessWidget {
           Stack(
             alignment: AlignmentDirectional.topEnd,
             children: <Widget>[
-              Hero(
-                tag: heroTag + food.id,
-                child: Container(
-                  margin: EdgeInsets.only(left: this.marginLeft, right: 20),
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(ApiUrl.imgUrl + food.picture),
+              Container(
+                child: Hero(
+                  tag: heroTag + food.id,
+                  child: Container(
+                    margin: EdgeInsets.only(left: this.marginLeft, right: 20),
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: Theme.of(context).hintColor.withOpacity(0.1),
+                        )
+                      ],
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(ApiUrl.imgUrl + food.picture),
+                      ),
                     ),
                   ),
                 ),
@@ -57,7 +67,20 @@ class FoodsCarouselItemWidget extends StatelessWidget {
           ),
           SizedBox(height: 5),
           Container(
-              width: 100,
+              width: 120,
+//              decoration: BoxDecoration(
+//                color: Colors.white,
+//                border: Border.all(
+//                  width: 1,
+//                    color: Colors.grey),
+//                  borderRadius: BorderRadius.all(Radius.circular(5)),
+////                  boxShadow: [
+////                    BoxShadow(
+////                      blurRadius: 5,
+////                      color: Theme.of(context).hintColor.withOpacity(0.2),
+////                    )
+////                  ]
+//              ),
               margin: EdgeInsets.only(left: this.marginLeft, right: 20),
               child: Column(
                 children: <Widget>[
@@ -65,20 +88,29 @@ class FoodsCarouselItemWidget extends StatelessWidget {
                     this.food.name,
                     overflow: TextOverflow.fade,
                     softWrap: false,
-                    style: Theme.of(context).textTheme.body1,
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      fontSize: 14
+                    ),
                   ),
                   Text(
                     food.getPrice(),
                     overflow: TextOverflow.fade,
                     softWrap: false,
-                    style: Theme.of(context).textTheme.caption,
+                    style: TextStyle(
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.bold
+                    ),
                   ),
 
                   Text(
                     'Stock: ${food.stock}',
                     overflow: TextOverflow.fade,
                     softWrap: false,
-                    style: Theme.of(context).textTheme.caption,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               )),

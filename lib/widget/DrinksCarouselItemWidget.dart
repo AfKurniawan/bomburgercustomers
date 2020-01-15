@@ -19,12 +19,12 @@ class DrinksCarouselItemWidget extends StatelessWidget {
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       highlightColor: Colors.transparent,
       onTap: () {
-//        Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: food.id, heroTag: heroTag));
+        //Navigator.of(context).pushNamed('/DetailMenu', arguments: RouteArgument(id: food.id, heroTag: heroTag));
+
         Navigator.push(
             context,
             MaterialPageRoute(builder: (context)=> DetailMenu(menu: food))
         );
-
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,43 +32,56 @@ class DrinksCarouselItemWidget extends StatelessWidget {
           Stack(
             alignment: AlignmentDirectional.topEnd,
             children: <Widget>[
-              Hero(
-                tag: heroTag + food.id,
-                child: Container(
-                  margin: EdgeInsets.only(left: this.marginLeft, right: 20),
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(ApiUrl.imgUrl + food.picture),
+              Container(
+                child: Hero(
+                  tag: heroTag + food.id,
+                  child: Container(
+                    margin: EdgeInsets.only(left: this.marginLeft, right: 20),
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: Theme.of(context).hintColor.withOpacity(0.1),
+                        )
+                      ],
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(ApiUrl.imgUrl + food.picture),
+                      ),
                     ),
                   ),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(right: 5, top: 95),
-               // padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+                // padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100)), color: Theme.of(context).accentColor),
                 alignment: AlignmentDirectional.bottomCenter,
-//                child: IconButton(
-//                  icon: Icon(Icons.add_shopping_cart,
-//                  color: Colors.white),
-//                  iconSize: 20,
-//                  onPressed: (){
-//
-//                  },
-//                  //food.getPrice(),
-//                  //style: Theme.of(context).textTheme.body2.merge(TextStyle(color: Theme.of(context).primaryColor)),
-//                ),
+
               ),
             ],
           ),
           SizedBox(height: 5),
           Container(
-              width: 100,
+              width: 120,
+//              decoration: BoxDecoration(
+//                color: Colors.white,
+//                border: Border.all(
+//                  width: 1,
+//                    color: Colors.grey),
+//                  borderRadius: BorderRadius.all(Radius.circular(5)),
+////                  boxShadow: [
+////                    BoxShadow(
+////                      blurRadius: 5,
+////                      color: Theme.of(context).hintColor.withOpacity(0.2),
+////                    )
+////                  ]
+//              ),
               margin: EdgeInsets.only(left: this.marginLeft, right: 20),
               child: Column(
                 children: <Widget>[
@@ -76,13 +89,29 @@ class DrinksCarouselItemWidget extends StatelessWidget {
                     this.food.name,
                     overflow: TextOverflow.fade,
                     softWrap: false,
-                    style: Theme.of(context).textTheme.body1,
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14
+                    ),
                   ),
                   Text(
                     food.getPrice(),
                     overflow: TextOverflow.fade,
                     softWrap: false,
-                    style: Theme.of(context).textTheme.caption,
+                    style: TextStyle(
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+
+                  Text(
+                    'Stock: ${food.stock}',
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
                   ),
                 ],
               )),
