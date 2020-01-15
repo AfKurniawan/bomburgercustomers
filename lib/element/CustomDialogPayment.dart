@@ -13,6 +13,8 @@ import 'CustomDialogSuccess.dart';
 class MyDialog extends StatefulWidget {
   final String sellerid, description, buttonText;
   final Image image;
+  final String initialValue;
+  final void Function(String) onValueChange;
 
   const MyDialog(
       {this.onValueChange,
@@ -22,8 +24,7 @@ class MyDialog extends StatefulWidget {
       this.buttonText,
       this.image});
 
-  final String initialValue;
-  final void Function(String) onValueChange;
+
 
   @override
   _MyDialogState createState() => _MyDialogState();

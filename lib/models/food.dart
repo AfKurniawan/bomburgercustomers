@@ -23,7 +23,7 @@ class Menu {
         name: json['name'],
         picture: json['picture'],
         price: json['price'],
-        stock: json['stock'],
+        stock: json['quantity'],
         harga: double.parse(json['price']),
         status: json['status']
       );

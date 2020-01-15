@@ -313,6 +313,7 @@ class _DetailsMenuState extends State<DetailMenu> {
                                 style: Theme.of(context).textTheme.display2,
                               ),
                             ),
+                            SizedBox(height: 30),
                             Expanded(
                               flex: 2,
                               child: Column(

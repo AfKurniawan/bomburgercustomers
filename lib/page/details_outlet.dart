@@ -48,9 +48,10 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
   Future<List<Menu>> getFoods() async {
     print("begin get foods");
     var res = await http.post(Uri.encodeFull(ApiUrl.burgerUrl),
-        body: {'id' : widget.outlet.id},
+        body: {'store_id' : widget.outlet.id},
         headers: {"Accept": "application/json"});
-    //print(res.body);
+
+    print(res.body);
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       var rest = data["burgers"] as List;
@@ -62,10 +63,11 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
   Future<List<Menu>> getDrinks() async {
     print("begin get foods");
     var res = await http.post(Uri.encodeFull(ApiUrl.drinkUrl),
-        body: {'id' : widget.outlet.id},
+        body: {'store_id' : widget.outlet.id},
         headers: {"Accept": "application/json"});
+    print(widget.outlet.id);
 
-    //print(res.body);
+    print(res.body);
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       var rest = data["drinks"] as List;
