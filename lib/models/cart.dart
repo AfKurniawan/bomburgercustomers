@@ -1,15 +1,17 @@
 class Cart {
   String name;
   String picture;
-  int id;
+  String id;
   String sales_id;
   String product_id;
-  int qnt;
+  String qnt;
   String price;
   String total;
   String status;
   String comission;
   String seller_id;
+  String date;
+  String payment;
 
   Cart(
       {this.name,
@@ -22,7 +24,9 @@ class Cart {
       this.total,
       this.status,
       this.comission,
-      this.seller_id});
+      this.seller_id,
+      this.date,
+      this.payment});
 
 
   factory Cart.fromJson(Map<String, dynamic> json){
@@ -37,7 +41,9 @@ class Cart {
       total: json['total'],
       status: json['status'],
       comission: json['comission'],
-      seller_id: json['seller_id']
+      seller_id: json['seller_id'],
+      date: json['date'],
+      payment: json['payment_type']
     );
   }
 }

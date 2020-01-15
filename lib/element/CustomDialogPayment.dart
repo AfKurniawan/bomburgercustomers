@@ -89,8 +89,10 @@ class _MyDialogState extends State<MyDialog> {
       print("sellerid on checkout action ${sellerid}");
 
       if (response.messages == 'success') {
-        Navigator.pop(context);
-        successDialog(context);
+
+        Navigator.of(context).pushNamed('/History');
+
+
       } else {
         print("Error checkout");
       }

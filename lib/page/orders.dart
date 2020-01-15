@@ -8,19 +8,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class OrdersPage extends StatefulWidget {
-
   @override
   _OrdersPageState createState() => _OrdersPageState();
-
 }
+
 class _OrdersPageState extends State<OrdersPage> {
   List cart;
   SharedPreferences prefs;
   String sellerid = "";
   String _response = "";
-
-
-
 
   @override
   void initState() {
@@ -33,42 +29,23 @@ class _OrdersPageState extends State<OrdersPage> {
     setState(() {
       sellerid = prefs.getString("userid");
       print("ini adalah user id $sellerid");
-
       getCartItem();
     });
   }
 
-  Future<CartResponse> _getCartItem(String url, var body) async {
-    return await http.post(Uri.encodeFull(url),
-        body: body,
-        headers: {"Accept": "application/json"}).then((http.Response response) {
-      setState(() {
-        var extractdata = json.decode(response.body);
-        cart = extractdata["cart"];
-      });
-
-      final int statusCode = response.statusCode;
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
-      return CartResponse.fromJson(json.decode(response.body));
-    });
-  }
-
-  void getCartItem() {
-    _getCartItem(ApiUrl.getHistoryUrl, {'seller_id': sellerid, 'status': 'onCart'})
-        .then((response) async {
-      setState(() {
-        _response = response.messages;
-
-        if (_response == "failed") {
-          errorDialog(context);
-        }
-      });
-    }, onError: (error) {
-      _response = error.toString();
-    });
+  Future<List<Cart>> getCartItem() async {
+    print("begin get Cart itmes");
+    var res = await http.post(Uri.encodeFull(ApiUrl.getHistoryUrl),
+        body: {'seller_id': sellerid, 'status': 'onCheckout'},
+        headers: {"Accept": "application/json"});
+    print(sellerid);
+    print(res.body);
+    if (res.statusCode == 200) {
+      var data = json.decode(res.body);
+      var rest = data["cart"] as List;
+      cart = rest.map<Cart>((j) => Cart.fromJson(j)).toList();
+    }
+    return cart;
   }
 
   errorDialog(BuildContext context) {
@@ -82,10 +59,27 @@ class _OrdersPageState extends State<OrdersPage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              //Navigator.pushNamed(context, '/DetailMenu');
+              Navigator.of(context).pop('/DetailMenu');
+            }),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'Orders',
+          style: Theme.of(context)
+              .textTheme
+              .title
+              .merge(TextStyle(letterSpacing: 1.3)),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Column(
@@ -98,120 +92,53 @@ class _OrdersPageState extends State<OrdersPage> {
 //              child: SearchBarWidget(),
 //            ),
             SizedBox(height: 10),
-            ListView.separated(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              primary: false,
-              itemCount: cart == null ? 0 : cart.length,
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 10);
-              },
-              itemBuilder: (context, i) {
-                String status = cart[i]['status'];
-                return InkWell(
-                  splashColor: Theme.of(context).accentColor,
-                  focusColor: Theme.of(context).accentColor,
-                  highlightColor: Theme.of(context).primaryColor,
-                  onTap: () {
-                    // Navigator.of(context).pushNamed('/Tracking');
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.9),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Theme.of(context).focusColor.withOpacity(0.1),
-                            blurRadius: 5,
-                            offset: Offset(0, 2)),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    ApiUrl.imgUrl + cart[i]['picture']),
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                        SizedBox(width: 15),
-                        Flexible(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      cart[i]['name'],
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: Theme.of(context).textTheme.subhead,
-                                    ),
-                                    SizedBox(height: 20),
 
-                                    status == 'onCheckout' ?
-                                    Text(
-                                      "Processed",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: TextStyle(color: Colors.green),
-                                    )
-                                    : status == 'onCart' ?
-
-                                     Text(
-                                      "In Your Cart",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: TextStyle(color: Colors.deepOrange),
-                                    )
-
-                                        : Text(
-                                      cart[i]['status'],
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                      style: Theme.of(context).textTheme.caption,
-                                    ),
-                                  ],
-                                ),
+            FutureBuilder(
+                future: getCartItem(),
+                builder: (context, snapshot) {
+                  return snapshot.connectionState == ConnectionState.done
+                      ? snapshot.hasData
+                          ? buildListViewHistory(snapshot.data)
+                          : InkWell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(32.0),
+                                child: Center(
+                                    child: IconButton(
+                                  iconSize: 60,
+                                  color: Colors.blueGrey,
+                                  icon: Icon(Icons.error_outline),
+                                  onPressed: getCartItem,
+                                )),
                               ),
-                              SizedBox(width: 8),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Text(cart[i]['price'],
-                                      style:
-                                      Theme.of(context).textTheme.display1),
-//                      Text(
-//                        order.date,
-//                        style: Theme.of(context).textTheme.caption,
-//                      ),
-//                      Text(
-//                        order.time,
-//                        style: Theme.of(context).textTheme.caption,
-//                      ),
-                                ],
-                              ),
-                            ],
+                            )
+                      : Container(
+                          height: 180,
+                          child: Center(
+                            child: const CircularProgressIndicator(
+                              value: null,
+                              strokeWidth: 1.0,
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+                        );
+                }),
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildListViewHistory(List<Cart> lc) {
+    return ListView.separated(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      primary: false,
+      itemCount: lc == null ? 0 : lc.length,
+      separatorBuilder: (context, index) {
+        return SizedBox(height: 10);
+      },
+      itemBuilder: (context, i) {
+        return OrderItemWidget(heroTag: 'my_orders', order: lc.elementAt(i));
+      },
     );
   }
 }

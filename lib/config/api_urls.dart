@@ -2,52 +2,26 @@ import 'package:flutter/material.dart';
 class ApiUrl{
 
 
-  static const String baseUrl     = "http://192.168.13.10/bomburger.my/api_ci/index.php/";
-  static const String imgUrl      = "http://192.168.13.10/bomburger.my/management/uploads/products/";
+  static const String baseUrl     = "http://192.168.43.177/bomburger.my/api_ci/index.php/";
+  static const String imgUrl      = "http://192.168.43.177/bomburger.my/management/uploads/products/";
 
   //static const String baseUrl     = "http://mobile.bomburger.my/customers_api/index.php/";
   //static const String imgUrl      =  "http://management.bomburger.my/uploads/products/";
 
-//  static const String burgerUrl   = baseUrl + "Burgers";
-//  static const String drinkUrl    = baseUrl + "Drinks";
-//  static const String loginUrl     = baseUrl + "Auth";
-//  static const String addSalesUrl  = baseUrl + "AddSalesCustomer";
-//  static const String addSalesItem  = baseUrl + "/Addsalesitem";
-//  static const String deleteSingleCart = baseUrl + "DeleteSingleCart";
-//  static const String cartUrl       = baseUrl + "Cart";
-//  static const String getHistoryUrl = baseUrl + "GetHistory";
-//  static const String totalCartUrl = baseUrl + "TotalCartPrice";
-//  static const String totalHistoryUrl = baseUrl + "TotalHistoryPrice";
-//  static const String getLabelCartUrl = baseUrl + "CartLabelCount";
-//  static const String checkoutUrl = baseUrl + "UpdateCart";
-//  static const String getStockUrl = baseUrl + "GetStock";
-//  static const String profileUrl = baseUrl + "GetUserProfile";
-//  static const String reqStockUrl = baseUrl + "ReqStock";
-//  static const String getOutletUrl = baseUrl + "Outlet";
-//  static const String getUserDetailUrl = baseUrl + "GetUserDetail";
-//  static const String getSingleProductUrl = baseUrl + "GetSingleProduct";
-//  static const String getStatusProductDetailUrl = baseUrl + "GetStatusProductDetailUrl";
-//  static const String getFoodsByOutletIdUrl = baseUrl + "getFoodsByOutletIdUrl";
-//  static const String getDrinksByOutletId = baseUrl + "GetDrinksByOutletId";
-//  static const String signupUrl = baseUrl + "RegisterCustomer";
-//  static const String getProfileUrl = baseUrl + "GetUserProfile";
-//  static const String getProfileResponse = baseUrl + "GetProfileResponse";
-//  static const String addAddressUrl = baseUrl + "AddAddress";
-
-  static const String burgerUrl   = baseUrl + "burgers";
-  static const String drinkUrl    = baseUrl + "drinks";
-  static const String loginUrl     = baseUrl + "auth";
-  static const String addSalesUrl  = baseUrl + "addSalescustomer";
-  static const String addSalesItem  = baseUrl + "addsalesitem";
-  static const String deleteSingleCart = baseUrl + "deletesinglecart";
-  static const String cartUrl       = baseUrl + "cart";
-  static const String getHistoryUrl = baseUrl + "gethistory";
-  static const String totalCartUrl = baseUrl + "totalcartprice";
-  static const String totalHistoryUrl = baseUrl + "totalhistoryprice";
-  static const String getLabelCartUrl = baseUrl + "cartlabelcount";
-  static const String checkoutUrl = baseUrl + "updatecart";
-  static const String getStockUrl = baseUrl + "getstock";
-  static const String profileUrl = baseUrl + "getuserprofile";
+  static const String burgerUrl   = baseUrl + "Burgers";
+  static const String drinkUrl    = baseUrl + "Drinks";
+  static const String loginUrl     = baseUrl + "Auth";
+  static const String addSalesUrl  = baseUrl + "AddSalesCustomer";
+  static const String addSalesItem  = baseUrl + "/Addsalesitem";
+  static const String deleteSingleCart = baseUrl + "DeleteSingleCart";
+  static const String cartUrl       = baseUrl + "Cart";
+  static const String getHistoryUrl = baseUrl + "GetHistory";
+  static const String totalCartUrl = baseUrl + "TotalCartPrice";
+  static const String totalHistoryUrl = baseUrl + "TotalHistoryPrice";
+  static const String getLabelCartUrl = baseUrl + "CartLabelCount";
+  static const String checkoutUrl = baseUrl + "UpdateCart";
+  static const String getStockUrl = baseUrl + "GetStock";
+  static const String profileUrl = baseUrl + "GetUserProfile";
   static const String reqStockUrl = baseUrl + "ReqStock";
   static const String getOutletUrl = baseUrl + "Outlet";
   static const String getUserDetailUrl = baseUrl + "GetUserDetail";
@@ -59,6 +33,32 @@ class ApiUrl{
   static const String getProfileUrl = baseUrl + "GetUserProfile";
   static const String getProfileResponse = baseUrl + "GetProfileResponse";
   static const String addAddressUrl = baseUrl + "AddAddress";
+
+//  static const String burgerUrl   = baseUrl + "burgers";
+//  static const String drinkUrl    = baseUrl + "drinks";
+//  static const String loginUrl     = baseUrl + "auth";
+//  static const String addSalesUrl  = baseUrl + "addSalescustomer";
+//  static const String addSalesItem  = baseUrl + "addsalesitem";
+//  static const String deleteSingleCart = baseUrl + "deletesinglecart";
+//  static const String cartUrl       = baseUrl + "cart";
+//  static const String getHistoryUrl = baseUrl + "gethistory";
+//  static const String totalCartUrl = baseUrl + "totalcartprice";
+//  static const String totalHistoryUrl = baseUrl + "totalhistoryprice";
+//  static const String getLabelCartUrl = baseUrl + "cartlabelcount";
+//  static const String checkoutUrl = baseUrl + "updatecart";
+//  static const String getStockUrl = baseUrl + "getstock";
+//  static const String profileUrl = baseUrl + "getuserprofile";
+//  static const String reqStockUrl = baseUrl + "ReqStock";
+//  static const String getOutletUrl = baseUrl + "Outlet";
+//  static const String getUserDetailUrl = baseUrl + "GetUserDetail";
+//  static const String getSingleProductUrl = baseUrl + "GetSingleProduct";
+//  static const String getStatusProductDetailUrl = baseUrl + "GetStatusProductDetailUrl";
+//  static const String getFoodsByOutletIdUrl = baseUrl + "getFoodsByOutletIdUrl";
+//  static const String getDrinksByOutletId = baseUrl + "GetDrinksByOutletId";
+//  static const String signupUrl = baseUrl + "RegisterCustomer";
+//  static const String getProfileUrl = baseUrl + "GetUserProfile";
+//  static const String getProfileResponse = baseUrl + "GetProfileResponse";
+//  static const String addAddressUrl = baseUrl + "AddAddress";
 
 
 

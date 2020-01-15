@@ -1,6 +1,5 @@
 
 import 'package:bomburger301219/page/cart.dart';
-import 'package:bomburger301219/page/history.dart';
 import 'package:bomburger301219/page/home.dart';
 import 'package:bomburger301219/page/orders.dart';
 import 'package:bomburger301219/page/profile.dart';

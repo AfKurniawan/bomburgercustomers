@@ -5,6 +5,7 @@ import 'package:bomburger301219/page/login.dart';
 import 'package:bomburger301219/page/orders.dart';
 import 'package:bomburger301219/page/pager.dart';
 import 'package:bomburger301219/page/register.dart';
+import 'package:bomburger301219/page/tracking.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,6 @@ class MyRoute {
         return MaterialPageRoute(builder: (_) => CartPage());
       case '/SignUp':
         return MaterialPageRoute(builder: (_) => SignUpPage());
-//      case '/MobileVerification':
-//        return MaterialPageRoute(builder: (_) => MobileVerification());
 //      case '/MobileVerification2':
 //        return MaterialPageRoute(builder: (_) => MobileVerification2());
       case '/Pages':
@@ -46,8 +45,8 @@ class MyRoute {
             ));
       case '/Profile':
         return MaterialPageRoute(builder: (_) => ProfilePage());
-//      case '/Checkout':
-//        return MaterialPageRoute(builder: (_) => CheckoutWidget());
+      case '/Tracking':
+        return MaterialPageRoute(builder: (_) => TrackingPage());
 //      case '/Help':
 //        return MaterialPageRoute(builder: (_) => HelpWidget());
 //      case '/Languages':
