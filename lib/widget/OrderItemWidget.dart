@@ -1,5 +1,6 @@
 import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/models/cart.dart';
+import 'package:bomburger301219/page/detail_order.dart';
 import 'package:bomburger301219/page/summary.dart';
 import 'package:bomburger301219/page/tracking.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +8,16 @@ import 'package:intl/intl.dart';
 
 class OrderItemWidget extends StatefulWidget {
   final String heroTag;
-  final Cart order;
+  Cart order;
 
-  const OrderItemWidget({Key key, this.order, this.heroTag}) : super(key: key);
+  OrderItemWidget({Key key, this.order, this.heroTag}) : super(key: key);
 
   @override
   _OrderItemWidgetState createState() => _OrderItemWidgetState();
 }
 
 class _OrderItemWidgetState extends State<OrderItemWidget> {
+
   @override
   Widget build(BuildContext context) {
     var formatTgl = DateFormat('dd MMMM yyyy');
@@ -33,10 +35,10 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
       focusColor: Theme.of(context).accentColor,
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
-//        Navigator.push(
-//            context,
-//            MaterialPageRoute(builder: (context)=> SummaryPage(summary: order))
-//        );
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context)=> DetailOrder(order: widget.order))
+        );
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),

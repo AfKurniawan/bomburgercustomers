@@ -56,6 +56,7 @@ class _ListOutletWidget2State extends State<OutletCarouselWidget2> {
               padding: const EdgeInsets.all(32.0),
               child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
                       iconSize: 60,

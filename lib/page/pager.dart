@@ -1,5 +1,6 @@
 
 import 'package:bomburger301219/page/cart.dart';
+import 'package:bomburger301219/page/detail_order.dart';
 import 'package:bomburger301219/page/home.dart';
 import 'package:bomburger301219/page/orders.dart';
 import 'package:bomburger301219/page/profile.dart';
@@ -53,6 +54,11 @@ class _PagerState extends State<Pager> {
         case 2 :
           widget.currentTitle = "History";
           widget.currenPage = OrdersPage();
+          break;
+
+        case 3 :
+          widget.currentTitle = "Details";
+          widget.currenPage = DetailOrder();
       }
 
     });

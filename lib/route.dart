@@ -1,6 +1,7 @@
 import 'package:bomburger301219/models/route.dart';
 import 'package:bomburger301219/page/cart.dart';
 import 'package:bomburger301219/page/detail_menu.dart';
+import 'package:bomburger301219/page/detail_order.dart';
 import 'package:bomburger301219/page/login.dart';
 import 'package:bomburger301219/page/orders.dart';
 import 'package:bomburger301219/page/pager.dart';
@@ -47,10 +48,10 @@ class MyRoute {
         return MaterialPageRoute(builder: (_) => ProfilePage());
       case '/Tracking':
         return MaterialPageRoute(builder: (_) => TrackingPage());
-//      case '/Help':
-//        return MaterialPageRoute(builder: (_) => HelpWidget());
-//      case '/Languages':
-//        return MaterialPageRoute(builder: (_) => LanguagesWidget());
+      case '/DetailOrder':
+        return MaterialPageRoute(builder: (_) => DetailOrder());
+      case '/OrdersPage':
+        return MaterialPageRoute(builder: (_) => OrdersPage());
 //      case '/Messages':
 //        return MaterialPageRoute(builder: (_) => MessagesWidget());
 //      case '/Chat':

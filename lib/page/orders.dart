@@ -146,13 +146,11 @@ class _OrdersPageState extends State<OrdersPage> {
             child: Positioned(
               bottom: 0,
               child: Container(
-                height: 80,
+                height: 50,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                     boxShadow: [
                       BoxShadow(
                           color: Theme.of(context).focusColor.withOpacity(0.15),
@@ -174,74 +172,15 @@ class _OrdersPageState extends State<OrdersPage> {
                               style: Theme.of(context).textTheme.body2,
                             ),
                           ),
-                          _total == 0.0
-                              ? Text(
-                                  "Calculating...",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .display1
-                                      .merge(TextStyle(
-                                          color: Theme.of(context).accentColor,
-                                          fontWeight: FontWeight.bold)),
-                                )
-                              : Text(
-                                  'RM. ' + _total.toStringAsFixed(2),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .display1
-                                      .merge(TextStyle(
-                                          color: Theme.of(context).accentColor,
-                                          fontWeight: FontWeight.bold)),
-                                )
+                          Text(
+                            'RM. ' + _total.toStringAsFixed(2),
+                            style: Theme.of(context).textTheme.display1.merge(
+                                TextStyle(
+                                    color: Theme.of(context).accentColor,
+                                    fontWeight: FontWeight.bold)),
+                          )
                         ],
                       ),
-                      SizedBox(height: 20),
-//                Row(
-//                  children: <Widget>[
-//                    Expanded(
-//                      child: FlatButton(
-//                        onPressed: () {
-//                          Navigator.of(context).pushNamed('/Pages');
-//                        },
-//                        padding: EdgeInsets.symmetric(vertical: 10),
-//                        color: Theme.of(context).accentColor,
-//                        shape: StadiumBorder(),
-//                        child: Icon(
-//                          Icons.home,
-//                          color: Theme.of(context).primaryColor,
-//                        ),
-//                      ),
-//                    ),
-//                    SizedBox(width: 10),
-//                    Stack(
-//                      fit: StackFit.loose,
-//                      alignment: AlignmentDirectional.centerEnd,
-//                      children: <Widget>[
-//                        SizedBox(
-//                          width: MediaQuery.of(context).size.width - 110,
-//                          child: FlatButton(
-//                            onPressed: ()  {
-//
-//                            },
-//                            padding: EdgeInsets.symmetric(vertical: 14),
-//                            color: Theme.of(context).accentColor,
-//                            shape: StadiumBorder(),
-//                            child: Container(
-//                              width: double.infinity,
-//                              padding: const EdgeInsets.symmetric(horizontal: 20),
-//                              child: Text(
-//                                'Proceed to Checkout',
-//                                textAlign: TextAlign.center,
-//                                style: TextStyle(
-//                                    color: Theme.of(context).primaryColor),
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                  ],
-//                ),
                       //SizedBox(height: 10),
                     ],
                   ),
@@ -251,50 +190,6 @@ class _OrdersPageState extends State<OrdersPage> {
           )
         ],
       ),
-
-//        child: Container(
-//          crossAxisAlignment: CrossAxisAlignment.start,
-//          mainAxisAlignment: MainAxisAlignment.start,
-//          mainAxisSize: MainAxisSize.max,
-//          children: <Widget>[
-////            Padding(
-////              padding: const EdgeInsets.symmetric(horizontal: 20),
-////              child: SearchBarWidget(),
-////            ),
-//            SizedBox(height: 10),
-//
-//            FutureBuilder(
-//                future: getCartItem(),
-//                builder: (context, snapshot) {
-//                  return snapshot.connectionState == ConnectionState.done
-//                      ? snapshot.hasData
-//                          ? buildListViewHistory(snapshot.data)
-//                          : InkWell(
-//                              child: Padding(
-//                                padding: const EdgeInsets.all(32.0),
-//                                child: Center(
-//                                    child: IconButton(
-//                                  iconSize: 60,
-//                                  color: Colors.blueGrey,
-//                                  icon: Icon(Icons.error_outline),
-//                                  onPressed: getCartItem,
-//                                )),
-//                              ),
-//                            )
-//                      : Container(
-//                          height: 180,
-//                          child: Center(
-//                            child: const CircularProgressIndicator(
-//                              value: null,
-//                              strokeWidth: 1.0,
-//                            ),
-//                          ),
-//                        );
-//                }),
-//
-//
-//          ],
-//        ),
     );
   }
 

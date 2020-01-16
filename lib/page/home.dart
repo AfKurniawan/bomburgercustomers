@@ -1,6 +1,7 @@
 
 import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget2.dart';
+import 'package:bomburger301219/widget/OutletGridWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -23,14 +24,15 @@ class HomePage extends StatelessWidget {
               dense: true,
               contentPadding: EdgeInsets.symmetric(vertical: 0),
               leading: Icon(FontAwesomeIcons.shoppingBag, color: Theme.of(context).accentColor),
-              title: Text("Our Shops", style: Theme.of(context).textTheme.display1),
+              title: Text("Our Outlets", style: Theme.of(context).textTheme.display1),
               subtitle: Text("Choose nearby Outlet from your place", style: Theme.of(context).textTheme.caption),
             ),
           ),
 
 
 
-          OutletCarouselWidget2(),
+          //OutletCarouselWidget(),
+          OutletGridWidget(),
 
 //          ListTile(
 //            dense: true,
