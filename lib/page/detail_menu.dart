@@ -502,6 +502,8 @@ class _DetailsMenuState extends State<DetailMenu> {
                     child: FlatButton(
                         onPressed: () {
 
+                          Navigator.of(context).pushNamed('/Pages');
+
                         },
                         padding: EdgeInsets.symmetric(vertical: 10),
                         color: Theme.of(context).accentColor,
