@@ -62,24 +62,24 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              //Navigator.pushNamed(context, '/DetailMenu');
-              Navigator.of(context).pop('/DetailMenu');
-            }),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Orders',
-          style: Theme.of(context)
-              .textTheme
-              .title
-              .merge(TextStyle(letterSpacing: 1.3)),
-        ),
-      ),
+//      appBar: AppBar(
+//        leading: IconButton(
+//            icon: Icon(Icons.arrow_back_ios),
+//            onPressed: () {
+//              //Navigator.pushNamed(context, '/DetailMenu');
+//              Navigator.of(context).pop('/DetailMenu');
+//            }),
+//        backgroundColor: Colors.transparent,
+//        elevation: 0,
+//        centerTitle: true,
+//        title: Text(
+//          'Orders',
+//          style: Theme.of(context)
+//              .textTheme
+//              .title
+//              .merge(TextStyle(letterSpacing: 1.3)),
+//        ),
+//      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Column(
@@ -132,12 +132,12 @@ class _OrdersPageState extends State<OrdersPage> {
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       primary: false,
-      itemCount: lc == null ? 0 : lc.length,
+      itemCount: cart == null ? 0 : cart.length,
       separatorBuilder: (context, index) {
         return SizedBox(height: 10);
       },
       itemBuilder: (context, i) {
-        return OrderItemWidget(heroTag: 'my_orders', order: lc.elementAt(i));
+        return OrderItemWidget(heroTag: 'my_orders', order: cart.elementAt(i));
       },
     );
   }
