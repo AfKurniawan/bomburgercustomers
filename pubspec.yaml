@@ -37,10 +37,11 @@ dependencies:
   location: ^2.3.5
   dynamic_theme: ^1.0.0
   #flutter_inappbrowser: ^1.2.2
-  url_launcher: ^4.2.0+3
+  #url_launcher: ^4.2.0+3
   progress_dialog: ^1.1.0+1
   scoped_model: ^1.0.1
   flutter_launcher_icons: any
+  flutter_dash: any
 
 flutter_icons:
   android: true

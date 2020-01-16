@@ -1,6 +1,7 @@
 import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/models/cart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dash/flutter_dash.dart';
 import 'package:intl/intl.dart';
 
 class DetailOrder extends StatelessWidget {
@@ -109,11 +110,17 @@ class DetailOrder extends StatelessWidget {
                                         style:
                                             TextStyle(color: Colors.redAccent),
                                       ),
-                                    ) ,
+                                    ),
                                   ),
                                 ),
                         ],
                       ),
+
+//                      Dash(
+//                          direction: Axis.horizontal,
+//                          //length: 132,
+//                          dashLength: 12,
+//                          dashColor: Colors.grey),
                       Padding(
                         padding: const EdgeInsets.only(top: 25.0),
                         child: Container(
@@ -169,6 +176,19 @@ class DetailOrder extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
+                    SizedBox(height: 5),
+
+//                  Padding(
+//                        padding: const EdgeInsets.all(25.0),
+//                        child: Dash(
+//                            length: 295,
+//                            direction: Axis.horizontal,
+//                            dashLength: 5,
+//                            dashColor: Colors.grey)
+//                      ),
+
+
+
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
