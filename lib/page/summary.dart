@@ -37,7 +37,7 @@ class _SummaryPageState extends State<SummaryPage> {
                   flexibleSpace: FlexibleSpaceBar(
                     collapseMode: CollapseMode.parallax,
                     background: Hero(
-                      tag: 'hajilak' + widget.summary.id,
+                      tag: 'hajilak + ${widget.summary.id}',
                       child: Image.network(
                         ApiUrl.imgUrl +
                             widget.summary

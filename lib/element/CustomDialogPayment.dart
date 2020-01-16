@@ -7,7 +7,6 @@ import '../config/api_urls.dart';
 import '../models/cart.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'CustomDialogSuccess.dart';
 
 class MyDialog extends StatefulWidget {
