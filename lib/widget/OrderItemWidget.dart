@@ -5,22 +5,26 @@ import 'package:bomburger301219/page/tracking.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class OrderItemWidget extends StatelessWidget {
+class OrderItemWidget extends StatefulWidget {
   final String heroTag;
   final Cart order;
 
   const OrderItemWidget({Key key, this.order, this.heroTag}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  _OrderItemWidgetState createState() => _OrderItemWidgetState();
+}
 
+class _OrderItemWidgetState extends State<OrderItemWidget> {
+  @override
+  Widget build(BuildContext context) {
     var formatTgl = DateFormat('dd MMMM yyyy');
-    var parsedDate = DateTime.parse(order.date);
+    var parsedDate = DateTime.parse(widget.order.date);
     String dateValue = ('${formatTgl.format(parsedDate)}');
     print('ini adalah date $dateValue');
 
     var formatTime = new DateFormat.Hm();
-    var parsedTime = DateTime.parse(order.date);
+    var parsedTime = DateTime.parse(widget.order.date);
     String timeValue = ('${formatTime.format(parsedTime)}');
     print('ini adalah time $timeValue');
 
@@ -54,7 +58,7 @@ class OrderItemWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 image: DecorationImage(
-                    image: NetworkImage(ApiUrl.imgUrl + order.picture),
+                    image: NetworkImage(ApiUrl.imgUrl + widget.order.picture),
                     fit: BoxFit.cover),
               ),
             ),
@@ -68,20 +72,20 @@ class OrderItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          order.name,
+                          widget.order.name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: Theme.of(context).textTheme.subhead,
                         ),
                         SizedBox(height: 20),
-                        order.status == 'onCheckout'
+                        widget.order.status == 'onCheckout'
                             ? Text(
                                 "Received",
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: TextStyle(color: Colors.green),
                               )
-                            : order.status == 'onCart'
+                            : widget.order.status == 'onCart'
                                 ? Text(
                                     "In Your Cart",
                                     overflow: TextOverflow.ellipsis,
@@ -89,13 +93,13 @@ class OrderItemWidget extends StatelessWidget {
                                     style: TextStyle(color: Colors.deepOrange),
                                   )
                                 : Text(
-                                    order.status,
+                                    widget.order.status,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: Theme.of(context).textTheme.caption,
                                   ),
                         Text(
-                          order.payment,
+                          widget.order.payment,
                           style: Theme.of(context).textTheme.caption,
                         ),
                       ],
@@ -106,7 +110,7 @@ class OrderItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Text("RM ${order.price}",
+                      Text("RM ${widget.order.price}",
                           style: Theme.of(context).textTheme.display1),
                       SizedBox(height: 20),
                       Text(

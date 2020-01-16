@@ -100,7 +100,7 @@ class CustomDialogSuccess extends StatelessWidget {
                 child: FlatButton(
                   onPressed: () {
                     Navigator.of(context).pop(); // To close the dialog
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Pager()));
+                    Navigator.of(context).pushNamed('/Pages', arguments: 2);
                   },
                   child: Text(buttonText),
                 ),

@@ -89,7 +89,10 @@ class _MyDialogState extends State<MyDialog> {
 
       if (response.messages == 'success') {
 
-        Navigator.of(context).pushNamed('/History');
+       // Navigator.of(context).pushNamed('/History');
+        Navigator.of(context).pop();
+        successDialog(context);
+
 
 
       } else {

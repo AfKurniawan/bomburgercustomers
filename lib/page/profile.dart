@@ -233,15 +233,25 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-          Text(
-            '$name'.toUpperCase(),
-            style: Theme.of(context).textTheme.display1,
-          ),
+          name == null
+              ? Text(
+                  'Blank',
+                  style: Theme.of(context).textTheme.display1,
+                )
+              : Text(
+                  '$name'.toUpperCase(),
+                  style: Theme.of(context).textTheme.display1,
+                ),
           SizedBox(height: 10),
-          Text(
-            '$email',
-            style: Theme.of(context).textTheme.caption,
-          ),
+          email == null
+              ? Text(
+                  '',
+                  style: Theme.of(context).textTheme.caption,
+                )
+              : Text(
+                  '$email',
+                  style: Theme.of(context).textTheme.caption,
+                ),
           ListTile(
             //contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             leading: Icon(
@@ -278,17 +288,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         '$address',
                         style: Theme.of(context).textTheme.display4,
                       ),
-                      IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  EditAddressDialog(
-                                address: address,
-                              ),
-                            );
-                          })
+//                      IconButton(
+//                          icon: Icon(Icons.edit),
+//                          onPressed: () {
+//                            showDialog(
+//                              context: context,
+//                              builder: (BuildContext context) =>
+//                                  EditAddressDialog(
+//                                address: address,
+//                              ),
+//                            );
+//                          })
                     ],
                   ),
                 ),

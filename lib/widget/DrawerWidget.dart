@@ -236,19 +236,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               style: Theme.of(context).textTheme.subhead,
             ),
           ),
-          /*ListTile(
+          ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed('/Pages', arguments: 4);
+              Navigator.of(context).pushNamed('/Pages', arguments: 2);
             },
             leading: Icon(
-              Icons.favorite,
+              Icons.history,
               color: Theme.of(context).focusColor.withOpacity(1),
             ),
             title: Text(
-              "Favorite Foods",
+              "Order History",
               style: Theme.of(context).textTheme.subhead,
             ),
-          ),*/
+          ),
           /*ListTile(
             dense: true,
             title: Text(

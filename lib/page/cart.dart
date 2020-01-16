@@ -556,7 +556,7 @@ class _CartPageState extends State<CartPage> {
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              'Checkout',
+                              'Proceed to Checkout',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor),
