@@ -40,8 +40,9 @@ class _DetailsMenuState extends State<DetailMenu> {
   String count;
   String stringStockQty = "";
   String responsestock;
+  bool isVisible = true;
 
-  int stock = 0;
+  int stock = 1;
 
   //Detail
   String name;
@@ -52,14 +53,12 @@ class _DetailsMenuState extends State<DetailMenu> {
 
   @override
   void initState() {
-
     //getPrefs();
     //getBlabla();
     stock = int.parse(widget.menu.stock);
 
     super.initState();
     getPrefs();
-
   }
 
   @override
@@ -67,7 +66,8 @@ class _DetailsMenuState extends State<DetailMenu> {
     super.dispose();
     stopTimer();
   }
-  void stopTimer(){
+
+  void stopTimer() {
     print("Timer Stopped");
     timer?.cancel();
     timer = null;
@@ -75,22 +75,19 @@ class _DetailsMenuState extends State<DetailMenu> {
 
   void startTimer() {
     Timer.periodic(Duration(seconds: 2), (_) {
-      if(mounted){
+      if (mounted) {
         getCartLabelCount();
         print("timer run");
       } else {
         return;
       }
-
     });
-
-
   }
 
   getPrefs() async {
     prefs = await SharedPreferences.getInstance();
 
-    if(!mounted) return;
+    if (!mounted) return;
     setState(() {
       sellerid = prefs.getString("userid");
       storeid = prefs.getString("store");
@@ -104,8 +101,6 @@ class _DetailsMenuState extends State<DetailMenu> {
       return; // Just do nothing if the widget is disposed.
     }
   }
-
-
 
   Future<LabelCartCount> labelCart(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
@@ -122,18 +117,17 @@ class _DetailsMenuState extends State<DetailMenu> {
   }
 
   void getCartLabelCount() {
-
     labelCart(ApiUrl.getLabelCartUrl, {'seller_id': sellerid}).then(
         (response) async {
-
-
       setState(() {
         count = response.count;
         print("Label count cart item ${response.count}");
+
+        timer?.cancel();
+        timer = null;
       });
 
-      if(!mounted) return;
-
+      if (!mounted) return;
     }, onError: (error) {
       _response = error.toString();
     });
@@ -176,7 +170,6 @@ class _DetailsMenuState extends State<DetailMenu> {
     }).then((response) async {
       print("get count status ${response.error}");
       if (response.error == "false") {
-
         showDialog(
           context: context,
           builder: (BuildContext context) => CustomDialogAddCartSuccess(
@@ -186,7 +179,6 @@ class _DetailsMenuState extends State<DetailMenu> {
             buttonCancel: "No, Later",
           ),
         );
-
       } else {
         print("error add to carto");
       }
@@ -197,12 +189,9 @@ class _DetailsMenuState extends State<DetailMenu> {
   }
 
   Future<CartResponse> inserToCart(String url, var body) async {
-
     return await http.post(Uri.encodeFull(url),
         body: body,
         headers: {"Accept": "application/json"}).then((http.Response response) {
-
-
       setState(() {
         var extractdata = json.decode(response.body);
         crtlist = extractdata["dataitem"];
@@ -287,7 +276,7 @@ class _DetailsMenuState extends State<DetailMenu> {
                           ],
                         ),
                         SizedBox(height: 30),
-                         Text("Available Stock: $stock"),
+                        Text("Available Stock: $stock"),
                       ],
                     ),
                   ),
@@ -306,8 +295,6 @@ class _DetailsMenuState extends State<DetailMenu> {
                 color: Theme.of(context).accentColor,
                 shape: StadiumBorder(),
                 onPressed: () {
-
-
                   Navigator.of(context).pushNamed('/Cart');
                 },
                 child: Stack(
@@ -370,7 +357,7 @@ class _DetailsMenuState extends State<DetailMenu> {
               ),
             ),
           ),
-          stock <= 0 ? buttonAddToCartDisabled() : buttonAddToCartEnabled()
+          stock <= -1 ? buttonAddToCartDisabled() : buttonAddToCartEnabled()
         ],
       ),
     );
@@ -424,17 +411,29 @@ class _DetailsMenuState extends State<DetailMenu> {
                       ),
                       Text(quantity.toString(),
                           style: Theme.of(context).textTheme.subhead),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            this.quantity = this.incrementQuantity(this.quantity);
-                          });
-                        },
-                        iconSize: 30,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                        icon: Icon(Icons.add_circle_outline),
-                        color: Theme.of(context).hintColor,
+                      Visibility(
+                        visible: isVisible,
+                        child: IconButton(
+                          onPressed: () {
+                            setState(() {
+
+                              this.quantity = this.incrementQuantity(this.quantity);
+                              stock = stock - 1;
+
+                              if(stock > 0){
+                                setState(() {
+                                  isVisible = true;
+                                });
+                                }
+
+                            });
+                          },
+                          iconSize: 30,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                          icon: Icon(Icons.add_circle_outline),
+                          color: Theme.of(context).hintColor,
+                        ),
                       )
                     ],
                   ),
@@ -466,15 +465,15 @@ class _DetailsMenuState extends State<DetailMenu> {
                         width: MediaQuery.of(context).size.width - 110,
                         child: FlatButton(
                           onPressed: () {
-
                             setState(() {
                               stock = stock - this.quantity;
                             });
 
-                            if(quantity < 1){
+                            if (quantity < 1) {
                               showDialog(
                                 context: context,
-                                builder: (BuildContext context) => CustomDialogError(
+                                builder: (BuildContext context) =>
+                                    CustomDialogError(
                                   title: "You haven't added quantity",
                                   description: "Please add some quantity",
                                   buttonText: "Okay",
@@ -483,7 +482,6 @@ class _DetailsMenuState extends State<DetailMenu> {
                             } else {
                               postToCart();
                             }
-
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
                           color: Theme.of(context).accentColor,
@@ -540,16 +538,67 @@ class _DetailsMenuState extends State<DetailMenu> {
             ]),
         child: SizedBox(
           width: MediaQuery.of(context).size.width - 40,
-          child: Center(
-            child: Text(
-              'Stock for this product is empty',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).accentColor),
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      'Quantity',
+                      style: Theme.of(context).textTheme.subhead,
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+
+                            stock = int.parse(widget.menu.stock);
+                            this.quantity = 0;
+
+
+                          });
+                        },
+                        iconSize: 30,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                        icon: Icon(Icons.rotate_right),
+                        color: Theme.of(context).hintColor,
+                      ),
+
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: Text(
+                  'Sorry, the quantity exceeds the available stock',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).accentColor),
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
           ),
+
+//          child: Center(
+//            child: Text(
+//              'Sorry, the quantity exceeds the available stock',
+//              textAlign: TextAlign.start,
+//              style: TextStyle(
+//                  fontSize: 16,
+//                  fontWeight: FontWeight.bold,
+//                  color: Theme.of(context).accentColor),
+//            ),
+//          ),
         ),
       ),
     );
@@ -565,8 +614,6 @@ class _DetailsMenuState extends State<DetailMenu> {
       ),
     );
   }
-
-
 
   saveCartCount() async {
     final prefs = await SharedPreferences.getInstance();
@@ -590,6 +637,7 @@ class _DetailsMenuState extends State<DetailMenu> {
   decrementQuantity(int quantity) {
     if (quantity > 0) {
       this.totalPrice = widget.menu.harga * --quantity;
+      stock = stock + 1;
       return quantity;
     } else {
       return quantity;
