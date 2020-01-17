@@ -1,4 +1,5 @@
 import 'package:bomburger301219/config/api_urls.dart';
+import 'package:bomburger301219/element/CustomDialogAddToCartSuccess.dart';
 import 'package:bomburger301219/element/CustomDialogError.dart';
 import 'package:bomburger301219/models/cart.dart';
 import 'package:bomburger301219/models/food.dart';
@@ -190,8 +191,15 @@ class _DetailsMenuState extends State<DetailMenu> {
       print("get count status ${response.error}");
       if (response.error == "false") {
 
-        getCartLabelCount();
-        // this.cartCount += this.quantity;
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => CustomDialogAddCartSuccess(
+            title: "Success insert to Cart",
+            description: "Do you want to see the cart now?",
+            buttonText: "Okay",
+            buttonCancel: "No, Later",
+          ),
+        );
 
       } else {
         print("error add to carto");
@@ -473,7 +481,20 @@ class _DetailsMenuState extends State<DetailMenu> {
                         width: MediaQuery.of(context).size.width - 110,
                         child: FlatButton(
                           onPressed: () {
-                            postToCart();
+
+                            if(quantity < 1){
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => CustomDialogError(
+                                  title: "You haven't added quantity",
+                                  description: "Please add some quantity",
+                                  buttonText: "Okay",
+                                ),
+                              );
+                            } else {
+                              postToCart();
+                            }
+
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
                           color: Theme.of(context).accentColor,
@@ -556,6 +577,11 @@ class _DetailsMenuState extends State<DetailMenu> {
     );
   }
 
+
+  successAddCartDialog(BuildContext context) {
+
+  }
+
   saveCartCount() async {
     final prefs = await SharedPreferences.getInstance();
     var cc = this.cartCount += this.quantity;
@@ -576,7 +602,7 @@ class _DetailsMenuState extends State<DetailMenu> {
   }
 
   decrementQuantity(int quantity) {
-    if (quantity > 1) {
+    if (quantity > 0) {
       this.totalPrice = widget.menu.harga * --quantity;
       return quantity;
     } else {

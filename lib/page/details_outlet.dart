@@ -16,7 +16,6 @@ class DetailsOutletWidget extends StatefulWidget {
   Outlet outlet;
   String _response = "";
 
-
   DetailsOutletWidget({Key key, this.outlet}) : super(key: key);
 
   @override
@@ -48,7 +47,7 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
   Future<List<Menu>> getFoods() async {
     print("begin get foods");
     var res = await http.post(Uri.encodeFull(ApiUrl.burgerUrl),
-        body: {'store_id' : widget.outlet.id},
+        body: {'store_id': widget.outlet.id},
         headers: {"Accept": "application/json"});
 
     print(res.body);
@@ -63,7 +62,7 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
   Future<List<Menu>> getDrinks() async {
     print("begin get foods");
     var res = await http.post(Uri.encodeFull(ApiUrl.drinkUrl),
-        body: {'store_id' : widget.outlet.id},
+        body: {'store_id': widget.outlet.id},
         headers: {"Accept": "application/json"});
     print(widget.outlet.id);
 
@@ -74,6 +73,18 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
       listdrinks = rest.map<Menu>((j) => Menu.fromJson(j)).toList();
     }
     return listdrinks;
+  }
+
+  Future<Null> refreshDrink() {
+    return getDrinks().then((outlet) {
+      setState(() => outlet = outlet);
+    });
+  }
+
+  Future<Null> refreshFoods() {
+    return getDrinks().then((outlet) {
+      setState(() => outlet = outlet);
+    });
   }
 
   @override
@@ -147,11 +158,16 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(32.0),
                                         child: Center(
-                                            child: IconButton(
-                                          iconSize: 60,
-                                          color: Colors.blueGrey,
-                                          icon: Icon(Icons.error_outline),
-                                          onPressed: getFoods,
+                                            child: Column(
+                                          children: <Widget>[
+                                            IconButton(
+                                              iconSize: 60,
+                                              color: Colors.blueGrey,
+                                              icon: Icon(Icons.error_outline),
+                                              onPressed: refreshFoods,
+                                            ),
+                                            Text("Failed to get foods")
+                                          ],
                                         )),
                                       ),
                                     )
@@ -176,11 +192,16 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(32.0),
                                         child: Center(
-                                            child: IconButton(
-                                          iconSize: 60,
-                                          color: Colors.blueGrey,
-                                          icon: Icon(Icons.error_outline),
-                                          onPressed: getDrinks,
+                                            child: Column(
+                                          children: <Widget>[
+                                            IconButton(
+                                              iconSize: 60,
+                                              color: Colors.blueGrey,
+                                              icon: Icon(Icons.error_outline),
+                                              onPressed: refreshDrink,
+                                            ),
+                                            Text("Failed to get drinks"),
+                                          ],
                                         )),
                                       ),
                                     )
@@ -276,7 +297,6 @@ class _DetailsWidgetState extends State<DetailsOutletWidget> {
             child: ListView.builder(
               itemCount: listdrinks.length,
               itemBuilder: (context, index) {
-
                 double _marginLeft = 0;
                 (index == 0) ? _marginLeft = 20 : _marginLeft = 0;
                 return DrinksCarouselItemWidget(

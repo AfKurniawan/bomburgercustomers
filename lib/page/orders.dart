@@ -106,41 +106,46 @@ class _OrdersPageState extends State<OrdersPage> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-//            Padding(
-//              padding: const EdgeInsets.symmetric(horizontal: 20),
-//              child: SearchBarWidget(),
-//            ),
-          SizedBox(height: 10),
-
-          FutureBuilder(
-              future: getCartItem(),
-              builder: (context, snapshot) {
-                return snapshot.connectionState == ConnectionState.done
-                    ? snapshot.hasData
-                        ? buildListViewHistory(snapshot.data)
-                        : InkWell(
-                            child: Padding(
-                              padding: const EdgeInsets.all(32.0),
-                              child: Center(
-                                  child: IconButton(
-                                iconSize: 60,
-                                color: Colors.blueGrey,
-                                icon: Icon(Icons.error_outline),
-                                onPressed: getCartItem,
-                              )),
+          Container(
+            margin: EdgeInsets.only(bottom: 25),
+            padding: EdgeInsets.only(bottom: 25),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: FutureBuilder(
+                  future: getCartItem(),
+                  builder: (context, snapshot) {
+                    return snapshot.connectionState == ConnectionState.done
+                        ? snapshot.hasData
+                            ? buildListViewHistory(snapshot.data)
+                            : InkWell(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(32.0),
+                                  child: Center(
+                                      child: Column(
+                                    children: <Widget>[
+                                      IconButton(
+                                        iconSize: 60,
+                                        color: Colors.blueGrey,
+                                        icon: Icon(Icons.error_outline),
+                                        onPressed: getCartItem,
+                                      ),
+                                      Text("Failed to get data")
+                                    ],
+                                  )),
+                                ),
+                              )
+                        : Container(
+                            height: 500,
+                            child: Center(
+                              child: const CircularProgressIndicator(
+                                value: null,
+                                strokeWidth: 1.0,
+                              ),
                             ),
-                          )
-                    : Container(
-                        height: 180,
-                        child: Center(
-                          child: const CircularProgressIndicator(
-                            value: null,
-                            strokeWidth: 1.0,
-                          ),
-                        ),
-                      );
-              }),
-
+                          );
+                  }),
+            ),
+          ),
           Visibility(
             visible: isVisible,
             child: Positioned(

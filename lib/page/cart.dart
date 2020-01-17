@@ -448,20 +448,7 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  _buildEmptyWidget() {
-    return Center(
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(Icons.remove_shopping_cart, size: 50),
-            SizedBox(height: 30),
-            Text("No Items"),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildTotalBottomSheet(BuildContext context, List<Cart> items) {
     return Positioned(
