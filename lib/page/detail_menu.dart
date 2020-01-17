@@ -30,6 +30,7 @@ class _DetailsMenuState extends State<DetailMenu> {
   int cartCount = 0;
   int quantity = 0;
   double totalPrice = 0.00;
+  int newstock;
   SharedPreferences prefs;
   String _response = "";
   String sellerid = "";
@@ -40,11 +41,12 @@ class _DetailsMenuState extends State<DetailMenu> {
   String stringStockQty = "";
   String responsestock;
 
+  int stock = 0;
+
   //Detail
   String name;
   String picture;
   String price;
-  String stock;
   String isLogin = "";
   Timer timer;
 
@@ -53,6 +55,7 @@ class _DetailsMenuState extends State<DetailMenu> {
 
     //getPrefs();
     //getBlabla();
+    stock = int.parse(widget.menu.stock);
 
     super.initState();
     getPrefs();
@@ -101,23 +104,6 @@ class _DetailsMenuState extends State<DetailMenu> {
       return; // Just do nothing if the widget is disposed.
     }
   }
-
-  Future<Stock> getStock(String url, var body) async {
-    return await http.post(Uri.encodeFull(url),
-        body: body,
-        headers: {"Accept": "application/json"}).then((http.Response response) {
-      final int statusCode = response.statusCode;
-      print(response.body);
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
-      }
-      return Stock.fromJson(json.decode(response.body));
-    });
-  }
-
-
-
 
 
 
@@ -301,7 +287,7 @@ class _DetailsMenuState extends State<DetailMenu> {
                           ],
                         ),
                         SizedBox(height: 30),
-                         Text("Available Stock: ${widget.menu.stock}")
+                         Text("Available Stock: $stock"),
                       ],
                     ),
                   ),
@@ -384,7 +370,7 @@ class _DetailsMenuState extends State<DetailMenu> {
               ),
             ),
           ),
-          stockQty == 0 ? buttonAddToCartDisabled() : buttonAddToCartEnabled()
+          stock <= 0 ? buttonAddToCartDisabled() : buttonAddToCartEnabled()
         ],
       ),
     );
@@ -441,8 +427,7 @@ class _DetailsMenuState extends State<DetailMenu> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            this.quantity =
-                                this.incrementQuantity(this.quantity);
+                            this.quantity = this.incrementQuantity(this.quantity);
                           });
                         },
                         iconSize: 30,
@@ -481,6 +466,10 @@ class _DetailsMenuState extends State<DetailMenu> {
                         width: MediaQuery.of(context).size.width - 110,
                         child: FlatButton(
                           onPressed: () {
+
+                            setState(() {
+                              stock = stock - this.quantity;
+                            });
 
                             if(quantity < 1){
                               showDialog(
@@ -578,9 +567,6 @@ class _DetailsMenuState extends State<DetailMenu> {
   }
 
 
-  successAddCartDialog(BuildContext context) {
-
-  }
 
   saveCartCount() async {
     final prefs = await SharedPreferences.getInstance();
@@ -607,6 +593,15 @@ class _DetailsMenuState extends State<DetailMenu> {
       return quantity;
     } else {
       return quantity;
+    }
+  }
+
+  decrementStock(int stock) {
+    if (newstock <= 1000) {
+      this.stock = stock * --quantity;
+      return newstock;
+    } else {
+      return newstock;
     }
   }
 

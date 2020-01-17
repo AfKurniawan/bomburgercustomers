@@ -22,14 +22,11 @@ class CartPage extends StatefulWidget {
 
   _CartPageState myAppState = new _CartPageState();
 
-  CartPage({Key key, this.onCall, this.cart, this.menu, this.heroTag}) : super(key: key);
+  CartPage({Key key, this.onCall, this.cart, this.menu, this.heroTag})
+      : super(key: key);
 
   @override
   _CartPageState createState() => _CartPageState();
-
-
-
-
 }
 
 class _CartPageState extends State<CartPage> {
@@ -141,7 +138,6 @@ class _CartPageState extends State<CartPage> {
         .then((response) async {
       setState(() {
         _response = response.messages;
-
       });
     }, onError: (error) {
       _response = error.toString();
@@ -175,8 +171,6 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-
-
   errorDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -193,8 +187,6 @@ class _CartPageState extends State<CartPage> {
       paymentMnethod = value;
     });
   }
-  
-
 
   successDialog(BuildContext context) {
     showDialog(
@@ -206,10 +198,6 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -290,11 +278,12 @@ class _CartPageState extends State<CartPage> {
                           //Navigator.of(context).pushNamed('/Food', arguments: RouteArgument(id: widget.food.id, heroTag: widget.heroTag));
                         },
                         child: Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 7),
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withOpacity(0.9),
+                            color: Theme.of(context)
+                                .primaryColor
+                                .withOpacity(0.9),
                             boxShadow: [
                               BoxShadow(
                                   color: Theme.of(context)
@@ -314,11 +303,12 @@ class _CartPageState extends State<CartPage> {
                                   height: 90,
                                   width: 90,
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5)),
                                     image: DecorationImage(
                                         image: NetworkImage(
-                                            ApiUrl.imgUrl + cart[i]['picture']),
+                                            ApiUrl.imgUrl +
+                                                cart[i]['picture']),
                                         fit: BoxFit.cover),
                                   ),
                                 ),
@@ -326,22 +316,25 @@ class _CartPageState extends State<CartPage> {
                               SizedBox(width: 15),
                               Flexible(
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
                                             cart[i]['name'],
-                                            overflow: TextOverflow.ellipsis,
+                                            overflow:
+                                            TextOverflow.ellipsis,
                                             maxLines: 2,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .display4
                                                 .merge(TextStyle(
-                                                    color: Colors.deepOrange)),
+                                                color: Colors
+                                                    .deepOrange)),
                                           ),
                                           Text(
                                             'RM. ${cart[i]['price']}',
@@ -359,7 +352,8 @@ class _CartPageState extends State<CartPage> {
                                           SizedBox(height: 5),
                                           Text(
                                               "SubTotal RM: " +
-                                                  subtotal.toStringAsFixed(2),
+                                                  subtotal
+                                                      .toStringAsFixed(2),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .subhead),
@@ -369,23 +363,24 @@ class _CartPageState extends State<CartPage> {
                                     SizedBox(width: 8),
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                      CrossAxisAlignment.end,
                                       children: <Widget>[
                                         IconButton(
                                           onPressed: () async {
                                             SharedPreferences prefs =
-                                                await SharedPreferences
-                                                    .getInstance();
+                                            await SharedPreferences
+                                                .getInstance();
                                             setState(() {
-                                              sellerid =
-                                                  prefs.getString('userid');
+                                              sellerid = prefs
+                                                  .getString('userid');
                                               print("salesid neh: " +
                                                   cart[i]['sales_id']);
                                             });
 
                                             deleteCart(
                                                 ApiUrl.deleteSingleCart, {
-                                              'sales_id': cart[i]['sales_id'],
+                                              'sales_id': cart[i]
+                                              ['sales_id'],
                                               'seller_id': sellerid,
                                             }).then((response) async {
                                               if (response.messages ==
@@ -399,20 +394,23 @@ class _CartPageState extends State<CartPage> {
                                                   if (i < 1) {
                                                     Navigator.of(context)
                                                         .pushReplacementNamed(
-                                                            '/Cart');
+                                                        '/Cart');
                                                     //getCountLabelCart();
                                                   }
                                                 });
                                               }
                                             }, onError: (error) {
-                                              _response = error.toString();
+                                              _response =
+                                                  error.toString();
                                             });
                                           },
                                           iconSize: 30,
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 5),
-                                          icon: Icon(Icons.delete_outline),
-                                          color: Theme.of(context).hintColor,
+                                          icon:
+                                          Icon(Icons.delete_outline),
+                                          color:
+                                          Theme.of(context).hintColor,
                                         ),
                                       ],
                                     ),
@@ -424,7 +422,7 @@ class _CartPageState extends State<CartPage> {
                         ),
                       );
                     },
-                  ),
+                  )
                 ],
               ),
             ),
@@ -435,7 +433,7 @@ class _CartPageState extends State<CartPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Icon(Icons.remove_shopping_cart, size: 50),
+                        Icon(Icons.remove_shopping_cart, size: 20),
                         SizedBox(height: 30),
                         Text("No Items"),
                       ],
@@ -447,8 +445,6 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
-
-
 
   Widget _buildTotalBottomSheet(BuildContext context, List<Cart> items) {
     return Positioned(
@@ -514,27 +510,19 @@ class _CartPageState extends State<CartPage> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 110,
                         child: FlatButton(
-                          onPressed: ()  {
-
-
+                          onPressed: () {
 //                            prefs = await SharedPreferences.getInstance();
 //                            prefs.getString("userid");
 //
 //                            print(prefs.getString("userid"));
 //
                             showDialog(
-
-                                context: context,
-                                builder: (BuildContext context) => new MyDialog(
-                                  onValueChange: _onValueChange,
-                                  initialValue: paymentMnethod,
-
-                                ),
+                              context: context,
+                              builder: (BuildContext context) => new MyDialog(
+                                onValueChange: _onValueChange,
+                                initialValue: paymentMnethod,
+                              ),
                             );
-
-
-
-
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
                           color: Theme.of(context).accentColor,

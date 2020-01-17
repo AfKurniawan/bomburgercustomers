@@ -54,7 +54,7 @@ class OutletItemWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,25 +75,28 @@ class OutletItemWidget extends StatelessWidget {
                     ],
                   ),
 
-                  SizedBox(width: 60),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      child: RaisedButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: () {
+                          print('Go to Outlet');
 
-                  FlatButton(
-                    padding: EdgeInsets.all(0),
-                    onPressed: () {
-                      print('Go to Outlet');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context)=> DetailsOutletWidget(outlet: restaurant))
+                          );
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context)=> DetailsOutletWidget(outlet: restaurant))
-                      );
+                        },
+                        child: Icon(Icons.directions,
+                            color: Theme.of(context).primaryColor),
+                        color: Theme.of(context).accentColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50)),
+                      ),
+                    ),
 
-                    },
-                    child: Icon(Icons.directions,
-                        color: Theme.of(context).primaryColor),
-                    color: Theme.of(context).accentColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                  ),
                 ],
               ),
             ),

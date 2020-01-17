@@ -57,7 +57,7 @@ class CustomDialogError extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 24.0,
+                  fontSize: 20.0,
                   fontWeight: FontWeight.w700,
                 ),
               ),
