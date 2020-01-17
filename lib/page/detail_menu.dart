@@ -1,4 +1,3 @@
-
 import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/element/CustomDialogError.dart';
 import 'package:bomburger301219/models/cart.dart';
@@ -9,13 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 
 class DetailMenu extends StatefulWidget {
   RouteArgument routeArgument;
 
   Menu menu;
-  DetailMenu({Key key, this.routeArgument, this.menu})
-      : super(key: key);
+  DetailMenu({Key key, this.routeArgument, this.menu}) : super(key: key);
 
   @override
   _DetailsMenuState createState() => _DetailsMenuState();
@@ -27,9 +26,8 @@ class DetailMenu extends StatefulWidget {
 }
 
 class _DetailsMenuState extends State<DetailMenu> {
-
   int cartCount = 0;
-  int quantity = 1;
+  int quantity = 0;
   double totalPrice = 0.00;
   SharedPreferences prefs;
   String _response = "";
@@ -47,38 +45,61 @@ class _DetailsMenuState extends State<DetailMenu> {
   String price;
   String stock;
   String isLogin = "";
-
-
+  Timer timer;
 
   @override
   void initState() {
-    getPrefs();
+
+    //getPrefs();
+    //getBlabla();
+
     super.initState();
+    getPrefs();
+
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    stopTimer();
+  }
+  void stopTimer(){
+    print("Timer Stopped");
+    timer?.cancel();
+    timer = null;
+  }
+
+  void startTimer() {
+    Timer.periodic(Duration(seconds: 2), (_) {
+      if(mounted){
+        getCartLabelCount();
+        print("timer run");
+      } else {
+        return;
+      }
+
+    });
+
+
+  }
 
   getPrefs() async {
-
     prefs = await SharedPreferences.getInstance();
+
+    if(!mounted) return;
     setState(() {
       sellerid = prefs.getString("userid");
       storeid = prefs.getString("store");
       print("Seller id on Page detail $sellerid");
       print("storeid on page detail $storeid");
-
-      getCartLabelCount();
-      getStockResponse();
-
-      this.quantity =
-          this.decrementQuantity(this.quantity);
-
-
+      startTimer();
+      this.quantity = this.decrementQuantity(this.quantity);
     });
+
+    if (!mounted) {
+      return; // Just do nothing if the widget is disposed.
+    }
   }
-
-
-
-
 
   Future<Stock> getStock(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
@@ -88,7 +109,6 @@ class _DetailsMenuState extends State<DetailMenu> {
       print(response.body);
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
-
         throw new Exception("Error while fetching data");
       }
       return Stock.fromJson(json.decode(response.body));
@@ -96,70 +116,9 @@ class _DetailsMenuState extends State<DetailMenu> {
   }
 
 
-  Future<StockResponse> callStockResponse(String url, var body) async {
-    return await http.post(Uri.encodeFull(url),
-        body: body,
-        headers: {"Accept": "application/json"}).then((http.Response response) {
-      final int statusCode = response.statusCode;
-      print(response.body);
-
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-
-        throw new Exception("Error while fetching data");
-      }
-      return StockResponse.fromJson(json.decode(response.body));
-    });
-  }
-
-  void getStockResponse() {
-
-    callStockResponse(ApiUrl.getStockUrl, {
-      'store_id': storeid,
-      'product_id': widget.menu.id
-    }).then((response) async {
-
-      if(response.status == 'failed'){
-        print('stock response' + response.status);
-
-        setState(() {
-          stockQty = 0;
-        });
-
-      } else {
-
-        getStockInfo();
-      }
-
-
-    }, onError: (error) {
-      _response = error.toString();
-    });
-
-  }
 
 
 
-
-  void getStockInfo() {
-    getStock(ApiUrl.getStockUrl, {
-      'store_id': storeid,
-      'product_id': widget.menu.id
-    }).then((response) async {
-
-        setState(() {
-          stockQty = response.quantity;
-          getCartLabelCount();
-          print("Stock: $stockQty");
-          print("ini product id: " + widget.menu.id);
-          print("ini storeid: " + storeid);
-
-        });
-
-
-    }, onError: (error) {
-      _response = error.toString();
-    });
-  }
 
   Future<LabelCartCount> labelCart(String url, var body) async {
     return await http.post(Uri.encodeFull(url),
@@ -169,7 +128,6 @@ class _DetailsMenuState extends State<DetailMenu> {
       print(response.body);
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
-
         throw new Exception("Error while fetching data");
       }
       return LabelCartCount.fromJson(json.decode(response.body));
@@ -177,19 +135,24 @@ class _DetailsMenuState extends State<DetailMenu> {
   }
 
   void getCartLabelCount() {
+
     labelCart(ApiUrl.getLabelCartUrl, {'seller_id': sellerid}).then(
         (response) async {
+
+
       setState(() {
         count = response.count;
         print("Label count cart item ${response.count}");
       });
+
+      if(!mounted) return;
+
     }, onError: (error) {
       _response = error.toString();
     });
   }
 
   void postToCart() async {
-
     print("Begin insert to Cart");
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -224,17 +187,14 @@ class _DetailsMenuState extends State<DetailMenu> {
       'price': price,
       'status': status
     }).then((response) async {
-
       print("get count status ${response.error}");
       if (response.error == "false") {
 
         getCartLabelCount();
-       // this.cartCount += this.quantity;
+        // this.cartCount += this.quantity;
 
       } else {
-
         print("error add to carto");
-
       }
     }, onError: (error) {
       errorDialog(context);
@@ -243,9 +203,12 @@ class _DetailsMenuState extends State<DetailMenu> {
   }
 
   Future<CartResponse> inserToCart(String url, var body) async {
+
     return await http.post(Uri.encodeFull(url),
         body: body,
         headers: {"Accept": "application/json"}).then((http.Response response) {
+
+
       setState(() {
         var extractdata = json.decode(response.body);
         crtlist = extractdata["dataitem"];
@@ -260,7 +223,6 @@ class _DetailsMenuState extends State<DetailMenu> {
       return CartResponse.fromJson(json.decode(response.body));
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -331,17 +293,7 @@ class _DetailsMenuState extends State<DetailMenu> {
                           ],
                         ),
                         SizedBox(height: 30),
-
-                        stockQty == 0
-
-                            ? Text("Stock is empty", style: TextStyle(
-                            color: Colors.deepOrange, fontSize: 14))
-
-                            : Text("Available Stock: $stockQty")
-
-
-
-
+                         Text("Available Stock: ${widget.menu.stock}")
                       ],
                     ),
                   ),
@@ -360,6 +312,8 @@ class _DetailsMenuState extends State<DetailMenu> {
                 color: Theme.of(context).accentColor,
                 shape: StadiumBorder(),
                 onPressed: () {
+
+
                   Navigator.of(context).pushNamed('/Cart');
                 },
                 child: Stack(
@@ -422,9 +376,7 @@ class _DetailsMenuState extends State<DetailMenu> {
               ),
             ),
           ),
-          stockQty == 0
-              ? buttonAddToCartDisabled()
-              : buttonAddToCartEnabled()
+          stockQty == 0 ? buttonAddToCartDisabled() : buttonAddToCartEnabled()
         ],
       ),
     );
@@ -500,23 +452,16 @@ class _DetailsMenuState extends State<DetailMenu> {
                 children: <Widget>[
                   Expanded(
                     child: FlatButton(
-                        onPressed: () {
-
-                          Navigator.of(context).pushNamed('/Pages');
-
-                        },
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        color: Theme.of(context).accentColor,
-                        shape: StadiumBorder(),
-
-                            child: Icon(
-                              Icons.home,
-                              color: Theme.of(context).primaryColor,
-                            ),
-
-
-
-
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/Pages');
+                      },
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      color: Theme.of(context).accentColor,
+                      shape: StadiumBorder(),
+                      child: Icon(
+                        Icons.home,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
                   SizedBox(width: 10),
@@ -550,8 +495,9 @@ class _DetailsMenuState extends State<DetailMenu> {
                         child: Text(
                           widget.menu.getPrice(myPrice: this.totalPrice),
                           style: Theme.of(context).textTheme.display1.merge(
-                              TextStyle(color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold)),
+                              TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold)),
                         ),
                       )
                     ],
@@ -589,7 +535,7 @@ class _DetailsMenuState extends State<DetailMenu> {
               'Stock for this product is empty',
               textAlign: TextAlign.start,
               style: TextStyle(
-                fontSize: 16,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).accentColor),
             ),
@@ -609,8 +555,6 @@ class _DetailsMenuState extends State<DetailMenu> {
       ),
     );
   }
-
-
 
   saveCartCount() async {
     final prefs = await SharedPreferences.getInstance();
