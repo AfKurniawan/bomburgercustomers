@@ -1,24 +1,66 @@
 import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/models/food.dart';
 import 'package:bomburger301219/models/outlet.dart';
+import 'package:bomburger301219/page/detail_menu.dart';
 import 'package:bomburger301219/page/details_outlet.dart';
+import 'package:bomburger301219/page/seller/detail_menu_seller.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class OutletItemWidget extends StatelessWidget {
+class MenuItemWidgetSeller extends StatefulWidget {
+
   Outlet restaurant;
   Menu menu;
 
-  OutletItemWidget({Key key, this.restaurant}) : super(key: key);
+  MenuItemWidgetSeller({Key key, this.menu, this.restaurant}) : super(key: key);
+
+  @override
+  _MenuItemWidgetSellerState createState() => _MenuItemWidgetSellerState();
+
+}
+
+class _MenuItemWidgetSellerState extends State<MenuItemWidgetSeller> {
+
+  SharedPreferences prefs;
+  String usertype = "";
+
+  @override
+  void initState() {
+    getPrefs();
+    super.initState();
+  }
+
+  getPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      usertype = prefs.getString("usertype");
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Theme.of(context).accentColor.withOpacity(0.08),
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context)=> DetailsOutletWidget(outlet: restaurant))
-        );
+
+        if(usertype == "seller"){
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context)=> DetailMenuSeller(menu: widget.menu))
+          );
+
+        } else {
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context)=> DetailMenu(menu: widget.menu))
+          );
+
+        }
+
       },
       child: Container(
         margin: EdgeInsets.all(10),
@@ -39,13 +81,13 @@ class OutletItemWidget extends StatelessWidget {
 //              ),
 //            ),
             Hero(
-              tag: restaurant.id,
+              tag: "seller"+widget.menu.id,
               child: Container(
-               // width: 292,
+                // width: 292,
                 height: 150,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(ApiUrl.imgUrl + restaurant.picture),
+                    image: NetworkImage(ApiUrl.imgUrl + widget.menu.picture),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -62,42 +104,57 @@ class OutletItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        restaurant.name,
+                        widget.menu.name,
                         style: Theme.of(context).textTheme.body2,
                         softWrap: false,
                         overflow: TextOverflow.fade,
                       ),
 
+                      SizedBox(height: 10),
+
                       Text(
-                        restaurant.description,
-                        style: Theme.of(context).textTheme.body1,
+                        "RM. ${widget.menu.price}",
+                        style: Theme.of(context).textTheme.title,
                         softWrap: false,
                         overflow: TextOverflow.fade,
                       ),
                     ],
                   ),
 
-                    Container(
-                      width: 40,
-                      height: 40,
-                      child: RaisedButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () {
-                          print('Go to Outlet');
+
+
+                  Container(
+                    width: 40,
+                    height: 40,
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(0),
+                      onPressed: () {
+                        print('Go to Outlet');
+
+                        if(usertype == "seller"){
 
                           Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context)=> DetailsOutletWidget(outlet: restaurant))
+                              MaterialPageRoute(builder: (context)=> DetailMenuSeller(menu: widget.menu))
                           );
 
-                        },
-                        child: Icon(Icons.directions,
-                            color: Theme.of(context).primaryColor),
-                        color: Theme.of(context).accentColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                      ),
+                        } else {
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context)=> DetailMenu(menu: widget.menu))
+                          );
+
+                        }
+
+                      },
+                      child: Icon(Icons.arrow_forward_ios,
+                          color: Theme.of(context).primaryColor),
+                      color: Theme.of(context).accentColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
                     ),
+                  ),
 
                 ],
               ),

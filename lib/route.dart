@@ -2,6 +2,7 @@ import 'package:bomburger301219/models/route.dart';
 import 'package:bomburger301219/page/cart.dart';
 import 'package:bomburger301219/page/detail_menu.dart';
 import 'package:bomburger301219/page/detail_order.dart';
+import 'package:bomburger301219/page/details_outlet.dart';
 import 'package:bomburger301219/page/login.dart';
 import 'package:bomburger301219/page/orders.dart';
 import 'package:bomburger301219/page/pager.dart';
@@ -37,8 +38,8 @@ class MyRoute {
         return MaterialPageRoute(builder: (_) => DetailMenu());
       case '/History':
         return MaterialPageRoute(builder: (_) => OrdersPage());
-//      case '/Menu':
-//        return MaterialPageRoute(builder: (_) => MenuWidget());
+//      case '/OutletDetail':
+//        return MaterialPageRoute(builder: (_) => DetailsOutletWidget());
       case '/Detail':
         return MaterialPageRoute(
             builder: (_) => DetailMenu(

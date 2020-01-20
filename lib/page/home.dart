@@ -1,11 +1,45 @@
 
+import 'package:bomburger301219/page/seller/foods.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget2.dart';
 import 'package:bomburger301219/widget/OutletGridWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+
+
+  @override
+  _HomePageState createState() => _HomePageState();
+
+}
+
+
+
+
+  class _HomePageState extends State<HomePage> {
+
+  SharedPreferences prefs;
+  String usertype = "";
+
+  @override
+  void initState() {
+    getPrefs();
+    super.initState();
+
+  }
+
+
+  getPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      usertype = prefs.getString("usertype");
+    });
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -31,25 +65,13 @@ class HomePage extends StatelessWidget {
 
 
 
-          //OutletCarouselWidget(),
-          OutletGridWidget(),
+          usertype == "seller" ?
 
-//          ListTile(
-//            dense: true,
-//            contentPadding: EdgeInsets.symmetric(horizontal: 20),
-//            leading: Icon(
-//              Icons.trending_up,
-//              color: Theme.of(context).hintColor,
-//            ),
-//            title: Text(
-//              'Trending This Week',
-//              style: Theme.of(context).textTheme.display1,
-//            ),
-//            subtitle: Text(
-//              'Double click on the food to add it to the cart',
-//              style: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 11)),
-//            ),
-//          ),
+              FoodsListWidget()
+
+          : OutletGridWidget(),
+
+
 
         ],
       ),

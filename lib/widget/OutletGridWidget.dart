@@ -12,6 +12,7 @@ class OutletGridWidget extends StatefulWidget {
 
 class _OutletGridWidgetState extends State<OutletGridWidget> {
   List outletlist;
+
   Future<List<Outlet>> getOutlet() async {
     var res = await http.get(Uri.encodeFull(ApiUrl.getOutletUrl),
         headers: {"Accept": "application/json"});

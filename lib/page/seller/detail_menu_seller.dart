@@ -11,14 +11,14 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
-class DetailMenu extends StatefulWidget {
+class DetailMenuSeller extends StatefulWidget {
   RouteArgument routeArgument;
 
   Menu menu;
-  DetailMenu({Key key, this.routeArgument, this.menu}) : super(key: key);
+  DetailMenuSeller({Key key, this.routeArgument, this.menu}) : super(key: key);
 
   @override
-  _DetailsMenuState createState() => _DetailsMenuState();
+  _DetailMenuSellerState createState() => _DetailMenuSellerState();
 
 //  @override
 //  _DetailsMenuState createState() {
@@ -26,7 +26,7 @@ class DetailMenu extends StatefulWidget {
 //  }
 }
 
-class _DetailsMenuState extends State<DetailMenu> {
+class _DetailMenuSellerState extends State<DetailMenuSeller> {
   int cartCount = 0;
   int quantity = 0;
   double totalPrice = 0.00;
@@ -360,7 +360,7 @@ class _DetailsMenuState extends State<DetailMenu> {
               ),
             ),
           ),
-          stock <= -1 ?  buttonAddToCartDisabled() ? usertype == "seller" : buttonStockRequest() : buttonAddToCartEnabled()
+          stock <= 0 ?  buttonStockRequest()  : buttonAddToCartEnabled()
         ],
       ),
     );
