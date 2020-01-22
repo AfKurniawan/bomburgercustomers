@@ -3,7 +3,7 @@ import 'package:bomburger301219/element/CustomDialogError.dart';
 import 'package:bomburger301219/element/BlockButtonWidget.dart';
 import 'package:bomburger301219/models/user.dart';
 import 'package:bomburger301219/page/details_outlet.dart';
-import 'package:bomburger301219/page/seller/foods.dart';
+import 'package:bomburger301219/page/seller/seller_foods_home.dart';
 import 'package:bomburger301219/page/pager.dart';
 import 'package:flutter/material.dart';
 import 'package:bomburger301219/config/app_config.dart' as config;

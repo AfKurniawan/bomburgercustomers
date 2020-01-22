@@ -1,5 +1,5 @@
 
-import 'package:bomburger301219/page/seller/foods.dart';
+import 'package:bomburger301219/page/seller/seller_foods_home.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
 import 'package:bomburger301219/widget/OutletCarouselWidget2.dart';
 import 'package:bomburger301219/widget/OutletGridWidget.dart';
