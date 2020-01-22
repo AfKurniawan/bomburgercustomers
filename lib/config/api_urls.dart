@@ -33,6 +33,7 @@ class ApiUrl{
   static const String getProfileUrl = baseUrl + "GetUserProfile";
   static const String getProfileResponse = baseUrl + "GetProfileResponse";
   static const String addAddressUrl = baseUrl + "AddAddress";
+  static const String cekStockUrl = baseUrl + "CekTmpStock";
 
 
 

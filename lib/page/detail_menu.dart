@@ -35,20 +35,21 @@ class _DetailsMenuState extends State<DetailMenu> {
   String _response = "";
   String sellerid = "";
   List crtlist;
-  int stockQty;
+  //int stockQty;
   String storeid;
   String count;
   String stringStockQty = "";
   String responsestock;
   bool isVisible = true;
 
-  int stock = 1;
+  int stock = 0;
 
   //Detail
   String name;
   String picture;
   String price;
   String isLogin = "";
+  int tmpStock = 0;
   Timer timer;
 
   @override
@@ -56,6 +57,12 @@ class _DetailsMenuState extends State<DetailMenu> {
     //getPrefs();
     //getBlabla();
     stock = int.parse(widget.menu.stock);
+
+    if(stock < 0){
+      setState(() {
+        stock = 0;
+      });
+    }
 
     super.initState();
     getPrefs();
@@ -72,6 +79,8 @@ class _DetailsMenuState extends State<DetailMenu> {
     timer?.cancel();
     timer = null;
   }
+
+
 
   void startTimer() {
     Timer.periodic(Duration(seconds: 2), (_) {
@@ -100,6 +109,59 @@ class _DetailsMenuState extends State<DetailMenu> {
     if (!mounted) {
       return; // Just do nothing if the widget is disposed.
     }
+  }
+
+  Future<Stock> getStock(String url, var body) async {
+    return await http.post(Uri.encodeFull(url),
+        body: body,
+        headers: {"Accept": "application/json"}).then((http.Response response) {
+      final int statusCode = response.statusCode;
+      print(response.body);
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
+      }
+      return Stock.fromJson(json.decode(response.body));
+    });
+  }
+
+  void cekStock() {
+    getStock(ApiUrl.cekStockUrl, {
+      'product_id': widget.menu.id,
+      'store_id' : storeid,
+      'qnt' : this.quantity.toString()
+    }).then(
+            (response) async {
+
+          setState(() {
+            tmpStock = int.parse(response.available);
+            print("Temporary stock is ${tmpStock}");
+
+            if(tmpStock <= 0){
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => CustomDialogError(
+                  title: "Out of Stock",
+                  description: "Sorry, the product in your cart has \n exceeded the available stock",
+                  buttonText: "Okay",
+                ),
+              );
+
+              timer?.cancel();
+              timer = null;
+
+            } else {
+
+              postToCart();
+            }
+
+
+          });
+
+          if (!mounted) return;
+        }, onError: (error) {
+      _response = error.toString();
+    });
   }
 
   Future<LabelCartCount> labelCart(String url, var body) async {
@@ -465,9 +527,9 @@ class _DetailsMenuState extends State<DetailMenu> {
                         width: MediaQuery.of(context).size.width - 110,
                         child: FlatButton(
                           onPressed: () {
-                            setState(() {
-                              stock = stock - this.quantity;
-                            });
+//                            setState(() {
+//                              stock = stock - this.quantity;
+//                            });
 
                             if (quantity < 1) {
                               showDialog(
@@ -480,7 +542,7 @@ class _DetailsMenuState extends State<DetailMenu> {
                                 ),
                               );
                             } else {
-                              postToCart();
+                              cekStock();
                             }
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
@@ -577,7 +639,7 @@ class _DetailsMenuState extends State<DetailMenu> {
               SizedBox(height: 20),
               Center(
                 child: Text(
-                  'Sorry, the quantity exceeds the available stock',
+                  'Sorry, this product is out of stock',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 14,
