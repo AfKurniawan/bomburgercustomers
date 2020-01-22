@@ -2,6 +2,8 @@ import 'package:bomburger301219/config/api_urls.dart';
 import 'package:bomburger301219/element/CustomDialogError.dart';
 import 'package:bomburger301219/element/BlockButtonWidget.dart';
 import 'package:bomburger301219/models/user.dart';
+import 'package:bomburger301219/page/details_outlet.dart';
+import 'package:bomburger301219/page/seller/seller_foods_home.dart';
 import 'package:bomburger301219/page/pager.dart';
 import 'package:flutter/material.dart';
 import 'package:bomburger301219/config/app_config.dart' as config;
@@ -84,6 +86,8 @@ class _LoginPageState extends State<LoginPage> {
     login(ApiUrl.loginUrl, {
       'username': controllerUsername.text,
       'password': controllerPassword.text
+
+
     }).then((response) async {
       if (response.messages == 'success') {
         print(response.messages);
@@ -118,12 +122,17 @@ class _LoginPageState extends State<LoginPage> {
         prefs.setString("isLogin", isLogin);
         prefs.setString('userid', response.id);
         prefs.setString('username', response.username);
+        prefs.setString('usertype', response.usertype);
+        prefs.setString('storeid', response.storeid);
         print("User Id: " + response.id);
-        //print("Store Id: " + response.storeid);
+        print("Store Id: " + response.storeid);
+        print("User type ${response.usertype}");
 
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => Pager()),
-              (Route<dynamic> route) => false);
+
+
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => Pager()),
+                  (Route<dynamic> route) => false);
 
 
     }, onError: (error) {

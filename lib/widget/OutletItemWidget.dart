@@ -1,10 +1,12 @@
 import 'package:bomburger301219/config/api_urls.dart';
+import 'package:bomburger301219/models/food.dart';
 import 'package:bomburger301219/models/outlet.dart';
 import 'package:bomburger301219/page/details_outlet.dart';
 import 'package:flutter/material.dart';
 
 class OutletItemWidget extends StatelessWidget {
   Outlet restaurant;
+  Menu menu;
 
   OutletItemWidget({Key key, this.restaurant}) : super(key: key);
   @override
