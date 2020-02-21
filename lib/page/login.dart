@@ -128,8 +128,6 @@ class _LoginPageState extends State<LoginPage> {
         print("Store Id: " + response.storeid);
         print("User type ${response.usertype}");
 
-
-
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => Pager()),
                   (Route<dynamic> route) => false);

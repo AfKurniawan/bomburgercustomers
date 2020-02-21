@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 class ApiUrl{
 
 
-  static const String baseUrl     = "http://192.168.43.177/bomburger.my/api_ci/index.php/";
-  static const String imgUrl      = "http://192.168.43.177/bomburger.my/management/uploads/products/";
+  static const String baseUrl     = "http://192.168.43.239/bomburger.my/api_ci/index.php/";
+  static const String imgUrl      = "http://192.168.43.239/bomburger.my/management/uploads/products/";
 
  // static const String baseUrl     = "http://mobile.bomburger.my/customers_api/index.php/";
   // static const String imgUrl      =  "http://management.bomburger.my/uploads/products/";
@@ -34,9 +34,5 @@ class ApiUrl{
   static const String getProfileResponse = baseUrl + "GetProfileResponse";
   static const String addAddressUrl = baseUrl + "AddAddress";
   static const String cekStockUrl = baseUrl + "CekTmpStock";
-
-
-
-
 
 }
