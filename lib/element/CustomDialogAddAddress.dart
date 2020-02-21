@@ -1,6 +1,6 @@
-import 'package:bomburger301219/config/app_config.dart';
-import 'package:bomburger301219/models/payment.dart';
-import 'package:bomburger301219/page/pager.dart';
+import 'package:bomburger_pos/config/app_config.dart';
+import 'package:bomburger_pos/models/payment.dart';
+import 'package:bomburger_pos/page/pager.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/api_urls.dart';

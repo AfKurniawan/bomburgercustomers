@@ -1,8 +1,8 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/element/CustomDialogError.dart';
-import 'package:bomburger301219/models/food.dart';
-import 'package:bomburger301219/models/route.dart';
-import 'package:bomburger301219/page/detail_menu.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/element/CustomDialogError.dart';
+import 'package:bomburger_pos/models/food.dart';
+import 'package:bomburger_pos/models/route.dart';
+import 'package:bomburger_pos/page/detail_menu.dart';
 import 'package:flutter/material.dart';
 
 class FoodsCarouselItemWidget extends StatelessWidget {

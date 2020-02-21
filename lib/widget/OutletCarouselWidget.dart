@@ -1,6 +1,6 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/models/outlet.dart';
-import 'package:bomburger301219/page/details_outlet.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/models/outlet.dart';
+import 'package:bomburger_pos/page/details_outlet.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;

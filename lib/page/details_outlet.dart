@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/models/food.dart';
-import 'package:bomburger301219/models/outlet.dart';
-import 'package:bomburger301219/widget/DrinksCarouselItemWidget.dart';
-import 'package:bomburger301219/widget/FoodsCarouselItemWidget.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/models/food.dart';
+import 'package:bomburger_pos/models/outlet.dart';
+import 'package:bomburger_pos/widget/DrinksCarouselItemWidget.dart';
+import 'package:bomburger_pos/widget/FoodsCarouselItemWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;

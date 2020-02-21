@@ -1,10 +1,10 @@
 
-import 'package:bomburger301219/page/cart.dart';
-import 'package:bomburger301219/page/detail_order.dart';
-import 'package:bomburger301219/page/home.dart';
-import 'package:bomburger301219/page/orders.dart';
-import 'package:bomburger301219/page/profile.dart';
-import 'package:bomburger301219/widget/DrawerWidget.dart';
+import 'package:bomburger_pos/page/cart.dart';
+import 'package:bomburger_pos/page/detail_order.dart';
+import 'package:bomburger_pos/page/home.dart';
+import 'package:bomburger_pos/page/orders.dart';
+import 'package:bomburger_pos/page/profile.dart';
+import 'package:bomburger_pos/widget/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 
 class Pager extends StatefulWidget {

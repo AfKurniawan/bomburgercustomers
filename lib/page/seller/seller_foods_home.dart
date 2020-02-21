@@ -1,9 +1,9 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/models/food.dart';
-import 'package:bomburger301219/models/outlet.dart';
-import 'package:bomburger301219/widget/DrawerWidget.dart';
-import 'package:bomburger301219/widget/OutletItemWidget.dart';
-import 'package:bomburger301219/widget/seller/MenuItemWidgetSeller.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/models/food.dart';
+import 'package:bomburger_pos/models/outlet.dart';
+import 'package:bomburger_pos/widget/DrawerWidget.dart';
+import 'package:bomburger_pos/widget/OutletItemWidget.dart';
+import 'package:bomburger_pos/widget/seller/MenuItemWidgetSeller.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

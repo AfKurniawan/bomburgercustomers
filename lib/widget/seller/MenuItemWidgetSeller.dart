@@ -1,10 +1,10 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/models/food.dart';
-import 'package:bomburger301219/models/outlet.dart';
-import 'package:bomburger301219/page/detail_menu.dart';
-import 'package:bomburger301219/page/details_outlet.dart';
-import 'package:bomburger301219/page/seller/detail_menu_seller.dart';
-import 'package:bomburger301219/widget/DrawerWidget.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/models/food.dart';
+import 'package:bomburger_pos/models/outlet.dart';
+import 'package:bomburger_pos/page/detail_menu.dart';
+import 'package:bomburger_pos/page/details_outlet.dart';
+import 'package:bomburger_pos/page/seller/detail_menu_seller.dart';
+import 'package:bomburger_pos/widget/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

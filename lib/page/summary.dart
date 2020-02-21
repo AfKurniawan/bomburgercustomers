@@ -1,6 +1,6 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/models/cart.dart';
-import 'package:bomburger301219/models/route.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/models/cart.dart';
+import 'package:bomburger_pos/models/route.dart';
 import 'package:flutter/material.dart';
 
 class SummaryPage extends StatefulWidget {

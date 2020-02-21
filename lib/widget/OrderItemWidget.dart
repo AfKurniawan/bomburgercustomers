@@ -1,8 +1,8 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/models/cart.dart';
-import 'package:bomburger301219/page/detail_order.dart';
-import 'package:bomburger301219/page/summary.dart';
-import 'package:bomburger301219/page/tracking.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/models/cart.dart';
+import 'package:bomburger_pos/page/detail_order.dart';
+import 'package:bomburger_pos/page/summary.dart';
+import 'package:bomburger_pos/page/tracking.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

@@ -1,8 +1,8 @@
 
-import 'package:bomburger301219/page/seller/seller_foods_home.dart';
-import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
-import 'package:bomburger301219/widget/OutletCarouselWidget2.dart';
-import 'package:bomburger301219/widget/OutletGridWidget.dart';
+import 'package:bomburger_pos/page/seller/seller_foods_home.dart';
+import 'package:bomburger_pos/widget/OutletCarouselWidget.dart';
+import 'package:bomburger_pos/widget/OutletCarouselWidget2.dart';
+import 'package:bomburger_pos/widget/OutletGridWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';

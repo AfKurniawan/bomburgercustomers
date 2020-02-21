@@ -1,6 +1,6 @@
-import 'package:bomburger301219/route.dart';
+import 'package:bomburger_pos/route.dart';
 import 'package:flutter/material.dart';
-import 'package:bomburger301219/config/app_config.dart' as config;
+import 'package:bomburger_pos/config/app_config.dart' as config;
 
 void main() => runApp(MyApp());
 

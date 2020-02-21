@@ -1,10 +1,10 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/element/BlockButtonWidget.dart';
-import 'package:bomburger301219/element/CustomDialogError.dart';
-import 'package:bomburger301219/models/user.dart';
-import 'package:bomburger301219/page/pager.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/element/BlockButtonWidget.dart';
+import 'package:bomburger_pos/element/CustomDialogError.dart';
+import 'package:bomburger_pos/models/user.dart';
+import 'package:bomburger_pos/page/pager.dart';
 import 'package:flutter/material.dart';
-import 'package:bomburger301219/config/app_config.dart' as config;
+import 'package:bomburger_pos/config/app_config.dart' as config;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

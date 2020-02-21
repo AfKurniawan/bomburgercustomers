@@ -1,7 +1,7 @@
 
 
 
-import 'package:bomburger301219/config/app_config.dart';
+import 'package:bomburger_pos/config/app_config.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialogError extends StatelessWidget {

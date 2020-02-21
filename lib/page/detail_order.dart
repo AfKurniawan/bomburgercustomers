@@ -1,5 +1,5 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/models/cart.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:intl/intl.dart';

@@ -1,10 +1,10 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/element/CustomDialogAddToCartSuccess.dart';
-import 'package:bomburger301219/element/CustomDialogError.dart';
-import 'package:bomburger301219/models/cart.dart';
-import 'package:bomburger301219/models/food.dart';
-import 'package:bomburger301219/models/route.dart';
-import 'package:bomburger301219/models/stock.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/element/CustomDialogAddToCartSuccess.dart';
+import 'package:bomburger_pos/element/CustomDialogError.dart';
+import 'package:bomburger_pos/models/cart.dart';
+import 'package:bomburger_pos/models/food.dart';
+import 'package:bomburger_pos/models/route.dart';
+import 'package:bomburger_pos/models/stock.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;

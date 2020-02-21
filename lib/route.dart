@@ -1,14 +1,14 @@
-import 'package:bomburger301219/models/route.dart';
-import 'package:bomburger301219/page/cart.dart';
-import 'package:bomburger301219/page/detail_menu.dart';
-import 'package:bomburger301219/page/detail_order.dart';
-import 'package:bomburger301219/page/details_outlet.dart';
-import 'package:bomburger301219/page/login.dart';
-import 'package:bomburger301219/page/orders.dart';
-import 'package:bomburger301219/page/pager.dart';
-import 'package:bomburger301219/page/register.dart';
-import 'package:bomburger301219/page/tracking.dart';
-import 'package:bomburger301219/widget/OutletCarouselWidget.dart';
+import 'package:bomburger_pos/models/route.dart';
+import 'package:bomburger_pos/page/cart.dart';
+import 'package:bomburger_pos/page/detail_menu.dart';
+import 'package:bomburger_pos/page/detail_order.dart';
+import 'package:bomburger_pos/page/details_outlet.dart';
+import 'package:bomburger_pos/page/login.dart';
+import 'package:bomburger_pos/page/orders.dart';
+import 'package:bomburger_pos/page/pager.dart';
+import 'package:bomburger_pos/page/register.dart';
+import 'package:bomburger_pos/page/tracking.dart';
+import 'package:bomburger_pos/widget/OutletCarouselWidget.dart';
 import 'package:flutter/material.dart';
 
 import 'page/profile.dart';

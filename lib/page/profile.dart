@@ -1,14 +1,14 @@
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/element/CustomDialogAddAddress.dart';
-import 'package:bomburger301219/element/CustomDialogEditAddress.dart';
-import 'package:bomburger301219/element/CustomDialogError.dart';
-import 'package:bomburger301219/models/cart.dart';
-import 'package:bomburger301219/models/user.dart';
-import 'package:bomburger301219/widget/OrderItemWidget.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/element/CustomDialogAddAddress.dart';
+import 'package:bomburger_pos/element/CustomDialogEditAddress.dart';
+import 'package:bomburger_pos/element/CustomDialogError.dart';
+import 'package:bomburger_pos/models/cart.dart';
+import 'package:bomburger_pos/models/user.dart';
+import 'package:bomburger_pos/widget/OrderItemWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:bomburger301219/config/app_config.dart' as config;
+import 'package:bomburger_pos/config/app_config.dart' as config;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {

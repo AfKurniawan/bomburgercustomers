@@ -1,7 +1,7 @@
 
-import 'package:bomburger301219/config/api_urls.dart';
-import 'package:bomburger301219/models/food.dart';
-import 'package:bomburger301219/widget/DrawerWidget.dart';
+import 'package:bomburger_pos/config/api_urls.dart';
+import 'package:bomburger_pos/models/food.dart';
+import 'package:bomburger_pos/widget/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
