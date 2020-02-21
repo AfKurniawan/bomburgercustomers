@@ -75,7 +75,7 @@ class _DetailMenuSellerState extends State<DetailMenuSeller> {
   }
 
   void startTimer() {
-    Timer.periodic(Duration(seconds: 2), (_) {
+    Timer.periodic(Duration(seconds: 5), (_) {
       if (mounted) {
         getCartLabelCount();
         print("timer run");
@@ -91,7 +91,7 @@ class _DetailMenuSellerState extends State<DetailMenuSeller> {
     if (!mounted) return;
     setState(() {
       sellerid = prefs.getString("userid");
-      storeid = prefs.getString("store");
+      storeid = prefs.getString("storeid");
       usertype = prefs.getString("usertype");
       print("Seller id on Page detail $sellerid");
       print("storeid on page detail $storeid");
@@ -140,7 +140,7 @@ class _DetailMenuSellerState extends State<DetailMenuSeller> {
     print("Begin insert to Cart");
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String storeid = prefs.getString("store");
+    String storeid = prefs.getString("storeid");
     String sellerid = prefs.getString('userid');
     String amount = widget.menu.harga.toStringAsFixed(2);
     String receive = widget.menu.harga.toStringAsFixed(2);

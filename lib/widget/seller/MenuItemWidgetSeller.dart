@@ -39,6 +39,21 @@ class _MenuItemWidgetSellerState extends State<MenuItemWidgetSeller> {
     });
   }
 
+  toDetail(){
+    if(usertype == "seller"){
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context)=> DetailMenuSeller(menu: widget.menu))
+      );
+    } else {
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context)=> DetailMenu(menu: widget.menu))
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -180,11 +195,7 @@ class _MenuItemWidgetSellerState extends State<MenuItemWidgetSeller> {
       highlightColor: Theme.of(context).primaryColor,
       onTap: () {
 
-
-        Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context)=> DetailMenu(menu: widget.menu))
-          );
+        toDetail();
 
       },
       child: Container(
