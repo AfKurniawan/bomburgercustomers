@@ -2,8 +2,10 @@
 import 'package:bomburger_pos/page/cart.dart';
 import 'package:bomburger_pos/page/detail_order.dart';
 import 'package:bomburger_pos/page/home.dart';
+import 'package:bomburger_pos/page/map_demo.dart';
 import 'package:bomburger_pos/page/orders.dart';
 import 'package:bomburger_pos/page/profile.dart';
+import 'package:bomburger_pos/page/store_location.dart';
 import 'package:bomburger_pos/widget/DrawerWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +55,7 @@ class _PagerState extends State<Pager> {
 
         case 2 :
           widget.currentTitle = "History";
-          widget.currenPage = OrdersPage();
+          widget.currenPage = MapDemo();
           break;
 
         case 3 :

@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
   void loginAction() {
     pd.show();
     login(ApiUrl.loginUrl, {
-      'username': controllerUsername.text,
+      'email': controllerUsername.text,
       'password': controllerPassword.text
 
 
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void getUserDetail() {
     loginDetail(ApiUrl.getUserDetailUrl, {
-      'username': controllerUsername.text,
+      'email': controllerUsername.text,
       'password': controllerPassword.text
     }).then((response) async {
         prefs = await SharedPreferences.getInstance();
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
         prefs.setString('usertype', response.usertype);
         prefs.setString('storeid', response.storeid);
         print("User Id: " + response.id);
-        print("Store Id: " + response.storeid);
+       // print("Store Id: " + response.storeid);
         print("User type ${response.usertype}");
 
           Navigator.of(context).pushAndRemoveUntil(

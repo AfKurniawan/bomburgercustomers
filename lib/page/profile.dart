@@ -235,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           name == null
               ? Text(
-                  'Blank',
+                  '',
                   style: Theme.of(context).textTheme.display1,
                 )
               : Text(
@@ -288,17 +288,17 @@ class _ProfilePageState extends State<ProfilePage> {
                         '$address',
                         style: Theme.of(context).textTheme.display4,
                       ),
-//                      IconButton(
-//                          icon: Icon(Icons.edit),
-//                          onPressed: () {
-//                            showDialog(
-//                              context: context,
-//                              builder: (BuildContext context) =>
-//                                  EditAddressDialog(
-//                                address: address,
-//                              ),
-//                            );
-//                          })
+                      IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  EditAddressDialog(
+                                address: address,
+                              ),
+                            );
+                          })
                     ],
                   ),
                 ),

@@ -54,13 +54,13 @@ class _SummaryPageState extends State<SummaryPage> {
                     child: Wrap(
                       children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Expanded(
                               flex: 3,
                               child: Text(
                                 widget.summary.name,
-                                overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.fade,
                                 maxLines: 2,
                                 style: Theme.of(context).textTheme.display2,
                               ),

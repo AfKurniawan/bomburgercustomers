@@ -54,7 +54,7 @@ class OutletItemWidget extends StatelessWidget {
             ),
             SizedBox(height: 5),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

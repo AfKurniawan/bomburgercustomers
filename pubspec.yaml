@@ -42,6 +42,10 @@ dependencies:
   scoped_model: ^1.0.1
   flutter_launcher_icons: any
   flutter_dash: any
+  google_maps_flutter: ^0.5.25
+  geolocator: ^3.0.1
+
+
 
 flutter_icons:
   android: true

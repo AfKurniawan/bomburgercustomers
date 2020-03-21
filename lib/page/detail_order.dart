@@ -66,7 +66,7 @@ class DetailOrder extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -130,41 +130,54 @@ class DetailOrder extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text(order.name,
-                                style: Theme.of(context).textTheme.display3),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text("RM. ${order.price}",
-                                style: Theme.of(context).textTheme.display3),
-                          ),
+                          Text(order.name,
+                              style: Theme.of(context).textTheme.display3.merge(TextStyle(color: Colors.green))),
+                          SizedBox(height: 10),
+                          Text("RM. ${order.price}",
+                              style: Theme.of(context).textTheme.display3),
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 25.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            Text("Date:",
-                                style: Theme.of(context).textTheme.title),
-                            Text(dateValue,
-                                style: Theme.of(context).textTheme.subhead),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Date:",
+                                    style: Theme.of(context).textTheme.title),
+                                Text(dateValue,
+                                    style: Theme.of(context).textTheme.subhead),
+                              ],
+                            ),
+
                             SizedBox(height: 10),
-                            Text("Time:",
-                                style: Theme.of(context).textTheme.title),
-                            Text(timeValue,
-                                style: Theme.of(context).textTheme.subhead),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Time:",
+                                    style: Theme.of(context).textTheme.title),
+                                Text(timeValue,
+                                    style: Theme.of(context).textTheme.subhead),
+                              ],
+                            ),
+
                             SizedBox(height: 10),
-                            Text("Quantity:",
-                                style: Theme.of(context).textTheme.title),
-                            Text("${order.qnt} Pcs",
-                                style: Theme.of(context).textTheme.subhead),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Quantity:",
+                                    style: Theme.of(context).textTheme.title),
+                                Text("${order.qnt} Pcs",
+                                    style: Theme.of(context).textTheme.subhead),
+                              ],
+                            ),
+
                           ],
                         ),
                       ),

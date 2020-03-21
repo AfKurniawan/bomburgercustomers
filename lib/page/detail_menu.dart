@@ -100,7 +100,7 @@ class _DetailsMenuState extends State<DetailMenu> {
     if (!mounted) return;
     setState(() {
       sellerid = prefs.getString("userid");
-      storeid = prefs.getString("storeid");
+      storeid = prefs.getString("store");
       print("Seller id on Page detail $sellerid");
       print("storeid on page detail $storeid");
       startTimer();
@@ -200,7 +200,7 @@ class _DetailsMenuState extends State<DetailMenu> {
     print("Begin insert to Cart");
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String storeid = prefs.getString("storeid");
+    String storeid = prefs.getString("store");
     String sellerid = prefs.getString('userid');
     String amount = widget.menu.harga.toStringAsFixed(2);
     String receive = widget.menu.harga.toStringAsFixed(2);
@@ -543,7 +543,9 @@ class _DetailsMenuState extends State<DetailMenu> {
                                 ),
                               );
                             } else {
-                              cekStock();
+                             // cekStock(
+                              postToCart();
+
                             }
                           },
                           padding: EdgeInsets.symmetric(vertical: 14),
